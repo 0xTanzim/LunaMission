@@ -1,0 +1,138 @@
+/*
+ * LunaMission design tokens — the single source of truth for apps/web colour and type.
+ *
+ * Rule: a component never names a palette shade. It names a *role* (canvas, surface,
+ * border-subtle, text-muted, info, danger …) and this file decides what that role is worth.
+ * The only place a literal colour value may appear is this file; the one documented
+ * exception is scientific data palettes in visualization modules (see
+ * docs/ui/DESIGN_SYSTEM.md §4 "Data palette allow-list").
+ */
+:root {
+  color-scheme: dark;
+
+  /* ---- Surfaces: canvas → surface → raised → strong (overlay/modal only above strong) ---- */
+  --lm-color-canvas: #070B12;
+  --lm-color-surface: #0C1320;
+  --lm-color-surface-raised: #111C2B;
+  --lm-color-surface-strong: #172438;
+  --lm-color-surface-elevated: var(--lm-color-surface-raised);
+  --lm-color-surface-hover: var(--lm-color-surface-strong);
+
+  /* ---- Lines ---- */
+  --lm-color-border: #26364A;
+  --lm-color-border-subtle: #1B293B;
+  --lm-color-border-strong: #5A7194;
+
+  /* ---- Text ----
+   * Measured on --lm-color-canvas: primary 17.8:1, secondary 10.9:1, muted 7.6:1.
+   * All four roles clear WCAG 2.1 AA (4.5:1) for body text, which is why `text-slate-500`
+   * (#62748E, 4.2:1) may not be used for text anywhere in the product.
+   */
+  --lm-color-text-primary: #F2F6FC;
+  --lm-color-text-secondary: #B5C2D3;
+  --lm-color-text-muted: #8FA0B7;
+  --lm-color-text-disabled: #7E8DA3;
+  --lm-color-text-subtle: #6A788C;
+  --lm-color-text: var(--lm-color-text-primary);
+
+  /* ---- Celestial + interaction semantics ---- */
+  --lm-color-sun: #F3CC70;
+  --lm-color-earth: #8CCBFF;
+  --lm-color-info: var(--lm-color-earth);
+  --lm-color-selected-site: #70D6C5;
+  --lm-color-focus: #A6D9FF;
+  --lm-color-data-demo: #C3A6FF;
+
+  /* ---- Semantic status roles ----
+   * base   — foreground text / icon / 1px line
+   * surface— tinted background for a status block
+   * border — subtle enclosing line
+   * fill   — solid background that carries --lm-color-text-primary (measured ≥6:1)
+   * fill-hover — one discernible step lighter than fill, so a hovered filled control
+   *              changes without ever pairing a bright fill with light text
+   */
+  --lm-color-success: #83D6AA;
+  --lm-color-warning: #F2C66D;
+  --lm-color-danger: #FF928C;
+
+  --lm-color-info-surface: rgb(140 203 255 / 0.12);
+  --lm-color-info-surface-strong: rgb(140 203 255 / 0.24);
+  --lm-color-info-border: rgb(140 203 255 / 0.35);
+  --lm-color-info-fill: #1D5A7A;
+  --lm-color-info-fill-hover: #266F94;
+
+  --lm-color-success-surface: rgb(131 214 170 / 0.12);
+  --lm-color-success-surface-strong: rgb(131 214 170 / 0.24);
+  --lm-color-success-border: rgb(131 214 170 / 0.35);
+  --lm-color-success-fill: #1F6B4A;
+  --lm-color-success-fill-hover: #29895F;
+
+  --lm-color-warning-surface: rgb(242 198 109 / 0.12);
+  --lm-color-warning-surface-strong: rgb(242 198 109 / 0.24);
+  --lm-color-warning-border: rgb(242 198 109 / 0.35);
+  --lm-color-warning-fill: #7A5518;
+  --lm-color-warning-fill-hover: #96681E;
+
+  --lm-color-danger-surface: rgb(255 146 140 / 0.12);
+  --lm-color-danger-surface-strong: rgb(255 146 140 / 0.24);
+  --lm-color-danger-border: rgb(255 146 140 / 0.35);
+  --lm-color-danger-fill: #7F2B2B;
+  --lm-color-danger-fill-hover: #9A3A3A;
+
+  --lm-color-series-b: #818CF8;
+  --lm-color-series-b-surface: rgb(129 140 248 / 0.12);
+  --lm-color-series-b-surface-strong: rgb(129 140 248 / 0.24);
+  --lm-color-series-b-border: rgb(129 140 248 / 0.35);
+  --lm-color-series-b-fill: #3B3F86;
+  --lm-color-series-b-fill-hover: #4B4FA6;
+
+  --lm-color-data-demo-surface: rgb(195 166 255 / 0.12);
+  --lm-color-data-demo-surface-strong: rgb(195 166 255 / 0.24);
+  --lm-color-data-demo-border: rgb(195 166 255 / 0.35);
+  --lm-color-data-demo-fill: #4A3A78;
+  --lm-color-data-demo-fill-hover: #5C4A93;
+
+  /* ---- Typography ----
+   * Hard floor: no text anywhere is smaller than --lm-text-micro (11px).
+   * Metadata stays compact through colour and weight, never through illegible size.
+   */
+  --lm-text-display: 1.75rem; /* 28px — workspace title */
+  --lm-text-metric: 1.5rem; /* 24px — primary metric value */
+  --lm-text-h2: 1.25rem; /* 20px — section heading */
+  --lm-text-h3: 1rem; /* 16px — card / panel heading */
+  --lm-text-body: 0.8125rem; /* 13px — body copy, table cells */
+  --lm-text-label: 0.75rem; /* 12px — field labels */
+  --lm-text-micro: 0.6875rem; /* 11px — metadata floor */
+
+  --lm-text-h1: var(--lm-text-display);
+  --lm-text-h1-line-height: 1.2;
+  /* Document prose size. Deliberately one step above --lm-text-body: long-form
+   * methodology text is not a dense cockpit table, so it keeps 15px. */
+  --lm-text-md: 0.9375rem;
+
+  --lm-font-sans: Inter, Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --lm-font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  /* ---- Radii by role ---- */
+  --lm-radius-xs: 4px;
+  --lm-radius-sm: 8px;
+  --lm-radius-md: 12px;
+  --lm-radius-lg: 16px;
+  --lm-radius-pill: 9999px;
+
+  /* ---- Targets (WCAG 2.2 SC 2.5.8 = 24px; primary controls 44px) ---- */
+  --lm-target-min: 24px;
+  --lm-target-comfortable: 44px;
+
+  --lm-shadow-popover: 0 10px 28px rgb(0 0 0 / 0.45);
+  --lm-focus-ring: 0 0 0 3px rgb(166 217 255 / 0.38);
+  --lm-page-max-width: 1720px;
+  --lm-page-gutter: 24px;
+}
+
+@media (max-width: 1023px) {
+  :root { --lm-page-gutter: 20px; }
+}
+@media (max-width: 767px) {
+  :root { --lm-page-gutter: 16px; }
+}

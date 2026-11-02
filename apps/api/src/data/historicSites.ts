@@ -1,0 +1,77 @@
+import type { CandidateSite } from '@luna/contracts';
+
+/**
+ * Historic and planetary reference baselines (Apollo 11, Apollo 17, Chang'e 6).
+ * Demonstrates equatorial lighting, deep valley mountain shadowing, and far-side communication blackout.
+ */
+export const HISTORIC_SITES: CandidateSite[] = [
+  {
+    id: 'apollo-11',
+    code: 'SITE-018',
+    name: 'Apollo 11 Tranquility Base',
+    coordinates: {
+      latitudeDeg: 0.67,
+      longitudeDeg: 23.47,
+      elevationMeters: -2570,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'Historic Reference Baseline',
+    category: 'historic',
+    description: 'First crewed lunar landing site (July 20, 1969). Standard equatorial reference baseline: Sun reaches high zenith (>89°), Earth sits overhead at ~60°, and illumination cycles predictably across 14d light / 14d dark.',
+    meanTerrainHorizonDeg: 0.0,
+    maxTerrainObstructionDeg: 0.15,
+    coverageStatus: 'Benchmark Validated',
+    isDemoFixture: false,
+    sourceCatalog: 'NASA Apollo Lunar Landing Sites Registry',
+    catalogVersion: 'Apollo 11 Historical Dataset',
+    entityType: 'candidate-point',
+    officialRegionReference: 'Mare Tranquillitatis Benchmark',
+    missionContextNote: 'Canonical equatorial planetary baseline showing why South Pole polar navigation is unique.',
+  },
+  {
+    id: 'apollo-17',
+    code: 'SITE-019',
+    name: 'Apollo 17 Taurus-Littrow',
+    coordinates: {
+      latitudeDeg: 20.19,
+      longitudeDeg: 30.77,
+      elevationMeters: -2500,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'Historic Reference Baseline',
+    category: 'historic',
+    description: 'Final Apollo crewed mission (Dec 1972) situated in a narrow lunar graben valley flanked by 2-km high North and South Massifs. Illustrates dramatic valley-wall horizon blockage.',
+    meanTerrainHorizonDeg: 3.20,
+    maxTerrainObstructionDeg: 6.80,
+    coverageStatus: 'Benchmark Validated',
+    isDemoFixture: false,
+    sourceCatalog: 'NASA Apollo Lunar Landing Sites Registry',
+    catalogVersion: 'Apollo 17 Historical Dataset',
+    entityType: 'candidate-point',
+    officialRegionReference: 'Taurus-Littrow Valley Benchmark',
+    missionContextNote: 'Standard planetary baseline for massive terrain horizon masking in a lunar valley.',
+  },
+  {
+    id: 'change-6',
+    code: 'SITE-020',
+    name: 'Chang\'e 6 Apollo Basin (Far Side)',
+    coordinates: {
+      latitudeDeg: -41.64,
+      longitudeDeg: 206.01,
+      elevationMeters: -5200,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'Historic Reference Baseline',
+    category: 'historic',
+    description: 'First far-side sample return landing site (June 2024, South Pole-Aitken Apollo basin). Serves as critical baseline proving 0% direct-to-Earth communication (Earth permanently sub-horizon, requiring Queqiao relay).',
+    meanTerrainHorizonDeg: 0.10,
+    maxTerrainObstructionDeg: 0.35,
+    coverageStatus: 'Benchmark Validated',
+    isDemoFixture: false,
+    sourceCatalog: 'CNSA Lunar Exploration Program / International PDS',
+    catalogVersion: 'Chang\'e 6 Far Side Landing Verification',
+    entityType: 'candidate-point',
+    officialRegionReference: 'South Pole-Aitken Basin Far Side',
+    missionContextNote: 'Benchmark for complete Earth communication blackout without orbital relay support.',
+  },
+];

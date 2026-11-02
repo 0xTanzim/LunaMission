@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production Builds
+dist/
+build/
+apps/*/dist/
+packages/*/dist/
+.next/
+
+# Test & Coverage Artifacts
+coverage/
+*.lcov
+.playwright/
+.playwright-cli/
+validation/artifacts/screenshots/
+validation/artifacts/phase-3-3d/
+validation/phase-3/
+validation/phase-4/
+validation/screenshots/
+apps/web/validation/
+
+# System & OS Files
+.DS_Store
+*.log
+Thumbs.db
+~/
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+secret.txt
+
+# Python Offline Preprocessing Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Docker Local State
+.docker/
+
+# OpenSpec & Specification Scaffolds
+openspec/
+
+# Temporary Agent, Research & IDE Scratch Dirs
+.cache/
+.qoder/
+.scratch/
+.maxential/
+.commandcode/
+.agents/
+.claude/
+.convo/
+.zcode/
+report_v2/
+reports/
+
+# Documentation Phase Drafts & Migration Audits
+docs/phase-3/
+docs/phase-4/
+docs/audits/
+
+# Allow Domain Target Folders inside Web App
+!apps/web/src/**/target/
+!apps/web/src/domain/target/
+!apps/web/src/features/spatial/target/

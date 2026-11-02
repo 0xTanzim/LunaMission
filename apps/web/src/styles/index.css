@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@import "./design-tokens.css";
+
+@theme {
+  --color-canvas: var(--lm-color-canvas);
+  --color-surface: var(--lm-color-surface);
+  --color-surface-raised: var(--lm-color-surface-raised);
+  --color-surface-strong: var(--lm-color-surface-strong);
+  --color-border: var(--lm-color-border);
+  --color-border-subtle: var(--lm-color-border-subtle);
+
+  --color-primary: var(--lm-color-text-primary);
+  --color-secondary: var(--lm-color-text-secondary);
+  --color-muted: var(--lm-color-text-muted);
+  --color-subtle: var(--lm-color-text-subtle);
+  --color-disabled: var(--lm-color-text-disabled);
+
+  --color-sun: var(--lm-color-sun);
+  --color-earth: var(--lm-color-earth);
+  --color-selected-site: var(--lm-color-selected-site);
+  --color-warning: var(--lm-color-warning);
+  --color-danger: var(--lm-color-danger);
+  --color-success: var(--lm-color-success);
+  --color-data-demo: var(--lm-color-data-demo);
+
+  --text-label: var(--lm-text-label);
+  --text-label--line-height: 1.35;
+  --text-body: var(--lm-text-body);
+  --text-body--line-height: 1.5;
+
+  --text-h2: var(--lm-text-h2);
+  --text-h2--line-height: 1.35;
+  --text-h1: var(--lm-text-h1);
+  --text-h1--line-height: var(--lm-text-h1-line-height);
+}
+
+@utility tap-target {
+  min-width: var(--lm-target-min);
+  min-height: var(--lm-target-min);
+}
+
+@utility tap-target-comfortable {
+  min-width: var(--lm-target-comfortable);
+  min-height: var(--lm-target-comfortable);
+}
+
+@utility tap-target-expand {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--lm-target-min));
+    height: max(100%, var(--lm-target-min));
+    transform: translate(-50%, -50%);
+  }
+}
+
+@layer base {
+  html {
+    background-color: var(--lm-color-canvas);
+    color: var(--lm-color-text-primary);
+    font-family: var(--lm-font-sans);
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--lm-color-canvas);
+    color: var(--lm-color-text-primary);
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-md);
+    line-height: 1.55;
+    font-feature-settings: "tnum" 1;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--lm-color-focus);
+    outline-offset: 2px;
+    box-shadow: var(--lm-focus-ring);
+  }
+
+  /*
+   * A form control must never be wider than the box that contains it. A <select>
+   * whose widest option carries a full coordinate string keeps its intrinsic width
+   * inside a single-line flex row and pushes the whole document past the viewport
+   * (measured: 84px of horizontal overflow at 390px on /analyze). `min-width: 0`
+   * lets the control shrink inside a flex/grid track; `max-width: 100%` stops it
+   * from claiming more than the track it sits in.
+   */
+  input,
+  select,
+  textarea {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Custom scrollbar matching dark observatory theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--lm-color-surface);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--lm-color-border);
+    border-radius: var(--lm-radius-pill);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--lm-color-text-disabled);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Below 360px the scenario strip's rows (label + control + segmented buttons)
+ * cannot shrink any further, so each row wraps onto a second line instead of
+ * adding document-level horizontal scroll. Nothing is hidden or reordered.
+ */
+@media (max-width: 359px) {
+  [role='toolbar'] > div {
+    flex-wrap: wrap;
+  }
+}
+
+/*
+ * WCAG 2.2 SC 1.4.3 contrast remediation for the legacy `text-slate-500` utility.
+ *
+ * Tailwind's slate-500 is #62748E. On this product's surfaces it measures 4.23:1
+ * against --lm-color-canvas (#020618) and 3.90:1 against the raised readout
+ * surface (#0B1226), both below the 4.5:1 minimum for body text — axe flagged 23
+ * nodes on /analyze alone. The audited muted-text token measures 7.57:1 on canvas
+ * and 5.86:1 on the lightest surface, so every remaining `text-slate-500` is
+ * re-pointed at it here. Modules that have migrated use
+ * `text-[var(--lm-color-text-muted)]` directly.
+ *
+ * Deliberately text-only: `bg-slate-500` and `border-slate-500` keep Tailwind's
+ * value because non-text contrast is governed by the 3:1 rule (SC 1.4.11).
+ */
+.text-slate-500 {
+  color: var(--lm-color-text-muted);
+}
+
+/* Custom utility classes referencing design tokens */
+.font-mono-num {
+  font-family: var(--lm-font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+.surface-card {
+  background-color: var(--lm-color-surface);
+  border: 1px solid var(--lm-color-border-subtle);
+  border-radius: var(--lm-radius-lg);
+}
+
+.surface-raised {
+  background-color: var(--lm-color-surface-raised);
+  border: 1px solid var(--lm-color-border);
+  border-radius: var(--lm-radius-md);
+}
+
+.surface-strong {
+  background-color: var(--lm-color-surface-strong);
+  border: 1px solid var(--lm-color-border);
+}

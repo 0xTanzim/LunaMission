@@ -1,0 +1,6 @@
+{
+  "name": "LunaMission",
+  "description": "Scientific lunar south-pole exploration and comparison application for Sun/Earth geometry, illumination conditions, and direct-to-Earth communication line-of-sight.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

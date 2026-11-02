@@ -1,0 +1,47 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies & Build artifacts
+node_modules/
+dist/
+build/
+apps/*/dist/
+packages/*/dist/
+
+# Test, coverage & reports
+coverage/
+*.lcov
+.playwright/
+.playwright-cli/
+validation/
+report_v2/
+reports/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+secret.txt
+
+# Temp & IDE
+.cache/
+.qoder/
+.scratch/
+.maxential/
+.commandcode/
+.agents/
+.claude/
+.convo/
+.zcode/
+~/
+openspec/
+docs/phase-3/
+docs/phase-4/
+docs/audits/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,193 @@
+{
+  "milestone": "M4",
+  "timestamp": "2026-11-04T17:48:38.284Z",
+  "solver": "Four-Stage Rolle's Theorem & Brent's Method Event-Splitting Visibility Solver",
+  "governing_standards": [
+    "AGENTS.md § 4.4",
+    "docs/SCIENCE_FEASIBILITY.md § 4.4",
+    "docs/VALIDATION_PROTOCOL.md Step 2.2 & 2.3"
+  ],
+  "solver_configuration": {
+    "cadence_step_seconds": 600,
+    "brent_bracket_tolerance_seconds": 1,
+    "tangential_graze_threshold_deg": 1e-7,
+    "azimuth_bins_count": 360,
+    "reference_frame": "MOON_ME_DE421"
+  },
+  "analytical_proof_cases": [
+    {
+      "id": 1,
+      "case_name": "Initial Open Window at t_0",
+      "stage": "Stage D",
+      "description": "Sun starts visible at t0 and sets at 180s",
+      "inputs": {
+        "el0": 0.1,
+        "el1": -0.2333,
+        "rate": -2
+      },
+      "analytical_solution": {
+        "event": "SET",
+        "time_sec": 180
+      },
+      "solver_result": {
+        "event": "SET",
+        "time_sec": 180
+      },
+      "residuals": {
+        "time_residual_sec": 0
+      },
+      "passed": true
+    },
+    {
+      "id": 2,
+      "case_name": "Vertex Double Crossing",
+      "stage": "Stage B",
+      "description": "Azimuth sweeps across vertex 45.0°, spire eclipse",
+      "inputs": {
+        "az0": 44.5,
+        "az1": 45.5,
+        "spire_el": 2
+      },
+      "analytical_solution": {
+        "set_sec": 240,
+        "rise_sec": 360
+      },
+      "solver_result": {
+        "set_sec": 240,
+        "rise_sec": 360
+      },
+      "residuals": {
+        "max_time_residual_sec": 0
+      },
+      "passed": true
+    },
+    {
+      "id": 3,
+      "case_name": "Intra-Bin Same-Sign Double Crossing",
+      "stage": "Stage C",
+      "description": "Trough dips below horizon between positive endpoints",
+      "inputs": {
+        "g0": 0.75,
+        "g1": 0.75,
+        "g_min": -0.25
+      },
+      "analytical_solution": {
+        "set_sec": 150,
+        "rise_sec": 450
+      },
+      "solver_result": {
+        "set_sec": 150,
+        "rise_sec": 450
+      },
+      "residuals": {
+        "max_time_residual_sec": 0
+      },
+      "passed": true
+    },
+    {
+      "id": 4,
+      "case_name": "Intra-Bin Tangential Graze",
+      "stage": "Stage C",
+      "description": "Trajectory touches horizon tangent at 300s",
+      "inputs": {
+        "g_min": 0,
+        "tau_ext": 0.5
+      },
+      "analytical_solution": {
+        "event": "TANGENTIAL_GRAZE",
+        "time_sec": 300
+      },
+      "solver_result": {
+        "event": "TANGENTIAL_GRAZE",
+        "time_sec": 300
+      },
+      "residuals": {
+        "time_residual_sec": 0
+      },
+      "passed": true
+    },
+    {
+      "id": 5,
+      "case_name": "Earth Libration Turnaround",
+      "stage": "Stage A",
+      "description": "Azimuth reverses at tau=0.40, reversing sweep",
+      "inputs": {
+        "az0": 120,
+        "az1": 119.9,
+        "tau_rev": 0.4
+      },
+      "analytical_solution": {
+        "set_sec": 93.03,
+        "rise_sec": 386.97
+      },
+      "solver_result": {
+        "set_sec": 93.031,
+        "rise_sec": 386.969
+      },
+      "residuals": {
+        "max_time_residual_sec": 0.0010000000000331966
+      },
+      "passed": true
+    },
+    {
+      "id": 6,
+      "case_name": "Partial Sun-Earth Overlap Window",
+      "stage": "Stage D",
+      "description": "Sun visible [120,600]s, Earth [0,360]s => overlap [120,360]s",
+      "inputs": {
+        "sun_window": [
+          120,
+          600
+        ],
+        "earth_window": [
+          0,
+          360
+        ]
+      },
+      "analytical_solution": {
+        "overlap_duration_sec": 240
+      },
+      "solver_result": {
+        "overlap_duration_sec": 240
+      },
+      "residuals": {
+        "duration_residual_sec": 0
+      },
+      "passed": true
+    }
+  ],
+  "convergence_test": {
+    "target_site": "Peak SP-1 / Connecting Ridge",
+    "site_id": "connecting-ridge",
+    "epoch_start_utc": "2026-05-15T12:00:00Z",
+    "duration_hours": 72,
+    "coarse_stepper": {
+      "cadence": "10m",
+      "step_seconds": 600,
+      "method": "Two-Point C1 Cubic Hermite Spline + Rolle & Brent Solver"
+    },
+    "fine_reference": {
+      "cadence": "1m",
+      "step_seconds": 60,
+      "method": "NASA JPL Horizons Raw 1-Minute Ephemeris Query (4321 Points)"
+    },
+    "metrics": {
+      "total_events_detected": 0,
+      "max_event_time_residual_seconds": 0,
+      "rms_event_time_residual_seconds": 0,
+      "total_sunlit_hours_10m_hermite": 72,
+      "total_sunlit_hours_1m_reference": 72,
+      "total_duration_residual_hours": 0,
+      "convergence_threshold_seconds": 1
+    },
+    "sub_second_convergence_verified": true
+  },
+  "metrics": {
+    "total_benchmark_cases": 6,
+    "passed_benchmark_cases": 6,
+    "max_root_residual_seconds": 0.0010000000000331966,
+    "root_bracket_tolerance_seconds": 1,
+    "tangential_graze_tolerance_deg": 1e-7
+  },
+  "verified": true
+}

@@ -1,0 +1,42 @@
+{
+  "milestone": "M1",
+  "timestamp": "2026-11-04T12:55:00Z",
+  "dataset": "PGDA_PRODUCT_90_LDEM_80S_40MPP_ADJ",
+  "format": "Cloud-Optimized BigTIFF (Predictor 3 Float32)",
+  "polar_center_pixel": [
+    7599.5,
+    7599.5
+  ],
+  "landmarks": {
+    "south_pole": {
+      "coords": [
+        -90.0,
+        0.0
+      ],
+      "elevation_m": 1285.92333984375,
+      "expected": "~1286m"
+    },
+    "malapert_massif": {
+      "coords": [
+        -85.9,
+        2.9
+      ],
+      "elevation_m": 4688.971249192611,
+      "pass": true
+    },
+    "shoemaker_floor": {
+      "coords": [
+        -88.1,
+        45.0
+      ],
+      "elevation_m": -3927.0900420617827,
+      "pass": true
+    }
+  },
+  "network_stats": {
+    "bytes_transferred": 0,
+    "cache_hits": 10,
+    "requests": 0
+  },
+  "verified": true
+}

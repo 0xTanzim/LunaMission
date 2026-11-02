@@ -1,0 +1,12 @@
+{
+  "extends": "../../packages/config/tsconfig.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@server/*": ["./src/*"],
+      "@luna/contracts": ["../../packages/contracts/src/index.ts"]
+    },
+    "noEmit": true
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

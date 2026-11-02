@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "node",
+      "bun"
+    ],
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": [
+        "./apps/web/src/*"
+      ],
+      "@domain/*": [
+        "./apps/web/src/domain/*"
+      ],
+      "@server/*": [
+        "./apps/api/src/*"
+      ],
+      "@luna/contracts": [
+        "./packages/contracts/src/index.ts"
+      ],
+      "@luna/config/*": [
+        "./packages/config/*"
+      ]
+    },
+    "noEmit": true
+  },
+  "include": [
+    "api/**/*",
+    "apps/**/*",
+    "packages/**/*",
+    "tests/**/*",
+    "tooling/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "apps/*/dist",
+    "node_modules",
+    "_archive"
+  ]
+}

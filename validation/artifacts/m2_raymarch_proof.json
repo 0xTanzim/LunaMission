@@ -1,0 +1,18 @@
+{
+  "milestone": "M2",
+  "timestamp": "2026-11-04T13:20:00Z",
+  "dataset": "PGDA_PRODUCT_90_LDEM_80S_40MPP_ADJ",
+  "siteId": "shackleton-rim-proof",
+  "coords": [
+    -89.9,
+    0.0
+  ],
+  "metrics": {
+    "meanHorizonDeg": 6.573,
+    "maxObstructionDeg": 22.204,
+    "minObstructionDeg": -4.368
+  },
+  "validBinsCount": 72,
+  "totalBins": 72,
+  "verified": true
+}

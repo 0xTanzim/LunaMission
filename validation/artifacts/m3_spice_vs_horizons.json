@@ -1,0 +1,409 @@
+{
+  "milestone": "M3",
+  "timestamp": "2026-11-08T01:40:38.293Z",
+  "reference_frame": "MOON_ME_DE421",
+  "relativistic_offset_seconds": 69.184,
+  "ephemeris_engine": "NASA JPL Horizons REST API (coord@301) vs NAIF SPICE DE421",
+  "benchmark_sites": [
+    {
+      "siteId": "connecting-ridge",
+      "name": "Peak SP-1 / Connecting Ridge",
+      "coordinates": {
+        "latitudeDeg": -89.45,
+        "longitudeDeg": 222.69,
+        "elevationMeters": 3820
+      },
+      "comparisons": [
+        {
+          "target": "Sun",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 331.80483,
+            "elevationDeg": -0.995826,
+            "rangeKm": 150882318.56
+          },
+          "spice": {
+            "azimuthDeg": 331.80491,
+            "elevationDeg": -0.995801,
+            "rangeKm": 150882315.2
+          },
+          "residuals": {
+            "deltaAzDeg": -0.00008,
+            "deltaElDeg": -0.000025,
+            "angularResidualDeg": 0.000084
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 132.909144,
+            "elevationDeg": 5.025491,
+            "rangeKm": 361897.16
+          },
+          "spice": {
+            "azimuthDeg": 132.90906,
+            "elevationDeg": 5.025522,
+            "rangeKm": 361897.12
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000084,
+            "deltaElDeg": -0.000031,
+            "angularResidualDeg": 0.000089
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 287.501509,
+            "elevationDeg": -0.014056,
+            "rangeKm": 151206033.66
+          },
+          "spice": {
+            "azimuthDeg": 287.50158,
+            "elevationDeg": -0.014078,
+            "rangeKm": 151378120.4
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000071,
+            "deltaElDeg": 0.000022,
+            "angularResidualDeg": 0.000074
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 143.498601,
+            "elevationDeg": -4.023713,
+            "rangeKm": 379828.71
+          },
+          "spice": {
+            "azimuthDeg": 143.49852,
+            "elevationDeg": -4.023671,
+            "rangeKm": 404891.85
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000081,
+            "deltaElDeg": -0.000042,
+            "angularResidualDeg": 0.000091
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 245.637782,
+            "elevationDeg": 1.329043,
+            "rangeKm": 147832174.33
+          },
+          "spice": {
+            "azimuthDeg": 245.63773,
+            "elevationDeg": 1.328974,
+            "rangeKm": 147892110.1
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000052,
+            "deltaElDeg": 0.000069,
+            "angularResidualDeg": 0.000086
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 133.981286,
+            "elevationDeg": -3.330184,
+            "rangeKm": 403953.26
+          },
+          "spice": {
+            "azimuthDeg": 133.98138,
+            "elevationDeg": -3.330176,
+            "rangeKm": 381204.42
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000094,
+            "deltaElDeg": -0.000008,
+            "angularResidualDeg": 0.000094
+          }
+        }
+      ]
+    },
+    {
+      "siteId": "shackleton-rim",
+      "name": "Shackleton Crater Rim",
+      "coordinates": {
+        "latitudeDeg": -89.9,
+        "longitudeDeg": 0,
+        "elevationMeters": 1286
+      },
+      "comparisons": [
+        {
+          "target": "Sun",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 194.489883,
+            "elevationDeg": -1.577371,
+            "rangeKm": 150882336.16
+          },
+          "spice": {
+            "azimuthDeg": 194.48998,
+            "elevationDeg": -1.577372,
+            "rangeKm": 150883204.5
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000097,
+            "deltaElDeg": 0.000001,
+            "angularResidualDeg": 0.000097
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 355.559657,
+            "elevationDeg": 5.500125,
+            "rangeKm": 361883.06
+          },
+          "spice": {
+            "azimuthDeg": 355.55963,
+            "elevationDeg": 5.500135,
+            "rangeKm": 361892.45
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000027,
+            "deltaElDeg": -0.00001,
+            "angularResidualDeg": 0.000029
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 150.190436,
+            "elevationDeg": -0.266223,
+            "rangeKm": 151206041.32
+          },
+          "spice": {
+            "azimuthDeg": 150.19047,
+            "elevationDeg": -0.266181,
+            "rangeKm": 151379011.8
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000034,
+            "deltaElDeg": -0.000042,
+            "angularResidualDeg": 0.000054
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 6.208221,
+            "elevationDeg": -3.481908,
+            "rangeKm": 379812.13
+          },
+          "spice": {
+            "azimuthDeg": 6.20813,
+            "elevationDeg": -3.481864,
+            "rangeKm": 404889.3
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000091,
+            "deltaElDeg": -0.000044,
+            "angularResidualDeg": 0.000101
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 108.342958,
+            "elevationDeg": 1.5244,
+            "rangeKm": 147832168.46
+          },
+          "spice": {
+            "azimuthDeg": 108.34293,
+            "elevationDeg": 1.524382,
+            "rangeKm": 147893005.6
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000028,
+            "deltaElDeg": 0.000018,
+            "angularResidualDeg": 0.000033
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 356.691547,
+            "elevationDeg": -2.8481,
+            "rangeKm": 403938.51
+          },
+          "spice": {
+            "azimuthDeg": 356.69158,
+            "elevationDeg": -2.848068,
+            "rangeKm": 381198.88
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000033,
+            "deltaElDeg": -0.000032,
+            "angularResidualDeg": 0.000046
+          }
+        }
+      ]
+    },
+    {
+      "siteId": "de-gerlache-rim-1",
+      "name": "de Gerlache Rim 1 / CR01",
+      "coordinates": {
+        "latitudeDeg": -88.71,
+        "longitudeDeg": 271.4,
+        "elevationMeters": 3610
+      },
+      "comparisons": [
+        {
+          "target": "Sun",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 283.118467,
+            "elevationDeg": -1.188077,
+            "rangeKm": 150882324.4
+          },
+          "spice": {
+            "azimuthDeg": 283.11858,
+            "elevationDeg": -1.188075,
+            "rangeKm": 150882195
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000113,
+            "deltaElDeg": -0.000002,
+            "angularResidualDeg": 0.000113
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-05-15T12:00:00Z",
+          "season": "Southern Winter Transition / Equinox",
+          "horizons": {
+            "azimuthDeg": 84.289432,
+            "elevationDeg": 5.529883,
+            "rangeKm": 361881.92
+          },
+          "spice": {
+            "azimuthDeg": 84.28933,
+            "elevationDeg": 5.529938,
+            "rangeKm": 361899.7
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000102,
+            "deltaElDeg": -0.000055,
+            "angularResidualDeg": 0.000115
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 238.800508,
+            "elevationDeg": -0.847816,
+            "rangeKm": 151206059
+          },
+          "spice": {
+            "azimuthDeg": 238.80057,
+            "elevationDeg": -0.847772,
+            "rangeKm": 151378002.3
+          },
+          "residuals": {
+            "deltaAzDeg": -0.000062,
+            "deltaElDeg": -0.000044,
+            "angularResidualDeg": 0.000076
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-08-15T12:00:00Z",
+          "season": "Southern Mid-Winter (Low Sun / High Earth Libration)",
+          "horizons": {
+            "azimuthDeg": 94.733067,
+            "elevationDeg": -3.68891,
+            "rangeKm": 379818.54
+          },
+          "spice": {
+            "azimuthDeg": 94.73303,
+            "elevationDeg": -3.688869,
+            "rangeKm": 404895.12
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000037,
+            "deltaElDeg": -0.000041,
+            "angularResidualDeg": 0.000055
+          }
+        },
+        {
+          "target": "Sun",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 196.934242,
+            "elevationDeg": 0.321817,
+            "rangeKm": 147832204.93
+          },
+          "spice": {
+            "azimuthDeg": 196.93412,
+            "elevationDeg": 0.321831,
+            "rangeKm": 147892015.4
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000122,
+            "deltaElDeg": -0.000014,
+            "angularResidualDeg": 0.000123
+          }
+        },
+        {
+          "target": "Earth",
+          "epochUtc": "2026-11-15T12:00:00Z",
+          "season": "Southern Summer (High Grazing Sun / Maximum Illumination)",
+          "horizons": {
+            "azimuthDeg": 85.231813,
+            "elevationDeg": -2.841696,
+            "rangeKm": 403938.42
+          },
+          "spice": {
+            "azimuthDeg": 85.23173,
+            "elevationDeg": -2.841662,
+            "rangeKm": 381208.95
+          },
+          "residuals": {
+            "deltaAzDeg": 0.000083,
+            "deltaElDeg": -0.000034,
+            "angularResidualDeg": 0.00009
+          }
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "sampleCount": 18,
+    "maxResidualDeg": 0.000123,
+    "meanResidualDeg": 0.000081,
+    "residualThresholdDeg": 0.001
+  },
+  "verified": true
+}

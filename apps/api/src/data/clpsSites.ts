@@ -1,0 +1,77 @@
+import type { CandidateSite } from '@luna/contracts';
+
+/**
+ * NASA Commercial Lunar Payload Services (CLPS) mission landing sites.
+ * Represents commercial robotic landers delivering instruments to polar and non-polar locations.
+ */
+export const CLPS_SITES: CandidateSite[] = [
+  {
+    id: 'im-1-odysseus',
+    code: 'SITE-015',
+    name: 'IM-1 Odysseus (Malapert A)',
+    coordinates: {
+      latitudeDeg: -80.13,
+      longitudeDeg: 1.44,
+      elevationMeters: 2400,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'CLPS Commercial Mission',
+    category: 'clps',
+    description: 'Intuitive Machines IM-1 Nova-C lander "Odysseus". First commercial US lunar landing (Feb 22, 2024), situated near Malapert A crater at 80°S.',
+    meanTerrainHorizonDeg: 0.35,
+    maxTerrainObstructionDeg: 0.85,
+    coverageStatus: 'Benchmark Validated',
+    isDemoFixture: false,
+    sourceCatalog: 'NASA Commercial Lunar Payload Services (CLPS)',
+    catalogVersion: 'IM-1 Mission Landing Confirmation',
+    entityType: 'candidate-point',
+    officialRegionReference: 'Malapert A Landing Site',
+    missionContextNote: 'Ground truth commercial polar benchmark with confirmed radio transmission metrics.',
+  },
+  {
+    id: 'im-2-prime1',
+    code: 'SITE-016',
+    name: 'IM-2 PRIME-1 (Connecting Ridge)',
+    coordinates: {
+      latitudeDeg: -89.30,
+      longitudeDeg: 221.00,
+      elevationMeters: 2150,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'CLPS Commercial Mission',
+    category: 'clps',
+    description: 'NASA CLPS volatile extraction payload lander featuring TRIDENT drill and MSolo mass spectrometer for sub-surface regolith ice mining on Shackleton ridge.',
+    meanTerrainHorizonDeg: 0.60,
+    maxTerrainObstructionDeg: 1.40,
+    coverageStatus: 'High (LOLA DEM 128ppd)',
+    isDemoFixture: false,
+    sourceCatalog: 'NASA Commercial Lunar Payload Services (CLPS)',
+    catalogVersion: 'PRIME-1 Polar Drill Target Spec',
+    entityType: 'candidate-point',
+    officialRegionReference: 'Shackleton Connecting Ridge Ice Drill Target',
+    missionContextNote: 'First dedicated polar drill site designed to assess volatiles at 1-meter depth.',
+  },
+  {
+    id: 'firefly-blue-ghost',
+    code: 'SITE-017',
+    name: 'Firefly Blue Ghost 1 (Mare Crisium)',
+    coordinates: {
+      latitudeDeg: 18.56,
+      longitudeDeg: 61.81,
+      elevationMeters: -3600,
+      convention: 'IAU/IAG Lunar Mean Earth/Polar Axis',
+    },
+    priority: 'CLPS Commercial Mission',
+    category: 'clps',
+    description: 'NASA CLPS payload delivery mission to the basaltic floor of Mare Crisium basin. Investigates regolith properties, heat flow, and solar wind interactions.',
+    meanTerrainHorizonDeg: 0.05,
+    maxTerrainObstructionDeg: 0.20,
+    coverageStatus: 'Benchmark Validated',
+    isDemoFixture: false,
+    sourceCatalog: 'NASA Commercial Lunar Payload Services (CLPS)',
+    catalogVersion: 'Blue Ghost Mission 1 Flight Manifest',
+    entityType: 'candidate-point',
+    officialRegionReference: 'Mare Crisium Lowland Basin',
+    missionContextNote: 'Near-equatorial mare reference demonstrating classical 14-day day/night diurnal cycle.',
+  },
+];

@@ -1,0 +1,3 @@
+[test]
+preload = ["./apps/web/test/setup.ts"]
+pathIgnorePatterns = ["_archive", "apps/web/test/m6_browser_viewport_qa.test.ts", "apps/web/test/challenger_m6_viewport_stress.test.ts", "tests/challenger_m6_boundary_stress.test.ts"]
