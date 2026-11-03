@@ -58,6 +58,7 @@ export function createServerApp() {
   apiRouter.mount('/scenarios', scenarioRouter);
 
   app.route('/api', apiRouter);
+  app.route('/', apiRouter);
 
   return app;
 }
