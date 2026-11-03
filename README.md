@@ -2,6 +2,7 @@
 
 [![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026-blue.svg)](https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/)
 [![Runtime](https://img.shields.io/badge/Runtime-Bun%20v1.2+-black.svg)](https://bun.sh/)
+[![Python Pipeline](https://img.shields.io/badge/Python-3.11+%20(Science%20Pipeline)-3776ab.svg)](tooling/)
 [![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Tailwind%20v4%20%2B%20Three.js-61dafb.svg)](https://react.dev/)
 [![Backend](https://img.shields.io/badge/Microservice-NextRush%20(Bun%20REST)-orange.svg)](apps/api/src/app.ts)
 [![Tests Passing](https://img.shields.io/badge/Tests-1578%20Passing-brightgreen.svg)](tests/)
@@ -34,6 +35,12 @@ LunaMission strictly enforces a **Backend-Driven Scientific Compute + Pure Prese
 
 ```mermaid
 flowchart TD
+    subgraph Pipeline ["Offline Scientific Pipeline (tooling/scripts)"]
+        DEMIngest["NASA LOLA COG Ingest (lola_cog_reader.py)"]
+        Raymarch["Generalized s_bound Ray-Marcher (horizon_raymarch.py)"]
+        Oracle["Physics Oracle & JPL Verifier (physics_oracle_check.py)"]
+    end
+
     subgraph Data ["Data & Calibration (data/)"]
         Horizons["curated-horizons.json (LOLA 20m)"]
         Registry["sites-registry.json (NASA PDS / LROC)"]
@@ -60,6 +67,9 @@ flowchart TD
         Theater3D["3D Planetary Theater & Rover HUD"]
     end
 
+    DEMIngest --> Raymarch
+    Raymarch -->|Generates verified datasets| Horizons
+    Oracle -.->|Cross-validates math| EventSplitter
     Data --> Backend
     Contracts --> Backend
     Contracts --> Frontend
@@ -132,7 +142,7 @@ LunaMission organizes mission planning into five specialized, keyboard-navigable
 | **4. 3D Lab** | `/scenario/3d-lab` | `Alt+4` | **Planetary Theater & Rover Simulation:** High-fidelity Three.js surface environment with exploration rover driving simulation (WASD with real-time slope pitch/roll physics), Astronaut xEMU Helmet Visor HUD, and 8 camera presets (`nadir`, `site`, `horizon`, `eva`, `earth_align`, `orbit360`, `north_look`, `sunward_terminator`). |
 | **5. Cesium 3D** | `/scenario/cesium-globe` | `Alt+5` | **Photorealistic Moon Explorer:** Whole-Moon 3D globe powered by Cesium Ion high-resolution lunar basemaps and global terrain tiles. |
 
-> *Note: A companion **Scientific Lineage & Methodology View** (`/methodology`) is accessible from the cockpit header or in-app triggers, providing full transparent documentation of datasets, coordinate frames, and uncertainty models.*
+> *Note: A companion **Scientific Lineage & Methodology View** (`/methodology`) is accessible from the cockpit header or in-app triggers, providing full transparent documentation of datasets, coordinate frames, and uncertainty models. For a comprehensive walkthrough of each workspace, rover simulation controls, and status badges, consult the [**Flight Deck User Guide (docs/USER_GUIDE.md)**](docs/USER_GUIDE.md).*
 
 ---
 
@@ -151,6 +161,22 @@ Automated verification artifacts are stored under [`validation/artifacts/`](vali
 
 ---
 
+## 🔬 Scientific Data Pipeline & Offline Python Tooling
+
+While the production flight deck runs entirely on Bun and React with zero runtime Python dependency, LunaMission includes a dedicated **offline scientific Python suite** in [`tooling/scripts/`](tooling/scripts/) used to ingest raw NASA LOLA digital elevation models and verify physics calculations:
+
+- **NASA LOLA Cloud-Optimized GeoTIFF (COG) Reader (`lola_cog_reader.py`):** Ingests raw gigabyte-scale USGS/NASA LOLA polar DEMs (`LDEM_85S_20M`, `LDEM_80S_60M`) under the exact IAU/NASA `MOON_ME` polar stereographic datum without external GDAL dependencies.
+- **Generalized Analytical Ray-Marcher (`horizon_raymarch.py`):** Computes $360^\circ$ topocentric terrain obstruction masks using spherical curvature and closed-form stopping distances $s_{\text{bound}}(\theta)$. Emits the verified [`data/curated-horizons.json`](data/curated-horizons.json).
+- **Physics Oracle Cross-Validation (`physics_oracle_check.py`):** Queries NASA JPL Horizons REST API (`coord@301`) and NAIF SPICE kernels to independently benchmark solar access and Earth libration angles against our analytical solvers.
+- **Automated Scientific Unit Tests:** 21 mathematical verification tests validating projection bounds, elevation profiles, and stopping distance proofs:
+  ```bash
+  python3 -m unittest discover -s tooling/scripts -p "test_*.py"
+  ```
+
+> For full technical documentation, mathematical derivations, and CLI parameters, see [**`tooling/README.md`**](tooling/README.md).
+
+---
+
 ## ⚡ Quickstart & Local Development
 
 ### Prerequisites
@@ -159,8 +185,8 @@ Automated verification artifacts are stored under [`validation/artifacts/`](vali
 ### 1. Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/lunamission.git
-cd lunamission
+git clone https://github.com/Softsasi/LunaMission.git
+cd LunaMission
 
 # Install monorepo workspace dependencies
 bun install
@@ -317,7 +343,6 @@ LunaMission's astrodynamics models, terrain elevations, and ephemeris trajectori
 ## 📄 License & Attribution
 
 Developed with precision for the **NASA Space Apps Challenge 2026** by [Softsasi](https://github.com/Softsasi) and the LunaMission team.  
-- **Upstream Organization:** [Softsasi/LunaMission](https://github.com/Softsasi/LunaMission)  
-- **Main Deployment Fork:** [0xTanzim/LunaMission](https://github.com/0xTanzim/LunaMission)  
+- **Repository:** [Softsasi/LunaMission](https://github.com/Softsasi/LunaMission)  
 - **License:** Licensed under the [MIT License](LICENSE) (Copyright (c) 2026 Softsasi & LunaMission Contributors).
 
