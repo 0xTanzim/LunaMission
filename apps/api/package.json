@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run src/index.ts",
-    "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --target node --outdir dist",
+    "dev": "bun --hot run src/index.mts",
+    "start": "bun run src/index.mts",
+    "build": "bun build src/index.mts --target node --outfile dist/index.mjs",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
