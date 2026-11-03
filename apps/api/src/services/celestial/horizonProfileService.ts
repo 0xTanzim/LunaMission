@@ -6,7 +6,7 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import embeddedHorizons from '../../../data/curated-horizons.json';
+import { CURATED_HORIZONS } from '../../data/curatedHorizonsData';
 import type { HorizonAsset, HorizonBinStatus, HorizonProfile } from '@luna/contracts';
 import type { HorizonProfileResponse } from '@server/schemas/horizonSchemas';
 import type { HorizonProfileType } from './visibilityTypes';
@@ -24,9 +24,9 @@ export class HorizonProfileService {
 
   private loadData(): Record<string, HorizonAsset> {
     if (this.cache) return this.cache;
-    if (embeddedHorizons && typeof embeddedHorizons === 'object') {
-      const candidate = ('default' in embeddedHorizons ? (embeddedHorizons as any).default : embeddedHorizons) as Record<string, HorizonAsset>;
-      if (candidate && typeof candidate === 'object' && Object.keys(candidate).length > 0) {
+    if (CURATED_HORIZONS && typeof CURATED_HORIZONS === 'object') {
+      const candidate = CURATED_HORIZONS as Record<string, HorizonAsset>;
+      if (candidate && Object.keys(candidate).length > 0) {
         this.cache = candidate;
         return this.cache;
       }
