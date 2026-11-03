@@ -7,7 +7,7 @@
     },
     "api": {
       "root": "apps/api",
-      "entrypoint": "src/index.mts"
+      "entrypoint": "dist/index.mjs"
     }
   },
   "rewrites": [
