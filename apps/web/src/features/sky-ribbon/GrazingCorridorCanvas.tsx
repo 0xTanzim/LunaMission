@@ -89,35 +89,13 @@ export const GrazingCorridorCanvas: React.FC<GrazingCorridorCanvasProps> = ({
     );
     if (!ctx) return;
     paintGrazingCorridor(ctx, {
-      projection,
-      azimuthSpanDeg,
-      skyline,
-      sun,
-      earth,
-      gauge,
-      disk,
-      contact,
-      grazingMarkers,
-      cursor,
-      pinnedAzimuthDeg,
-      reducedMotion,
+      projection, azimuthSpanDeg, skyline, sun, earth, gauge,
+      disk, contact, grazingMarkers, cursor, pinnedAzimuthDeg, reducedMotion,
     });
   }, [
-    projection,
-    azimuthSpanDeg,
-    skyline,
-    sun,
-    earth,
-    gauge,
-    disk,
-    contact,
-    grazingMarkers,
-    cursor,
-    pinnedAzimuthDeg,
-    reducedMotion,
-    surface.canvasRef,
-    surface.widthPx,
-    surface.pixelRatio,
+    projection, azimuthSpanDeg, skyline, sun, earth, gauge, disk,
+    contact, grazingMarkers, cursor, pinnedAzimuthDeg, reducedMotion,
+    surface.canvasRef, surface.widthPx, surface.pixelRatio, surface.renderVersion,
   ]);
 
   const interaction = useMemo<SkyPanelInteractionDeps>(
@@ -171,6 +149,7 @@ export const GrazingCorridorCanvas: React.FC<GrazingCorridorCanvasProps> = ({
             aria-hidden="true"
             data-testid="grazing-corridor-canvas"
             className="block w-full"
+            style={{ height: `${CORRIDOR_HEIGHT_PX}px` }}
           />
         </div>
       </div>

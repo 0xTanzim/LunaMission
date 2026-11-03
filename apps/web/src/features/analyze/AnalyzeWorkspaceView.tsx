@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useScenarioEvaluation } from './hooks/useScenarioEvaluation';
 import { useScenarioState } from '../../app/state/useScenarioState';
 import { ExecutiveKpiStrip } from './ExecutiveKpiStrip';
@@ -57,26 +57,31 @@ export const AnalyzeWorkspaceView: React.FC = () => {
 
   // Live horizon profile: backend LOLA bins when published, otherwise the
   // backend's per-sub-interval skyline samples (re-shaped, never interpolated).
-  const liveHorizonProfile =
-    data.horizonProfile && data.horizonProfile.length > 0
-      ? data.horizonProfile
-      : horizonBinsFromIntervals(data.intervals);
+  const liveHorizonProfile = useMemo(
+    () =>
+      data.horizonProfile && data.horizonProfile.length > 0
+        ? data.horizonProfile
+        : horizonBinsFromIntervals(data.intervals),
+    [data.horizonProfile, data.intervals],
+  );
 
-  const liveSunPoint = initialInterval
-    ? {
-        azimuthDeg: initialInterval.sun.meanAzimuthDeg,
-        elevationDeg: initialInterval.sun.meanElevationDeg,
-        status: initialInterval.sun.status,
-      }
-    : undefined;
+  const liveSunPoint = useMemo(
+    () => (initialInterval ? {
+      azimuthDeg: initialInterval.sun.meanAzimuthDeg,
+      elevationDeg: initialInterval.sun.meanElevationDeg,
+      status: initialInterval.sun.status,
+    } : undefined),
+    [initialInterval],
+  );
 
-  const liveEarthPoint = initialInterval
-    ? {
-        azimuthDeg: initialInterval.earth.meanAzimuthDeg,
-        elevationDeg: initialInterval.earth.meanElevationDeg,
-        status: initialInterval.earth.status,
-      }
-    : undefined;
+  const liveEarthPoint = useMemo(
+    () => (initialInterval ? {
+      azimuthDeg: initialInterval.earth.meanAzimuthDeg,
+      elevationDeg: initialInterval.earth.meanElevationDeg,
+      status: initialInterval.earth.status,
+    } : undefined),
+    [initialInterval],
+  );
 
   return (
     <div

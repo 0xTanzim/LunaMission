@@ -104,6 +104,7 @@ export const SkyContextPanorama: React.FC<SkyContextPanoramaProps> = ({
     surface.canvasRef,
     surface.widthPx,
     surface.pixelRatio,
+    surface.renderVersion,
   ]);
 
   const interaction = useMemo<SkyPanelInteractionDeps>(
@@ -164,6 +165,7 @@ export const SkyContextPanorama: React.FC<SkyContextPanoramaProps> = ({
             aria-hidden="true"
             data-testid="sky-panorama-canvas"
             className="block w-full"
+            style={{ height: `${PANORAMA_HEIGHT_PX}px` }}
           />
         </div>
       </div>

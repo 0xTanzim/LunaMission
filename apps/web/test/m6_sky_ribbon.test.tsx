@@ -47,6 +47,7 @@ import {
   buildSolarReadout,
 } from '../src/features/sky-ribbon/skyRibbonAnalysis';
 import { SkyRibbonDeck } from '../src/features/sky-ribbon/SkyRibbonDeck';
+import { prepareSkyContext } from '../src/features/sky-ribbon/useSkyCanvasSurface';
 import { createRecordingContext, makeInterval } from './m6_sky_ribbon_fixtures';
 
 const WIDTH_PX = 1080;
@@ -437,5 +438,37 @@ describe('Milestone C: deck lifecycle states', () => {
     // With no published disk geometry the deck must say so instead of drawing a guessed disk.
     expect(html).toContain('Apparent solar disk');
     expect(html).toContain('unsupported');
+  });
+
+  it('safeguards canvas backing store and returns null on degenerate dimensions', () => {
+    expect(prepareSkyContext(null, 500, 200, 1)).toBeNull();
+    expect(prepareSkyContext({} as HTMLCanvasElement, 0, 200, 1)).toBeNull();
+    expect(prepareSkyContext({} as HTMLCanvasElement, 500, 0, 1)).toBeNull();
+
+    let widthSetCount = 0;
+    let currentWidth = 500;
+    const mockCanvas = {
+      get width() { return currentWidth; },
+      set width(v: number) { widthSetCount++; currentWidth = v; },
+      height: 200,
+      getContext: (type: string) => {
+        if (type !== '2d') return null;
+        return {
+          setTransform: () => {},
+          clearRect: () => {},
+        } as unknown as CanvasRenderingContext2D;
+      },
+    } as unknown as HTMLCanvasElement;
+
+    // First call sets width because target is 500 * 2 = 1000
+    const ctx1 = prepareSkyContext(mockCanvas, 500, 200, 2);
+    expect(ctx1).not.toBeNull();
+    expect(widthSetCount).toBe(1);
+    expect(mockCanvas.width).toBe(1000);
+
+    // Second call with same dimensions MUST NOT reassign width (prevents bitmap clearing)
+    const ctx2 = prepareSkyContext(mockCanvas, 500, 200, 2);
+    expect(ctx2).not.toBeNull();
+    expect(widthSetCount).toBe(1); // Unchanged!
   });
 });
