@@ -29,18 +29,17 @@ async function handleNodeRequest(req: IncomingMessage, res: ServerResponse): Pro
       }
     }
 
-    const init: RequestInit = {
+    const init: any = {
       method: req.method || 'GET',
       headers,
     };
 
     if (req.method !== 'GET' && req.method !== 'HEAD') {
-      init.body = Readable.toWeb(req) as unknown as BodyInit;
-      // @ts-ignore
+      init.body = Readable.toWeb(req) as any;
       init.duplex = 'half';
     }
 
-    const webRequest = new Request(url, init);
+    const webRequest = new Request(url.toString(), init);
     const webResponse = await nextrushHandler(webRequest, dummyServer);
 
     res.statusCode = webResponse.status;
