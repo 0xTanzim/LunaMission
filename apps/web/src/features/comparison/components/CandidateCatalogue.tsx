@@ -339,7 +339,7 @@ export function CandidateCatalogue({
             label="Catalogue presentation"
             size="sm"
             value={view}
-            onChange={setView}
+            onChange={(val) => setView(val as CatalogueViewMode)}
             options={[
               { value: 'list', label: 'Compact list', icon: <List size={11} aria-hidden="true" /> },
               {

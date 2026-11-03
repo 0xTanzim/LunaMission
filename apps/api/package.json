@@ -23,6 +23,6 @@
     "@luna/config": "workspace:*",
     "@types/bun": "^1.4.4",
     "@types/node": "^22.20.5",
-    "typescript": "^7.0.2"
+    "typescript": "^5.8.2"
   }
 }
