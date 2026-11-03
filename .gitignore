@@ -72,3 +72,5 @@ docs/audits/
 !apps/web/src/**/target/
 !apps/web/src/domain/target/
 !apps/web/src/features/spatial/target/
+.vercel
+.env*
