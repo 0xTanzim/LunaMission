@@ -86,6 +86,7 @@ export function canonicalizeMissionLocation(
   hash: string = '',
   search: string = '',
 ): string | null {
+  if (pathname === '/' || pathname === '') return null;
   if (CANONICAL_PATHS.includes(normalisePath(pathname))) return null;
   return resolvePathFromTab(resolveTabFromPath(pathname, hash, search));
 }
@@ -116,14 +117,9 @@ export function useMissionRouter(initialTab?: NavTab): UseMissionRouterResult {
     setActiveTabState(tab);
     if (typeof window === 'undefined') return;
     const targetPath = resolvePathFromTab(tab);
-    if (window.location.pathname !== targetPath) {
-      try {
-        window.history.pushState({ tab }, '', targetPath);
-        window.dispatchEvent(new PopStateEvent('popstate', { state: { tab } }));
-      } catch {
-        window.location.hash = `#${targetPath}`;
-        window.dispatchEvent(new HashChangeEvent('hashchange'));
-      }
+    const targetHash = `#${targetPath}`;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
     }
   }, []);
 
