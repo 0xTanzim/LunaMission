@@ -24,12 +24,12 @@ export class HorizonProfileService {
 
   private loadData(): Record<string, HorizonAsset> {
     if (this.cache) return this.cache;
-    if (CURATED_HORIZONS && typeof CURATED_HORIZONS === 'object') {
-      const candidate = CURATED_HORIZONS as Record<string, HorizonAsset>;
-      if (candidate && Object.keys(candidate).length > 0) {
-        this.cache = candidate;
-        return this.cache;
-      }
+    const typeOfHorizons = typeof CURATED_HORIZONS;
+    const isObj = Boolean(CURATED_HORIZONS && typeof CURATED_HORIZONS === 'object');
+    const keysCount = isObj ? Object.keys(CURATED_HORIZONS as any).length : -1;
+    if (isObj && keysCount > 0) {
+      this.cache = CURATED_HORIZONS as Record<string, HorizonAsset>;
+      return this.cache;
     }
     const searchPaths = [
       join(process.cwd(), 'data/curated-horizons.json'),
@@ -44,7 +44,7 @@ export class HorizonProfileService {
         return raw;
       }
     }
-    throw new Error('curated-horizons.json could not be located in workspace paths.');
+    throw new Error(`curated-horizons.json could not be located in workspace paths (type=${typeOfHorizons}, isObj=${isObj}, keys=${keysCount}).`);
   }
 
   /**
