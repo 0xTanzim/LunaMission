@@ -53,6 +53,7 @@ export function useGlobeScene(input: UseGlobeSceneInput): UseGlobeSceneResult {
     selectedSiteIdRef,
     pickSiteRef,
     onFlyoverChangeRef,
+    isVisible: input.isVisible ?? true,
   });
 
   const moveCameraToPreset = useCallback((preset: CameraPreset, site: CandidateSite) => {

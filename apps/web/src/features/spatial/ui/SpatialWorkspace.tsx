@@ -80,6 +80,7 @@ export function SpatialWorkspace({
     () => typeof window === 'undefined' || window.innerWidth >= 1024,
   );
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
+  const [isGlobePending, setIsGlobePending] = useState(false);
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   const siteIntel = useSiteIntelDrawer();
   const { selectSite } = useScenarioCommands();
@@ -184,6 +185,7 @@ export function SpatialWorkspace({
       onTogglePassport={isActiveFullscreen ? handleTogglePassportOverlay : (viewMode === 'dual' ? handleToggleDualPassport : handleToggleStaticPassport)}
       passportTitle={isActiveFullscreen ? 'Toggle Point Passport overlay in fullscreen (Key: P)' : (viewMode === 'dual' ? 'Toggle Point Passport overlay' : 'Toggle Point Passport panel')}
       passportTestId={viewMode === 'dual' ? 'dual-passport-toggle' : 'static-passport-toggle'}
+      globePending={isGlobePending}
     />
   );
 
@@ -198,6 +200,7 @@ export function SpatialWorkspace({
         isPinpointMode={targetManager.isPinpointMode} onPinpointCustomTarget={targetManager.saveTarget}
         isFullscreen={isActiveFullscreen} isPassportOpen={isActiveFullscreen ? showPassportOverlay : isDualPassportOpen}
         onOpenSiteIntel={handleOpenSiteIntel}
+        onGlobePendingChange={setIsGlobePending}
       />
       {targetManager.customTarget && targetManager.evaluation && targetManager.deltas && (
         <div className="absolute bottom-3 left-3 z-20 max-w-sm pointer-events-auto">

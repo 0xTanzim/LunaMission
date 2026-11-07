@@ -135,7 +135,6 @@ test('Milestone 1: MapCanvas and LunarGlobe3D containers enforce touch-none isol
         onMouseMove: () => {},
         onMouseUp: () => {},
         onMouseLeave: () => {},
-        onWheel: () => {},
         onClick: () => {},
       }}
     />

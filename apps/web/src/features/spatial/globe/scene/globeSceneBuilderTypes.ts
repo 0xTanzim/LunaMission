@@ -55,6 +55,11 @@ export interface GlobeSceneHandle {
   setHorizonProfile?: (profile: import('@luna/contracts').HorizonProfileResponse | null) => void;
   setFlyover?: (active?: boolean) => void;
   isFlyoverActive?: () => boolean;
+  /**
+   * Suspends (false) or resumes (true) the per-frame render loop while the scene stays
+   * mounted — the workspace hides the globe in 2D-only view instead of unmounting it.
+   */
+  setRenderLoopActive?: (active: boolean) => void;
   setCustomTarget?: (target: CustomLandingTarget | null) => void;
   raycastMoonSurface?: (clientX: number, clientY: number) => MoonSurfaceRaycastHit | null;
   getDiagnostics?: () => GlobeDiagnosticsMetrics;

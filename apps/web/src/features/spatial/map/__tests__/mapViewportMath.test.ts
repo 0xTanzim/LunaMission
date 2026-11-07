@@ -14,6 +14,7 @@ import {
   dragOrigin,
   draggedPan,
   presetViewport,
+  resolveWheelGesture,
   steppedZoom,
   wheelZoom,
   clampPan,
@@ -223,4 +224,16 @@ test('zoomAroundScreenPoint preserves point under mouse cursor across wheel zoom
   assert.ok(Math.abs(newScreenX - cursorScreenSvg.x) < 1e-4, 'Cursor X must stay identical');
   assert.ok(Math.abs(newScreenY - cursorScreenSvg.y) < 1e-4, 'Cursor Y must stay identical');
   assert.equal(zoomedViewport.zoom, 2.4);
+});
+
+test('resolveWheelGesture zooms only on modifier wheel and passes plain wheel to the page', () => {
+  // Plain wheel (the page-scroll gesture) must never zoom the map.
+  assert.equal(resolveWheelGesture({ ctrlKey: false, metaKey: false }), 'passthrough');
+  // Shift/alt are not the zoom modifier.
+  assert.equal(resolveWheelGesture({ ctrlKey: false, metaKey: false, shiftKey: true }), 'passthrough');
+  // Ctrl (Windows/Linux) and Cmd (macOS) zoom.
+  assert.equal(resolveWheelGesture({ ctrlKey: true, metaKey: false }), 'zoom');
+  assert.equal(resolveWheelGesture({ ctrlKey: false, metaKey: true }), 'zoom');
+  // Trackpad pinch reports ctrlKey — it must keep zooming.
+  assert.equal(resolveWheelGesture({ ctrlKey: true, metaKey: true }), 'zoom');
 });

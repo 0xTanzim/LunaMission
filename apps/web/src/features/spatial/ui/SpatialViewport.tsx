@@ -33,6 +33,8 @@ export interface SpatialViewportProps {
   isFullscreen?: boolean;
   isPassportOpen?: boolean;
   onOpenSiteIntel?: () => void;
+  /** Reports whether the 3D scene is still loading, for the mode buttons' pending state. */
+  onGlobePendingChange?: (pending: boolean) => void;
 }
 
 /**
@@ -59,6 +61,7 @@ export function SpatialViewport({
   isFullscreen = false,
   isPassportOpen = false,
   onOpenSiteIntel,
+  onGlobePendingChange,
 }: SpatialViewportProps) {
   const { selectSite } = useScenarioCommands();
   const { site: selectedSite, conditions, ephemeris, epochIsoUtc } = useScenarioModel();
@@ -112,38 +115,53 @@ export function SpatialViewport({
         onPinpointCustomTarget={onPinpointCustomTarget}
         hideHeader
         hideRibbon
+        isVisible={viewMode !== 'map2d'}
+        onLoadingChange={onGlobePendingChange}
       />
     </VisualizationErrorBoundary>
   );
 
-  if (viewMode === 'map2d') {
-    return <div className="w-full h-full min-h-0 flex-1">{map}</div>;
-  }
-
-  if (viewMode === 'globe3d') {
-    return <div className="w-full h-full min-h-0 flex-1">{globe}</div>;
-  }
-
+  // One persistent two-panel tree across all view modes: React keeps both the 2D map and
+  // the WebGL globe mounted, so switching 2D → dual → 3D never rebuilds the expensive
+  // globe scene. Hidden panels collapse via CSS; the globe's render loop pauses while
+  // hidden (isVisible above).
+  const isDual = viewMode === 'dual';
   return (
     <div
       data-testid="spatial-dual-viewport"
-      className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full h-full min-h-0 flex-1 p-2 overflow-y-auto md:overflow-hidden bg-[var(--lm-color-canvas)]"
+      className={`${
+        isDual ? 'grid grid-cols-1 md:grid-cols-2 gap-3 p-2 overflow-y-auto md:overflow-hidden' : 'flex'
+      } w-full h-full min-h-0 flex-1 bg-[var(--lm-color-canvas)]`}
     >
-      <ViewportPanel
-        title="2D Polar Map"
-        subtitle="83°S–90°S Stereographic"
-        subtitleClassName="text-[var(--lm-color-text-muted)]"
+      <div
+        data-testid="spatial-map-panel"
+        className={isDual ? 'min-w-0 min-h-0' : 'w-full h-full min-h-0 min-w-0 flex-1'}
+        hidden={viewMode === 'globe3d'}
       >
-        {map}
-      </ViewportPanel>
+        <ViewportPanel
+          title="2D Polar Map"
+          subtitle="83°S–90°S Stereographic"
+          subtitleClassName="text-[var(--lm-color-text-muted)]"
+          showChrome={isDual}
+        >
+          {map}
+        </ViewportPanel>
+      </div>
 
-      <ViewportPanel
-        title="3D Moon Globe"
-        subtitle="NASA LROC / LOLA DEM"
-        subtitleClassName="text-[var(--lm-color-selected-site)]"
+      <div
+        data-testid="spatial-globe-panel"
+        className={isDual ? 'min-w-0 min-h-0' : 'w-full h-full min-h-0 min-w-0 flex-1'}
+        hidden={viewMode === 'map2d'}
       >
-        {globe}
-      </ViewportPanel>
+        <ViewportPanel
+          title="3D Moon Globe"
+          subtitle="NASA LROC / LOLA DEM"
+          subtitleClassName="text-[var(--lm-color-selected-site)]"
+          showChrome={isDual}
+        >
+          {globe}
+        </ViewportPanel>
+      </div>
     </div>
   );
 }

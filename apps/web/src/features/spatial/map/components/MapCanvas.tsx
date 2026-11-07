@@ -32,7 +32,6 @@ export interface MapGestureHandlers {
   onMouseMove: (event: React.MouseEvent) => void;
   onMouseUp: () => void;
   onMouseLeave: () => void;
-  onWheel: (event: React.WheelEvent) => void;
   onClick: (event: React.MouseEvent) => void;
   onTouchStart?: (event: React.TouchEvent) => void;
   onTouchMove?: (event: React.TouchEvent) => void;
@@ -112,7 +111,7 @@ export function MapCanvas({
       style={{ touchAction: 'none' }}
       onMouseDown={gestures.onMouseDown} onMouseMove={gestures.onMouseMove}
       onMouseUp={gestures.onMouseUp} onMouseLeave={gestures.onMouseLeave}
-      onWheel={gestures.onWheel} onClick={gestures.onClick}
+      onClick={gestures.onClick}
       onTouchStart={gestures.onTouchStart} onTouchMove={gestures.onTouchMove}
       onTouchEnd={gestures.onTouchEnd} onTouchCancel={gestures.onTouchCancel}
     >

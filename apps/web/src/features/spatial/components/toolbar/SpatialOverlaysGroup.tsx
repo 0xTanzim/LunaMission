@@ -44,7 +44,10 @@ export function SpatialOverlaysGroup({
 
   const handleToggleSlope = () => {
     if (onSelectScientificMapMode) {
-      onSelectScientificMapMode(isSlopeMode ? 'topography' : 'slope');
+      // The reducer records the prior base at slope-selection time; restoring it (or
+      // Natural when nothing was recorded) keeps this toggle honest with the legend
+      // and 3D-lab base selectors, which mutate the same state.
+      onSelectScientificMapMode(isSlopeMode ? preferences.previousBaseId ?? 'none' : 'slope');
     }
   };
 

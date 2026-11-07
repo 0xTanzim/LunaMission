@@ -14,6 +14,8 @@ export interface UseGlobeSceneMountProps {
   selectedSiteIdRef: { current: string };
   pickSiteRef: { current: (site: CandidateSite) => void };
   onFlyoverChangeRef: { current?: (active: boolean) => void };
+  /** False suspends the render loop while the scene stays mounted (hidden in 2D view). */
+  isVisible: boolean;
 }
 
 export function useGlobeSceneMount({
@@ -21,6 +23,7 @@ export function useGlobeSceneMount({
   selectedSiteIdRef,
   pickSiteRef,
   onFlyoverChangeRef,
+  isVisible,
 }: UseGlobeSceneMountProps) {
   const handleRef = useRef<GlobeSceneHandle | null>(null);
   const [status, setStatus] = useState<GlobeStatus>({ kind: 'loading' });
@@ -64,6 +67,13 @@ export function useGlobeSceneMount({
       handle.dispose();
     };
   }, []);
+
+  // The scene stays mounted across view-mode switches; only its loop pauses. On reveal,
+  // resume() also forces the first frame so a hidden stretch never leaves a stale canvas.
+  useEffect(() => {
+    if (isVisible) handleRef.current?.setRenderLoopActive?.(true);
+    else handleRef.current?.setRenderLoopActive?.(false);
+  }, [isVisible]);
 
   const restoreContext = () => handleRef.current?.restoreContext?.() ?? false;
 

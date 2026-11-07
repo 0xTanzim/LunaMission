@@ -14,6 +14,7 @@ import { MapToolbar } from '@/features/spatial/map/components/MapToolbar';
 import { MapLayersMenu } from '@/features/spatial/map/components/MapLayersMenu';
 import { ScientificMapLegend } from '@/features/spatial/map/components/ScientificMapLegend';
 import { MapScaleBar } from '@/features/spatial/map/components/MapScaleBar';
+import { MapZoomHintChip } from '@/features/spatial/map/components/MapZoomHintChip';
 import { MapCandidateRibbon } from '@/features/spatial/map/components/MapCandidateRibbon';
 import { MapOverlayCards } from '@/features/spatial/map/components/MapOverlayCards';
 import { MapFullscreenZoomPalette } from '@/features/spatial/map/components/MapFullscreenZoomPalette';
@@ -206,7 +207,7 @@ export function SouthPoleMap({
           gestures={{
             onMouseDown: viewport.handleMouseDown, onMouseMove: viewport.handleMouseMove,
             onMouseUp: viewport.handleMouseUp, onMouseLeave: viewport.handleMouseLeave,
-            onWheel: viewport.handleWheel, onClick: handleCanvasClick,
+            onClick: handleCanvasClick,
             onTouchStart: viewport.handleTouchStart, onTouchMove: viewport.handleTouchMove,
             onTouchEnd: viewport.handleTouchEnd, onTouchCancel: viewport.handleTouchCancel,
           }}
@@ -216,6 +217,14 @@ export function SouthPoleMap({
           zoom={viewport.zoom} cursorCoord={viewport.cursorCoord}
           cursorDistanceKm={cursorDistanceKm} selectedSite={selectedSite} className="bottom-3 left-3"
         />
+
+        {/* One-time scroll/zoom affordance: plain wheel now scrolls the page; the hint
+            teaches the Ctrl/⌘ modifier the first time a plain wheel rolls over the map. */}
+        {viewport.zoomHintVisible && (
+          <div className="pointer-events-none absolute bottom-3 left-1/2 z-20 -translate-x-1/2">
+            <MapZoomHintChip onDismiss={viewport.dismissZoomHint} />
+          </div>
+        )}
 
         {/* Legend: the painted ramp, the composited overlays, and anything that could not be drawn. */}
         {onSelectScientificMapMode && (

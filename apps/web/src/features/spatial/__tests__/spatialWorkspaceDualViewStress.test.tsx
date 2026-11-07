@@ -67,56 +67,48 @@ test('Stress: PassportDrawer mounts cleanly in dual view when initialPassportOpe
   assert.ok(html.includes('w-full sm:w-[500px] z-30'), 'Drawer must have fixed slide-over geometry');
 });
 
-test('Stress: SpatialViewport renders distinct visualizations for single and dual modes', () => {
-  // 2D Map mode renders SouthPoleMap and suppresses 3D globe
-  const mapHtml = renderToStaticMarkup(
-    React.createElement(
-      ScenarioProvider,
-      null,
-      React.createElement(SpatialViewport, {
-        viewMode: 'map2d',
-        preferences: DEFAULT_SPATIAL_PREFERENCES,
-        onToggleLayer: () => {},
-        onCameraPresetChange: () => {},
-        onGlobeFallbackTo2D: () => {},
-      })
-    )
-  );
-  assert.ok(mapHtml.includes('South Pole Stereographic Map') || mapHtml.includes('svg'), '2D mode contains map');
-  assert.ok(!mapHtml.includes('spatial-dual-viewport'), '2D mode does not render dual grid');
+test('Stress: SpatialViewport keeps one persistent panel tree; single modes hide, never unmount', () => {
+  const renderViewport = (viewMode: 'map2d' | 'dual' | 'globe3d') =>
+    renderToStaticMarkup(
+      React.createElement(
+        ScenarioProvider,
+        null,
+        React.createElement(SpatialViewport, {
+          viewMode,
+          preferences: DEFAULT_SPATIAL_PREFERENCES,
+          onToggleLayer: () => {},
+          onCameraPresetChange: () => {},
+          onGlobeFallbackTo2D: () => {},
+        })
+      )
+    );
 
-  // 3D Globe mode renders LunarGlobe3D
-  const globeHtml = renderToStaticMarkup(
-    React.createElement(
-      ScenarioProvider,
-      null,
-      React.createElement(SpatialViewport, {
-        viewMode: 'globe3d',
-        preferences: DEFAULT_SPATIAL_PREFERENCES,
-        onToggleLayer: () => {},
-        onCameraPresetChange: () => {},
-        onGlobeFallbackTo2D: () => {},
-      })
-    )
-  );
-  assert.ok(globeHtml.includes('3D Lunar Globe') || globeHtml.includes('canvas') || globeHtml.includes('VisualizationErrorBoundary') || globeHtml.includes('NASA SVS 3727'), '3D mode contains globe');
-  assert.ok(!globeHtml.includes('spatial-dual-viewport'), '3D mode does not render dual grid');
+  // Both visualizations stay in the tree in every mode (spec: spatial-visualization,
+  // globe scene persistence) — switching modes must never unmount the WebGL globe.
+  for (const [mode, html] of [['map2d', renderViewport('map2d')], ['dual', renderViewport('dual')], ['globe3d', renderViewport('globe3d')]] as const) {
+    assert.ok(html.includes('spatial-dual-viewport'), `${mode} renders the persistent viewport container`);
+    assert.ok(html.includes('svg'), `${mode} keeps the 2D map mounted`);
+    assert.ok(html.includes('3D view loading') || html.includes('cursor-grab'), `${mode} keeps the globe mounted`);
+  }
 
-  // Dual mode renders both in equal grid
-  const dualHtml = renderToStaticMarkup(
-    React.createElement(
-      ScenarioProvider,
-      null,
-      React.createElement(SpatialViewport, {
-        viewMode: 'dual',
-        preferences: DEFAULT_SPATIAL_PREFERENCES,
-        onToggleLayer: () => {},
-        onCameraPresetChange: () => {},
-        onGlobeFallbackTo2D: () => {},
-      })
-    )
-  );
-  assert.ok(dualHtml.includes('spatial-dual-viewport'), 'Dual mode renders dual viewport grid');
-  assert.ok(dualHtml.includes('2D Polar Map'), 'Dual mode includes 2D panel');
-  assert.ok(dualHtml.includes('3D Moon Globe'), 'Dual mode includes 3D panel');
+  const isHidden = (html: string, panel: 'spatial-map-panel' | 'spatial-globe-panel') =>
+    new RegExp(`data-testid="${panel}"[^>]* hidden=""`).test(html) ||
+    new RegExp(`data-testid="${panel}"[^>]*hidden`).test(html);
+  // map2d hides only the globe; globe3d hides only the map; dual hides neither.
+  assert.ok(isHidden(renderViewport('map2d'), 'spatial-globe-panel'), 'map2d must hide the globe panel');
+  assert.ok(!isHidden(renderViewport('map2d'), 'spatial-map-panel'), 'map2d must show the map panel');
+  assert.ok(isHidden(renderViewport('globe3d'), 'spatial-map-panel'), 'globe3d must hide the map panel');
+  assert.ok(!isHidden(renderViewport('globe3d'), 'spatial-globe-panel'), 'globe3d must show the globe panel');
+  assert.ok(!isHidden(renderViewport('dual'), 'spatial-map-panel') && !isHidden(renderViewport('dual'), 'spatial-globe-panel'), 'dual view must show both panels');
+
+  // Only dual uses the side-by-side grid; single modes fill with one visible panel.
+  assert.ok(renderViewport('dual').includes('md:grid-cols-2'), 'dual mode uses the two-column grid');
+  assert.ok(!renderViewport('map2d').includes('md:grid-cols-2'), 'map2d must not lay out a dual grid');
+  assert.ok(!renderViewport('globe3d').includes('md:grid-cols-2'), 'globe3d must not lay out a dual grid');
+
+  // Titled chrome is a dual-only affordance; single modes show the visualization raw.
+  assert.ok(renderViewport('dual').includes('2D Polar Map'), 'dual mode includes 2D panel title');
+  assert.ok(renderViewport('dual').includes('3D Moon Globe'), 'dual mode includes 3D panel title');
+  assert.ok(!renderViewport('map2d').includes('2D Polar Map'), 'map2d hides panel chrome');
+  assert.ok(!renderViewport('globe3d').includes('3D Moon Globe'), 'globe3d hides panel chrome');
 });

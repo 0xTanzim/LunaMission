@@ -34,6 +34,11 @@ export interface UseGlobeSceneInput {
   cameraPreset: CameraPreset;
   onCameraPresetChange: (preset: CameraPreset) => void;
   isFlyoverActive?: boolean;
+  /**
+   * Whether the globe's panel is currently laid out in the active view mode. False
+   * suspends the render loop while the scene stays mounted (2D-only view).
+   */
+  isVisible?: boolean;
   onFlyoverChange?: (active: boolean) => void;
   customTarget?: CustomLandingTarget | null;
   isPinpointMode?: boolean;

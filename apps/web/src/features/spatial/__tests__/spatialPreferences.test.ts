@@ -142,6 +142,57 @@ test('spatialPreferences: scientific map mode selection switches the base layer 
   assert.equal(spatialPreferencesReducer(slope, { type: 'scientificMapMode/selected', mode: 'slope' }), slope);
 });
 
+test('spatialPreferences: slope selection records the prior base as the restore target', () => {
+  // Slope from the Natural opening state remembers Natural, not Topography.
+  const fromNatural = spatialPreferencesReducer(DEFAULT_SPATIAL_PREFERENCES, {
+    type: 'scientificMapMode/selected',
+    mode: 'slope',
+  });
+  assert.equal(fromNatural.base.id, 'slope');
+  assert.equal(fromNatural.previousBaseId, 'none');
+
+  // Slope from Topography remembers Topography.
+  const onTopography = spatialPreferencesReducer(DEFAULT_SPATIAL_PREFERENCES, {
+    type: 'scientificMapMode/selected',
+    mode: 'topography',
+  });
+  const fromTopography = spatialPreferencesReducer(onTopography, {
+    type: 'scientificMapMode/selected',
+    mode: 'slope',
+  });
+  assert.equal(fromTopography.base.id, 'slope');
+  assert.equal(fromTopography.previousBaseId, 'topography');
+});
+
+test('spatialPreferences: leaving slope for a non-slope base clears the restore target', () => {
+  const onSlope = spatialPreferencesReducer(DEFAULT_SPATIAL_PREFERENCES, {
+    type: 'scientificMapMode/selected',
+    mode: 'slope',
+  });
+  const toGeology = spatialPreferencesReducer(onSlope, {
+    type: 'scientificMapMode/selected',
+    mode: 'geology',
+  });
+  assert.equal(toGeology.base.id, 'geology');
+  assert.equal(toGeology.previousBaseId, null);
+
+  // A stale recorded slope target (e.g. restored/shared state) is treated as no record.
+  const stale = { ...onSlope, previousBaseId: 'slope' as const };
+  const recovered = spatialPreferencesReducer(stale, {
+    type: 'scientificMapMode/selected',
+    mode: 'geology',
+  });
+  assert.equal(recovered.previousBaseId, null);
+});
+
+test('spatialPreferences: selecting slope while already on slope keeps state identity', () => {
+  const onSlope = spatialPreferencesReducer(DEFAULT_SPATIAL_PREFERENCES, {
+    type: 'scientificMapMode/selected',
+    mode: 'slope',
+  });
+  assert.equal(spatialPreferencesReducer(onSlope, { type: 'scientificMapMode/selected', mode: 'slope' }), onSlope);
+});
+
 test('spatialPreferences: base opacity and blend are adjustable without hiding the base', () => {
   const dimmed = spatialPreferencesReducer(DEFAULT_SPATIAL_PREFERENCES, {
     type: 'base/opacity-changed',

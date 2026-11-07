@@ -10,6 +10,7 @@ import { createPolarTerrainFeatures } from '@/features/spatial/globe/scene/globe
 import { calculate3DOrbitSensitivity } from '@/features/spatial/interaction/zoomAwareInteractionModel';
 import { CameraPreset } from '@/features/spatial/model/spatialPreferences';
 import { GlobeDiagnosticsMetrics } from './globeSceneBuilderTypes';
+import { createRenderLoopGate } from './globeRenderLoopGate';
 
 const FALLBACK_CONTAINER_HEIGHT = 450;
 
@@ -223,12 +224,22 @@ export function createGlobeSceneAnimator(ctx: GlobeAnimatorContext) {
     else animationId = requestAnimationFrame(animate);
   };
 
-  return {
+  // All loop control routes through the visibility gate: start() is a no-op while the
+  // globe is hidden (suppressed), so the WebGL context-loss handler's own start() cannot
+  // resurrect the loop behind the workspace's back, and resume() is idempotent.
+  const renderLoopGate = createRenderLoopGate({
     start: () => (isSoftwareGl ? afterDraw(animate) : (animationId = requestAnimationFrame(animate))),
     stop: () => {
       cancelAnimationFrame(animationId);
       if (timerId !== null) clearTimeout(timerId);
     },
+  });
+
+  return {
+    start: renderLoopGate.start,
+    stop: renderLoopGate.stop,
+    pause: renderLoopGate.pause,
+    resume: renderLoopGate.resume,
     getDiagnostics: () => cachedMetrics,
   };
 }

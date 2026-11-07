@@ -42,6 +42,24 @@ export function wheelZoom(zoom: number, deltaY: number): number {
   return clampZoom(Number((zoom * factor).toFixed(2)));
 }
 
+export type WheelGesture = 'zoom' | 'passthrough';
+
+export interface WheelGestureModifiers {
+  ctrlKey: boolean;
+  metaKey: boolean;
+  shiftKey?: boolean;
+  altKey?: boolean;
+}
+
+/**
+ * Scroll-versus-zoom policy for the 2D map: the map is not a scroll trap. Plain wheel
+ * scrolls the page; only Ctrl (Windows/Linux) or Cmd (macOS) zooms. Trackpad pinch
+ * reports ctrlKey, so it zooms through the same path.
+ */
+export function resolveWheelGesture({ ctrlKey, metaKey }: WheelGestureModifiers): WheelGesture {
+  return ctrlKey || metaKey ? 'zoom' : 'passthrough';
+}
+
 export interface MapViewport {
   zoom: number;
   pan: { x: number; y: number };

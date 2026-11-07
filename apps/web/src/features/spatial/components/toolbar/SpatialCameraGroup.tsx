@@ -10,6 +10,8 @@ export interface SpatialCameraGroupProps {
   preferences: SpatialPreferences;
   onCameraPresetChange: (preset: CameraPreset) => void;
   disabled?: boolean;
+  /** True while the 3D scene is loading; the active mode button exposes aria-busy. */
+  globePending?: boolean;
 }
 
 /**
@@ -23,6 +25,7 @@ export function SpatialCameraGroup({
   preferences,
   onCameraPresetChange,
   disabled = false,
+  globePending = false,
 }: SpatialCameraGroupProps) {
   return (
     <div
@@ -34,7 +37,7 @@ export function SpatialCameraGroup({
     >
       {/* Slot 1: ViewModeSelector */}
       <div data-slot="view-modes" className="shrink-0">
-        <ViewModeSelector viewMode={viewMode} onViewModeChange={onViewModeChange} />
+        <ViewModeSelector viewMode={viewMode} onViewModeChange={onViewModeChange} globePending={globePending} />
       </div>
 
       {/* Slot 2: Compact Camera Preset Dropdown (~125px); wraps to its own row on phones */}

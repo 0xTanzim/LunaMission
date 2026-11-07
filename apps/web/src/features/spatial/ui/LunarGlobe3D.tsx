@@ -1,4 +1,5 @@
 import type { HorizonProfileResponse } from '@luna/contracts';
+import { useEffect } from 'react';
 import { CandidateSite } from '@/domain/sites/candidateSite';
 import { ResultAvailability } from '@/domain/celestial/availability';
 import { availableValue } from '@/shared/formatting/availability';
@@ -56,6 +57,10 @@ export interface LunarGlobe3DProps {
   showDiagnostics?: boolean;
   epochIsoUtc?: string;
   isFlyoverActive?: boolean;
+  /** False suspends the render loop while the scene stays mounted (hidden in 2D view). */
+  isVisible?: boolean;
+  /** Reports the scene's loading state so the view-mode buttons can expose aria-busy. */
+  onLoadingChange?: (pending: boolean) => void;
   onFlyoverChange?: (active: boolean) => void;
   customTarget?: CustomLandingTarget | null;
   isPinpointMode?: boolean;
@@ -87,6 +92,10 @@ export function LunarGlobe3D(props: LunarGlobe3DProps) {
     ...props,
     earthElevationDeg: earthElevationValue,
   });
+
+  useEffect(() => {
+    props.onLoadingChange?.(status.kind === 'loading');
+  }, [status.kind, props.onLoadingChange]);
 
   if (status.kind === 'unsupported') return <GlobeUnavailablePanel />;
 

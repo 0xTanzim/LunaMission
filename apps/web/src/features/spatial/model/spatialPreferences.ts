@@ -47,6 +47,12 @@ export interface SpatialPreferences {
   cameraPreset: CameraPreset;
   /** Exactly one base layer, always present. */
   base: BaseLayerState;
+  /**
+   * The non-slope base to restore when the Slope toggle switches off, recorded at slope
+   * selection time. Null means nothing recorded this session; consumers resolve null to
+   * 'none' (Natural). Never holds 'slope' — the reducer normalizes that to null.
+   */
+  previousBaseId: MapBaseLayerId | null;
   /** Overlays, each visible/opacity/blendMode independent of the others. */
   overlays: OverlayLayerState;
   /** Intelligence drawer width in CSS px, clamped to INTEL_DRAWER_MIN/MAX (task 3.1). */
@@ -86,6 +92,7 @@ export function clampIntelDrawerWidth(widthPx: number): number {
 export const DEFAULT_SPATIAL_PREFERENCES: SpatialPreferences = {
   cameraPreset: 'nadir',
   base: DEFAULT_BASE_LAYER,
+  previousBaseId: null,
   overlays: DEFAULT_OVERLAY_LAYERS,
   intelDrawerWidthPx: INTEL_DRAWER_DEFAULT_WIDTH_PX,
   displayFillLighting: true,
@@ -162,8 +169,15 @@ export function spatialPreferencesReducer(
       );
     case 'cameraPreset/selected':
       return state.cameraPreset === action.preset ? state : { ...state, cameraPreset: action.preset };
-    case 'scientificMapMode/selected':
-      return state.base.id === action.mode ? state : { ...state, base: { ...state.base, id: action.mode } };
+    case 'scientificMapMode/selected': {
+      if (state.base.id === action.mode) return state;
+      // Entering slope records the base to restore when the Slope toggle switches off;
+      // leaving slope (or any non-slope selection) clears the record so a stale or
+      // slope-valued record can never become a restore target.
+      const previousBaseId =
+        action.mode === 'slope' ? state.base.id : null;
+      return { ...state, base: { ...state.base, id: action.mode }, previousBaseId };
+    }
     case 'base/opacity-changed': {
       const opacity = clampOpacity(action.opacity);
       return state.base.opacity === opacity ? state : { ...state, base: { ...state.base, opacity } };

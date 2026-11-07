@@ -233,6 +233,7 @@ export function buildGlobeScene(input: GlobeSceneBuildInput): GlobeSceneHandle |
     },
     setFlyover: (active?: boolean) => { isFlyoverEnabled = active !== undefined ? active : !isFlyoverEnabled; },
     isFlyoverActive: () => isFlyoverEnabled,
+    setRenderLoopActive: (active: boolean) => (active ? animator.resume() : animator.pause()),
     getDiagnostics: () => animator.getDiagnostics(),
     restoreContext: () => contextLossHandler.restoreContext(),
     getRecoveryState: () => contextLossHandler.getRecoveryState(),

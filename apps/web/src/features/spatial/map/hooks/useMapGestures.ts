@@ -3,10 +3,10 @@ import {
   useRef,
   type MouseEvent as ReactMouseEvent,
   type TouchEvent as ReactTouchEvent,
-  type WheelEvent as ReactWheelEvent,
 } from 'react';
-import { clampPan, wheelZoom, zoomAroundScreenPoint, type MapViewport } from '@/features/spatial/map/model/mapViewportMath';
+import { clampPan, zoomAroundScreenPoint, type MapViewport } from '@/features/spatial/map/model/mapViewportMath';
 import { calculate2DPanSensitivity } from '@/features/spatial/interaction/zoomAwareInteractionModel';
+import { useMapWheelZoom } from '@/features/spatial/map/hooks/useMapWheelZoom';
 import type { SelenographicCoordinate } from '@/domain/coordinates/projection';
 
 interface UseMapGesturesParams {
@@ -60,22 +60,11 @@ export function useMapGestures({
     setIsDragging(false);
   }, [setIsDragging]);
 
-  const handleWheel = useCallback((e: ReactWheelEvent) => {
-    e.preventDefault();
-    setActivePreset('custom');
-    const rect = svgRef.current?.getBoundingClientRect();
-    const targetZoom = wheelZoom(viewport.zoom, e.deltaY);
-    if (rect && rect.width > 0 && rect.height > 0) {
-      const extent = Math.min(rect.width, rect.height);
-      const left = rect.left + (rect.width > rect.height ? (rect.width - extent) / 2 : 0);
-      const top = rect.top + (rect.height > rect.width ? (rect.height - extent) / 2 : 0);
-      const focalSvgX = ((e.clientX - left) * svgSize) / extent;
-      const focalSvgY = ((e.clientY - top) * svgSize) / extent;
-      setViewport((curr) => zoomAroundScreenPoint(curr, targetZoom, { x: focalSvgX, y: focalSvgY }, mapCenter));
-    } else {
-      setViewport((curr) => ({ ...curr, zoom: targetZoom, pan: clampPan(curr.pan, targetZoom, mapCenter) }));
-    }
-  }, [svgRef, viewport.zoom, setViewport, setActivePreset, svgSize, mapCenter]);
+  // Ctrl/⌘+wheel zooms via a native non-passive listener; plain wheel scrolls the page
+  // and raises a once-per-session zoom hint. Extracted so this hook stays under its cap.
+  const { zoomHintVisible, dismissZoomHint } = useMapWheelZoom({
+    svgRef, viewport, setViewport, setActivePreset, svgSize, mapCenter,
+  });
 
   const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     const touches = e.touches;
@@ -126,7 +115,8 @@ export function useMapGestures({
     handleMouseMove,
     handleMouseUp,
     handleMouseLeave: handleMouseUp,
-    handleWheel,
+    zoomHintVisible,
+    dismissZoomHint,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,

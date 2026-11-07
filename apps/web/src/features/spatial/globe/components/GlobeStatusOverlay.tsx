@@ -19,7 +19,11 @@ export function GlobeUnavailablePanel() {
 
 export function GlobeLoadingOverlay() {
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[var(--lm-color-canvas)]/85 backdrop-blur-xs text-center p-4">
+    <div
+      role="status"
+      aria-label="3D view loading"
+      className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[var(--lm-color-canvas)]/85 backdrop-blur-xs text-center p-4"
+    >
       <Loader2 className="w-8 h-8 text-[var(--lm-color-selected-site)] animate-spin mb-2.5" />
       <div className="text-xs font-semibold text-[var(--lm-color-text-primary)]">
         Loading NASA LRO Scientific Surface Model...

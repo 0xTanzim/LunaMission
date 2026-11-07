@@ -33,6 +33,8 @@ export interface SpatialToolbarProps {
   onTogglePassport?: () => void;
   passportTitle?: string;
   passportTestId?: string;
+  /** True while the 3D scene is loading; the active mode button exposes aria-busy. */
+  globePending?: boolean;
 }
 
 /**
@@ -49,6 +51,7 @@ export function SpatialToolbar({
   onOpenCustomTargetStudio, isPinpointMode, onTogglePinpointMode, isFlyoverActive, onToggleFlyover,
   isSiteIntelOpen, onToggleSiteIntel, showTerrain, onToggleTerrain, onSelectScientificMapMode,
   showHorizonMask, onToggleHorizonMask, isPassportOpen, onTogglePassport, passportTitle, passportTestId,
+  globePending,
 }: SpatialToolbarProps) {
   const is2D = viewMode === 'map2d';
   const [internalFlyover, setInternalFlyover] = useState(false);
@@ -78,6 +81,7 @@ export function SpatialToolbar({
         preferences={preferences}
         onCameraPresetChange={onCameraPresetChange}
         disabled={is2D}
+        globePending={globePending}
       />
 
       <div className="mx-0.5 hidden h-5 w-px shrink-0 bg-[var(--lm-color-border)] sm:block" role="separator" aria-orientation="vertical" />
