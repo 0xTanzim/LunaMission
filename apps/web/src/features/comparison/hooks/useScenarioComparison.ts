@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { ScenarioCompareResponse, VehicleConstraints } from '@luna/contracts';
 import { apiClient } from '../../../shared/api/apiClient';
 import { classifyApiError, type ClassifiedApiError } from '../../../shared/api/errorClassifier';
@@ -49,6 +49,7 @@ export function useScenarioComparison(
     () => cohortSiteIds.length >= 2 && !COMPARISON_CACHE.has(cacheKey),
   );
   const [refetchCounter, setRefetchCounter] = useState(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (cohortSiteIds.length < 2) {
@@ -58,6 +59,12 @@ export function useScenarioComparison(
     }
 
     let isCancelled = false;
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const ac = new AbortController();
+    abortControllerRef.current = ac;
+
     const cached = COMPARISON_CACHE.get(cacheKey);
     if (cached && refetchCounter === 0) {
       setData(cached);
@@ -70,13 +77,19 @@ export function useScenarioComparison(
 
     void (async () => {
       try {
-        const response = await apiClient.compareScenarios(toComparisonPayload(request));
+        const response = await apiClient.compareScenarios(toComparisonPayload(request), ac.signal);
         if (isCancelled) return;
         COMPARISON_CACHE.set(cacheKey, response);
         setData(response);
         setIsLoading(false);
-      } catch (err) {
-        if (isCancelled) return;
+      } catch (err: unknown) {
+        if (
+          isCancelled ||
+          (err instanceof DOMException && err.name === 'AbortError') ||
+          ((err as any)?.name === 'AbortError')
+        ) {
+          return;
+        }
         setError(classifyApiError(err));
         setIsLoading(false);
       }
@@ -84,6 +97,7 @@ export function useScenarioComparison(
 
     return () => {
       isCancelled = true;
+      ac.abort();
     };
   }, [
     cohortSiteIds,

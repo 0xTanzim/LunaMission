@@ -45,13 +45,17 @@ export function useScenarioBackgroundEvaluator(): void {
           return;
         }
 
-        const response = await apiClient.evaluateScenario(payload);
+        const response = await apiClient.evaluateScenario(payload, ac.signal);
         if (!isCancelled) {
           EVALUATION_CACHE.set(cacheKey, response);
           setCalculationStatus(response.status, response.calculationId);
         }
-      } catch {
-        if (!isCancelled) {
+      } catch (err: unknown) {
+        if (
+          !isCancelled &&
+          !(err instanceof DOMException && err.name === 'AbortError') &&
+          !((err as any)?.name === 'AbortError')
+        ) {
           setCalculationStatus('failed');
         }
       }

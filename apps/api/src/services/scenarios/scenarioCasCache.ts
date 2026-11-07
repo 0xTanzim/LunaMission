@@ -5,7 +5,7 @@
  */
 
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import { mkdir, readFile, rename, unlink, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import type {
   ScenarioCompareRequest,
@@ -81,21 +81,15 @@ export class ScenarioCasCache {
     return join(this.baseCacheDir, shard1, shard2, `${hash}.json`);
   }
 
-  private writeToDiskAtomically(filePath: string, content: string): void {
+  private async writeToDiskAtomically(filePath: string, content: string): Promise<void> {
     const dir = dirname(filePath);
-    if (!existsSync(dir)) {
-      mkdirSync(dir, { recursive: true });
-    }
+    await mkdir(dir, { recursive: true }).catch(() => {});
     const tmpPath = `${filePath}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
     try {
-      writeFileSync(tmpPath, content, 'utf-8');
-      renameSync(tmpPath, filePath);
+      await writeFile(tmpPath, content, 'utf-8');
+      await rename(tmpPath, filePath);
     } catch {
-      try {
-        if (existsSync(tmpPath)) unlinkSync(tmpPath);
-      } catch {
-        // Ignored
-      }
+      await unlink(tmpPath).catch(() => {});
     }
   }
 
@@ -107,59 +101,53 @@ export class ScenarioCasCache {
     this.memoryCache.set(hash, data);
   }
 
-  getScenarioEvaluation(hash: string): CachedResult<ScenarioEvaluateResponse> | null {
+  async getScenarioEvaluation(hash: string): Promise<CachedResult<ScenarioEvaluateResponse> | null> {
     if (this.memoryCache.has(hash)) {
       const data = this.memoryCache.get(hash) as ScenarioEvaluateResponse;
       return { data, cacheSource: 'HIT-MEMORY' };
     }
     const diskPath = this.getDiskPath(hash);
-    if (existsSync(diskPath)) {
-      try {
-        const raw = readFileSync(diskPath, 'utf-8');
-        const data = JSON.parse(raw) as ScenarioEvaluateResponse;
-        this.addToMemory(hash, data);
-        return { data, cacheSource: 'HIT-DISK' };
-      } catch {
-        return null;
-      }
+    try {
+      const raw = await readFile(diskPath, 'utf-8');
+      const data = JSON.parse(raw) as ScenarioEvaluateResponse;
+      this.addToMemory(hash, data);
+      return { data, cacheSource: 'HIT-DISK' };
+    } catch {
+      return null;
     }
-    return null;
   }
 
-  saveScenarioEvaluation(hash: string, data: ScenarioEvaluateResponse): void {
+  async saveScenarioEvaluation(hash: string, data: ScenarioEvaluateResponse): Promise<void> {
     this.addToMemory(hash, data);
     const diskPath = this.getDiskPath(hash);
     try {
-      this.writeToDiskAtomically(diskPath, JSON.stringify(data, null, 2));
+      await this.writeToDiskAtomically(diskPath, JSON.stringify(data, null, 2));
     } catch {
       // Non-fatal disk write error
     }
   }
 
-  getScenarioComparison(hash: string): CachedResult<ScenarioCompareResponse> | null {
+  async getScenarioComparison(hash: string): Promise<CachedResult<ScenarioCompareResponse> | null> {
     if (this.memoryCache.has(hash)) {
       const data = this.memoryCache.get(hash) as ScenarioCompareResponse;
       return { data, cacheSource: 'HIT-MEMORY' };
     }
     const diskPath = this.getDiskPath(hash);
-    if (existsSync(diskPath)) {
-      try {
-        const raw = readFileSync(diskPath, 'utf-8');
-        const data = JSON.parse(raw) as ScenarioCompareResponse;
-        this.addToMemory(hash, data);
-        return { data, cacheSource: 'HIT-DISK' };
-      } catch {
-        return null;
-      }
+    try {
+      const raw = await readFile(diskPath, 'utf-8');
+      const data = JSON.parse(raw) as ScenarioCompareResponse;
+      this.addToMemory(hash, data);
+      return { data, cacheSource: 'HIT-DISK' };
+    } catch {
+      return null;
     }
-    return null;
   }
 
-  saveScenarioComparison(hash: string, data: ScenarioCompareResponse): void {
+  async saveScenarioComparison(hash: string, data: ScenarioCompareResponse): Promise<void> {
     this.addToMemory(hash, data);
     const diskPath = this.getDiskPath(hash);
     try {
-      this.writeToDiskAtomically(diskPath, JSON.stringify(data, null, 2));
+      await this.writeToDiskAtomically(diskPath, JSON.stringify(data, null, 2));
     } catch {
       // Non-fatal disk write error
     }

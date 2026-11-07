@@ -27,6 +27,12 @@ export function useScenarioEvaluation() {
 
   useEffect(() => {
     let isCancelled = false;
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const ac = new AbortController();
+    abortControllerRef.current = ac;
+
     const cacheKey = getScenarioEvaluationCacheKey({
       siteId: state.primarySiteId,
       startUtc: state.missionEpoch.startUtc,
@@ -61,7 +67,7 @@ export function useScenarioEvaluation() {
           launchSlipOffsetDays: state.launchSlipOffsetDays,
           sampleIntervalSec: 600,
         };
-        const response = await apiClient.evaluateScenario(payload);
+        const response = await apiClient.evaluateScenario(payload, ac.signal);
 
         if (!isCancelled) {
           EVALUATION_CACHE.set(cacheKey, response);
@@ -69,8 +75,12 @@ export function useScenarioEvaluation() {
           setCalculationStatus(response.status, response.calculationId);
           setIsLoading(false);
         }
-      } catch (err) {
-        if (!isCancelled) {
+      } catch (err: unknown) {
+        if (
+          !isCancelled &&
+          !(err instanceof DOMException && err.name === 'AbortError') &&
+          !((err as any)?.name === 'AbortError')
+        ) {
           const classified = classifyApiError(err);
           setError(classified);
           setCalculationStatus('failed');
@@ -83,7 +93,7 @@ export function useScenarioEvaluation() {
 
     return () => {
       isCancelled = true;
-      if (abortControllerRef.current) abortControllerRef.current.abort();
+      ac.abort();
     };
   }, [
     state.primarySiteId,

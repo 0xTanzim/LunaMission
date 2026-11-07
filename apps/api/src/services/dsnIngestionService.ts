@@ -86,10 +86,14 @@ function makeDish(name: string, az: number, el: number, wind: number | null, act
 
 export class DsnIngestionService {
   private cache: { data: DsnTelemetryResponse; expiresAt: number } | null = null;
+  private inFlightPromise: Promise<DsnTelemetryResponse> | null = null;
   private readonly ttlMs = 15_000;
   private readonly feedUrl = 'https://eyes.nasa.gov/dsn/data/dsn.xml';
 
-  clearCache(): void { this.cache = null; }
+  clearCache(): void {
+    this.cache = null;
+    this.inFlightPromise = null;
+  }
 
   cacheTelemetry(telemetry: DsnTelemetryResponse): void {
     this.cache = { data: telemetry, expiresAt: Date.now() + this.ttlMs };
@@ -214,50 +218,61 @@ export class DsnIngestionService {
     const cached = this.getCachedTelemetry();
     if (cached) return cached;
 
-    const startTime = Date.now();
-    try {
-      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-      const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
-      const response = await fetch(this.feedUrl, { signal: controller?.signal, headers: { Accept: 'application/xml, text/xml' } });
-      if (timeoutId) clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const xml = await response.text();
-        const latencyMs = Date.now() - startTime;
-        const snapshot = parseDsnXml(xml);
-
-        if (snapshot.stations.length > 0) {
-          const stations: DsnStation[] = snapshot.stations.map((st) => ({
-            id: st.id,
-            friendlyName: st.friendlyName,
-            timeUtcMs: st.timeUtcMs,
-            timeZoneOffsetMs: st.timeZoneOffsetMs,
-            dishes: st.dishes,
-            topocentric: computeStationLunarTopocentric(st.id, snapshot.timestampMs),
-          }));
-
-          const result: DsnTelemetryResponse = {
-            status: 'live_feed',
-            timestampIso: new Date(snapshot.timestampMs).toISOString(),
-            feedTimestampMs: snapshot.timestampMs,
-            latencyMs,
-            stations,
-            activeStationId: resolveActiveStation(stations),
-            lunarTrackingSummary: this.buildLunarTrackingSummary(snapshot.stations),
-            provenance: { source: 'NASA Eyes on the DSN XML Live Feed', endpoint: this.feedUrl, cached: false, cacheTtlSeconds: 15 },
-          };
-
-          this.cacheTelemetry(result);
-          return result;
-        }
-      }
-    } catch {
-      // Outbound network restricted, timed out, or offline
+    if (this.inFlightPromise) {
+      return this.inFlightPromise;
     }
 
-    const fallback = this.getOfflineFallbackFixture(Date.now());
-    this.cacheTelemetry(fallback);
-    return fallback;
+    const promise = (async (): Promise<DsnTelemetryResponse> => {
+      const startTime = Date.now();
+      try {
+        const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+        const response = await fetch(this.feedUrl, { signal: controller?.signal, headers: { Accept: 'application/xml, text/xml' } });
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const xml = await response.text();
+          const latencyMs = Date.now() - startTime;
+          const snapshot = parseDsnXml(xml);
+
+          if (snapshot.stations.length > 0) {
+            const stations: DsnStation[] = snapshot.stations.map((st) => ({
+              id: st.id,
+              friendlyName: st.friendlyName,
+              timeUtcMs: st.timeUtcMs,
+              timeZoneOffsetMs: st.timeZoneOffsetMs,
+              dishes: st.dishes,
+              topocentric: computeStationLunarTopocentric(st.id, snapshot.timestampMs),
+            }));
+
+            const result: DsnTelemetryResponse = {
+              status: 'live_feed',
+              timestampIso: new Date(snapshot.timestampMs).toISOString(),
+              feedTimestampMs: snapshot.timestampMs,
+              latencyMs,
+              stations,
+              activeStationId: resolveActiveStation(stations),
+              lunarTrackingSummary: this.buildLunarTrackingSummary(snapshot.stations),
+              provenance: { source: 'NASA Eyes on the DSN XML Live Feed', endpoint: this.feedUrl, cached: false, cacheTtlSeconds: 15 },
+            };
+
+            this.cacheTelemetry(result);
+            return result;
+          }
+        }
+      } catch {
+        // Outbound network restricted, timed out, or offline
+      }
+
+      const fallback = this.getOfflineFallbackFixture(Date.now());
+      this.cacheTelemetry(fallback);
+      return fallback;
+    })().finally(() => {
+      this.inFlightPromise = null;
+    });
+
+    this.inFlightPromise = promise;
+    return promise;
   }
 }
 

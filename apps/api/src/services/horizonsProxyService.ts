@@ -156,9 +156,14 @@ export class HorizonsLruCache<T> {
 
 export class HorizonsProxyService {
   private cache = new HorizonsLruCache<JplEphemerisStatus>(100, 3600_000);
+  private inFlightMap = new Map<string, Promise<JplEphemerisStatus & { cached?: boolean }>>();
 
   getCache(): HorizonsLruCache<JplEphemerisStatus> {
     return this.cache;
+  }
+
+  clearInFlight(): void {
+    this.inFlightMap.clear();
   }
 
   async getHorizonsEphemeris(
@@ -174,58 +179,69 @@ export class HorizonsProxyService {
       return { ...cached, cached: true };
     }
 
-    const fallback = getAnalyticalFallbackVectors(epochMs);
-    const nextDate = new Date(epochMs + 86400000).toISOString().slice(0, 10);
-    const apiUrl = `https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='301'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${dateStr}%2000:00'&STOP_TIME='${nextDate}%2000:00'&STEP_SIZE='1d'&QUANTITIES='14,15,20,21'&ANG_FORMAT='DEG'&RANGE_UNITS='KM'`;
-
-    const startTime = Date.now();
-    try {
-      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-      const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
-
-      const response = await fetch(apiUrl, {
-        signal: controller?.signal,
-        headers: { Accept: 'application/json' },
-      });
-
-      if (timeoutId) clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const data = (await response.json()) as { signature?: { source?: string }; result?: string } | null;
-        const latencyMs = Date.now() - startTime;
-        if (data && data.signature && data.signature.source?.includes('NASA/JPL')) {
-          const parsed = data.result ? parseHorizonsTable(data.result) : null;
-          const verifiedResult: JplEphemerisStatus = parsed
-            ? {
-                status: 'online-verified',
-                timestampIso: new Date(epochMs).toISOString(),
-                earthMoonDistanceKm: parsed.earthMoonDistanceKm,
-                lightTimeSeconds: parsed.lightTimeSeconds,
-                subSolarLatDeg: parsed.subSolarLatDeg,
-                subSolarLonDeg: parsed.subSolarLonDeg,
-                subEarthLatDeg: parsed.subEarthLatDeg,
-                subEarthLonDeg: parsed.subEarthLonDeg,
-                latencyMs,
-                source: `NASA/JPL SSD Horizons API (${data.signature.source})`,
-              }
-            : {
-                ...fallback,
-                status: 'online-verified',
-                latencyMs,
-                source: `NASA/JPL SSD Horizons API (${data.signature.source})`,
-              };
-
-          this.cache.set(cacheKey, verifiedResult);
-          return verifiedResult;
-        }
-      }
-    } catch {
-      // Outbound network restricted or timed out -> serve DE421 fallback fixture
+    if (this.inFlightMap.has(cacheKey)) {
+      return this.inFlightMap.get(cacheKey)!;
     }
 
-    // Cache fallback fixture so repeated requests do not repeatedly stall on timeout
-    this.cache.set(cacheKey, fallback);
-    return fallback;
+    const promise = (async (): Promise<JplEphemerisStatus & { cached?: boolean }> => {
+      const fallback = getAnalyticalFallbackVectors(epochMs);
+      const nextDate = new Date(epochMs + 86400000).toISOString().slice(0, 10);
+      const apiUrl = `https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='301'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${dateStr}%2000:00'&STOP_TIME='${nextDate}%2000:00'&STEP_SIZE='1d'&QUANTITIES='14,15,20,21'&ANG_FORMAT='DEG'&RANGE_UNITS='KM'`;
+
+      const startTime = Date.now();
+      try {
+        const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+
+        const response = await fetch(apiUrl, {
+          signal: controller?.signal,
+          headers: { Accept: 'application/json' },
+        });
+
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = (await response.json()) as { signature?: { source?: string }; result?: string } | null;
+          const latencyMs = Date.now() - startTime;
+          if (data && data.signature && data.signature.source?.includes('NASA/JPL')) {
+            const parsed = data.result ? parseHorizonsTable(data.result) : null;
+            const verifiedResult: JplEphemerisStatus = parsed
+              ? {
+                  status: 'online-verified',
+                  timestampIso: new Date(epochMs).toISOString(),
+                  earthMoonDistanceKm: parsed.earthMoonDistanceKm,
+                  lightTimeSeconds: parsed.lightTimeSeconds,
+                  subSolarLatDeg: parsed.subSolarLatDeg,
+                  subSolarLonDeg: parsed.subSolarLonDeg,
+                  subEarthLatDeg: parsed.subEarthLatDeg,
+                  subEarthLonDeg: parsed.subEarthLonDeg,
+                  latencyMs,
+                  source: `NASA/JPL SSD Horizons API (${data.signature.source})`,
+                }
+              : {
+                  ...fallback,
+                  status: 'online-verified',
+                  latencyMs,
+                  source: `NASA/JPL SSD Horizons API (${data.signature.source})`,
+                };
+
+            this.cache.set(cacheKey, verifiedResult);
+            return verifiedResult;
+          }
+        }
+      } catch {
+        // Outbound network restricted or timed out -> serve DE421 fallback fixture
+      }
+
+      // Cache fallback fixture so repeated requests do not repeatedly stall on timeout
+      this.cache.set(cacheKey, fallback);
+      return fallback;
+    })().finally(() => {
+      this.inFlightMap.delete(cacheKey);
+    });
+
+    this.inFlightMap.set(cacheKey, promise);
+    return promise;
   }
 }
 

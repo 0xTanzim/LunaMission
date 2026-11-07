@@ -100,3 +100,60 @@ test('siteCatalogClient: parses server response when backend succeeds', async ()
     globalThis.fetch = originalFetch;
   }
 });
+
+test('siteCatalogClient: deduplicates concurrent fetchCandidateSites requests into a single in-flight fetch', async () => {
+  const mockServerResponse = {
+    metadata: {
+      catalogName: 'Mock Catalog',
+      catalogVersion: '1.0',
+      lineage: 'Mock Lineage',
+      coordinateConvention: 'IAU ME',
+      elevationDatum: 'LOLA 128ppd',
+      totalSites: 1,
+      filteredCount: 1,
+    },
+    sites: [
+      {
+        id: 'mock-site-concurrent',
+        code: 'SITE-CONCURRENT',
+        name: 'Concurrent Crater Peak',
+        coordinates: { latitudeDeg: -89.0, longitudeDeg: 0.0, elevationMeters: 500 },
+        priority: 'Primary',
+        description: 'Mocked landing zone',
+        category: 'artemis-iii-2024',
+      },
+    ],
+  };
+
+  let fetchCalls = 0;
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = (async (input: RequestInfo | URL) => {
+      fetchCalls++;
+      await new Promise((r) => setTimeout(r, 20));
+      return new Response(JSON.stringify(mockServerResponse), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }) as any;
+
+    const client = siteCatalogClient.withBaseUrl('/api');
+    client.clearCache();
+
+    const [res1, res2, res3] = await Promise.all([
+      client.fetchCandidateSites('all'),
+      client.fetchCandidateSites('all'),
+      client.fetchCandidateSites('all'),
+    ]);
+
+    assert.equal(fetchCalls, 1, 'Expected exactly 1 network fetch for 3 concurrent requests');
+    assert.equal(res1.status, 'valid');
+    assert.equal(res2.status, 'valid');
+    assert.equal(res3.status, 'valid');
+    assert.equal(res1.sites[0].id, 'mock-site-concurrent');
+    assert.equal(res2.sites[0].id, 'mock-site-concurrent');
+    assert.equal(res3.sites[0].id, 'mock-site-concurrent');
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

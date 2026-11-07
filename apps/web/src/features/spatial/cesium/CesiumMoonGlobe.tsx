@@ -54,20 +54,7 @@ export const CesiumMoonGlobe: React.FC<CesiumMoonGlobeProps> = ({
         viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0b0f19');
         viewerRef.current = viewer;
 
-        // A. Load authentic local LROC 2K lunar basemap on Moon Ellipsoid
-        try {
-          const lunarImagery = await Cesium.SingleTileImageryProvider.fromUrl(
-            '/assets/lunar/lroc_color_2k.jpg',
-            { ellipsoid: Cesium.Ellipsoid.MOON },
-          );
-          if (!isCancelled) {
-            viewer.imageryLayers.addImageryProvider(lunarImagery);
-          }
-        } catch (imgErr) {
-          console.warn('LROC basemap texture fallback notice:', imgErr);
-        }
-
-        // B. Add all 20 Candidate Landing Site Pins on Moon Surface
+        // A. Add all 20 Candidate Landing Site Pins on Moon Surface
         CANDIDATE_SITES.forEach((site) => {
           const pos = Cesium.Cartesian3.fromDegrees(
             site.coordinates.longitudeDeg,
@@ -98,20 +85,30 @@ export const CesiumMoonGlobe: React.FC<CesiumMoonGlobeProps> = ({
           });
         });
 
-        // C. Attempt to load Cesium Ion Moon 3D Tileset (Asset 2684829)
-        try {
-          const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2684829);
-          if (!isCancelled) {
-            viewer.scene.primitives.add(tileset);
-            viewer.scene.globe.show = false;
-            if (onTilesetStatus) onTilesetStatus('tileset-3d');
-          }
-        } catch {
-          // If Asset 2684829 is not yet subscribed in user's Ion account, LROC basemap remains active
-          if (!isCancelled) {
-            viewer.scene.globe.show = true;
-            if (onTilesetStatus) onTilesetStatus('basemap-lroc');
-          }
+        // B. Concurrently load authentic LROC 2K basemap and Cesium Ion 3D tileset
+        const [imageryResult, tilesetResult] = await Promise.allSettled([
+          Cesium.SingleTileImageryProvider.fromUrl('/assets/lunar/lroc_color_2k.jpg', {
+            ellipsoid: Cesium.Ellipsoid.MOON,
+          }),
+          Cesium.Cesium3DTileset.fromIonAssetId(2684829),
+        ]);
+
+        if (isCancelled) return;
+
+        if (imageryResult.status === 'fulfilled') {
+          viewer.imageryLayers.addImageryProvider(imageryResult.value);
+        } else {
+          console.warn('LROC basemap texture fallback notice:', imageryResult.reason);
+        }
+
+        if (tilesetResult.status === 'fulfilled') {
+          viewer.scene.primitives.add(tilesetResult.value);
+          viewer.scene.globe.show = false;
+          if (onTilesetStatus) onTilesetStatus('tileset-3d');
+        } else {
+          // If Asset 2684829 is not yet subscribed or fails, LROC basemap remains active
+          viewer.scene.globe.show = true;
+          if (onTilesetStatus) onTilesetStatus('basemap-lroc');
         }
 
         if (!isCancelled) {

@@ -46,7 +46,7 @@ export async function integrateScenarioDossier(
 
   // 1. Check CAS cache by explicit calculationId if provided
   if (payload.calculationId) {
-    const cached = scenarioCasCache.getScenarioEvaluation(payload.calculationId);
+    const cached = await scenarioCasCache.getScenarioEvaluation(payload.calculationId);
     if (cached) {
       evaluation = cached.data;
       cacheStatus = 'HIT';
@@ -71,7 +71,7 @@ export async function integrateScenarioDossier(
     };
 
     const hash = scenarioCasCache.computeScenarioHash(evalReq);
-    const cached = scenarioCasCache.getScenarioEvaluation(hash);
+    const cached = await scenarioCasCache.getScenarioEvaluation(hash);
     if (cached) {
       evaluation = cached.data;
       cacheStatus = 'HIT';

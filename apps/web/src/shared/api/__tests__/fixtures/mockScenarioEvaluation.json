@@ -1,0 +1,2388 @@
+{
+  "calculationId": "538f63caac7bcfc4f6ecd828d73e43574b9fc40beea521296b425e3555c0640d",
+  "status": "valid",
+  "siteId": "shackleton-rim",
+  "siteName": "Shackleton Crater Rim",
+  "siteInfo": {
+    "siteId": "shackleton-rim",
+    "siteName": "Shackleton Crater Rim",
+    "entityType": "research_candidate_point",
+    "coordinates": {
+      "latitudeDeg": -89.9,
+      "longitudeEastDeg": 0,
+      "elevationMeters": 4250,
+      "referenceDatum": "IAU_MOON_ME",
+      "referenceRadiusKm": 1737.4
+    },
+    "landmark": "Prominent elevated rim point located less than 3 km from the exact South Pole. Features near-constant solar grazing illumination during southern summer and excellent Earth visibility.",
+    "dipAngleDeg": -4.004,
+    "officialRegionReference": "Shackleton Connecting Ridge Region (2022)",
+    "provenanceCitations": [
+      "NASA LOLA PGDA",
+      "Wueller et al. (2026)",
+      "Mazarico et al. (2011)"
+    ]
+  },
+  "scenarioConfig": {
+    "requestedStartUtc": "2026-11-01T00:00:00.000Z",
+    "requestedStopUtc": "2026-11-01T01:00:00.000Z",
+    "effectiveStartUtc": "2026-11-01T00:00:00.000Z",
+    "effectiveStopUtc": "2026-11-01T01:00:00.000Z",
+    "launchSlipOffsetDays": 0,
+    "observerMastHeightM": 2,
+    "sunVisibilityCriterion": "upperLimb",
+    "earthVisibilityCriterion": "center",
+    "sampleIntervalSec": 600
+  },
+  "metrics": {
+    "totalEvaluationHours": 1,
+    "cumulativeSunlitHours": 1,
+    "solarAccessPercentage": 100,
+    "longestContinuousSunlitWindowHours": 1,
+    "longestContinuousDarkWindowHours": 0,
+    "cumulativeDteHours": 1,
+    "dteAccessPercentage": 100,
+    "longestDteGapHours": 0,
+    "cumulativeOverlapHours": 1,
+    "overlapPercentage": 100,
+    "topographicShadowPenaltyHours": 0
+  },
+  "intervals": [
+    {
+      "startEpochMs": 1793491200000,
+      "endEpochMs": 1793494800000,
+      "startDateUtc": "2026-11-01T00:00:00.000Z",
+      "endDateUtc": "2026-11-01T01:00:00.000Z",
+      "durationHours": 1,
+      "sun": {
+        "status": "full_sun",
+        "fractionalSolarDiskVisibility": 1,
+        "irradianceWeightedDiskFraction": 1,
+        "meanElevationDeg": 1.483,
+        "meanAzimuthDeg": 285.09,
+        "meanHorizonMaskDeg": 0.477,
+        "clearanceDeg": 1.006,
+        "blocker": null
+      },
+      "earth": {
+        "status": "visible",
+        "meanElevationDeg": 3.034,
+        "meanAzimuthDeg": 3.96,
+        "meanHorizonMaskDeg": -1.779,
+        "clearanceDeg": 4.812
+      },
+      "overlap": {
+        "status": "sun_and_earth",
+        "isMissionCriticalWindow": true
+      }
+    }
+  ],
+  "uncertaintyEnvelopes": {
+    "nominalMetrics": {
+      "totalEvaluationHours": 1,
+      "cumulativeSunlitHours": 1,
+      "solarAccessPercentage": 100,
+      "longestContinuousSunlitWindowHours": 1,
+      "longestContinuousDarkWindowHours": 0,
+      "cumulativeDteHours": 1,
+      "dteAccessPercentage": 100,
+      "longestDteGapHours": 0,
+      "cumulativeOverlapHours": 1,
+      "overlapPercentage": 100,
+      "topographicShadowPenaltyHours": 0
+    },
+    "thetaLowMetrics": {
+      "totalEvaluationHours": 1,
+      "cumulativeSunlitHours": 1,
+      "solarAccessPercentage": 100,
+      "longestContinuousSunlitWindowHours": 1,
+      "longestContinuousDarkWindowHours": 0,
+      "cumulativeDteHours": 1,
+      "dteAccessPercentage": 100,
+      "longestDteGapHours": 0,
+      "cumulativeOverlapHours": 1,
+      "overlapPercentage": 100,
+      "topographicShadowPenaltyHours": 0
+    },
+    "thetaHighMetrics": {
+      "totalEvaluationHours": 1,
+      "cumulativeSunlitHours": 1,
+      "solarAccessPercentage": 100,
+      "longestContinuousSunlitWindowHours": 1,
+      "longestContinuousDarkWindowHours": 0,
+      "cumulativeDteHours": 1,
+      "dteAccessPercentage": 100,
+      "longestDteGapHours": 0,
+      "cumulativeOverlapHours": 1,
+      "overlapPercentage": 100,
+      "topographicShadowPenaltyHours": 0
+    },
+    "eventWhiskers": []
+  },
+  "provenance": {
+    "calculationId": "538f63caac7bcfc4f6ecd828d73e43574b9fc40beea521296b425e3555c0640d",
+    "engineVersion": "LunaMission-Engine-2.0.0",
+    "timestampUtc": "2026-11-11T04:29:50.150Z",
+    "ephemerisSource": "NASA_JPL_HORIZONS_API_COORD_301",
+    "ephemerisDataset": "DE421/DE440",
+    "timeScaleOffsetTtMinusUtcSec": 69.184,
+    "terrainModelSource": "NASA_LOLA_PDS_LDEM_85S_20M",
+    "terrainSpatialResolutionM": 20,
+    "horizonProfileAzimuthBins": 360,
+    "solverAlgorithm": "ROLLE_HERMITE_BRENT_EVENT_SPLITTER",
+    "rootBracketToleranceSec": 1,
+    "tangentialGrazeToleranceDeg": 1e-7,
+    "casCacheHit": true,
+    "analysisRunManifest": {
+      "manifestVersion": "1.0.0",
+      "canonicalization": "recursively-key-sorted-json",
+      "runFingerprintSha256": "2cd8968ff949b5f5613eabba3683b396cb55d131a13cfc095aeaa0439e1a2fed",
+      "outputFingerprintSha256": "a7054313e9345a0b091939c19bd09ef79f8bced625962df086e65e902efea0b0",
+      "algorithmVersion": "LunaMission-Engine-2.0.0/ROLLE_HERMITE_BRENT_EVENT_SPLITTER",
+      "solverConfig": {
+        "sunLimbCriterion": "upper_limb_footprint_min",
+        "earthLimbCriterion": "center",
+        "rootBracketToleranceSec": 1,
+        "tangentialGrazeToleranceDeg": 1e-7,
+        "ephemerisCadenceSec": 600
+      },
+      "ephemerisSource": "NASA_JPL_HORIZONS_API_COORD_301",
+      "ephemerisDataset": "DE421/DE440",
+      "terrainProductId": "NASA_LOLA_PDS_LDEM_85S_20M",
+      "terrainSpatialResolutionM": 20,
+      "horizonGrid": {
+        "azimuthBins": 360,
+        "stepDeg": 1
+      },
+      "scenarioInputs": {
+        "siteId": "shackleton-rim",
+        "startUtc": "2026-11-01T00:00:00.000Z",
+        "stopUtc": "2026-11-01T01:00:00.000Z",
+        "observerMastHeightM": 2,
+        "sunVisibilityCriterion": "upperLimb",
+        "earthVisibilityCriterion": "center"
+      },
+      "applicationCommit": "unknown",
+      "datasetChecksums": [
+        {
+          "datasetId": "LUNARMISSION_CURATED_HORIZONS",
+          "role": "terrain_horizon",
+          "path": "data/curated-horizons.json",
+          "sha256": "e7b2bd8d0f1e80fbf376d1b97d6217bc4136c3c89adeeed4d5caaeaf9c1e022f",
+          "bytes": 3302108
+        },
+        {
+          "datasetId": "LUNARMISSION_SITES_REGISTRY",
+          "role": "site_registry",
+          "path": "data/sites-registry.json",
+          "sha256": "c864ef3b2f1d36dbe1a0ffb893da57253b3ca519bbfca35fda229f2da9465189",
+          "bytes": 22416
+        }
+      ],
+      "kernelVersions": [
+        {
+          "role": "ephemeris",
+          "identifier": "DE421/DE440",
+          "provider": "NASA JPL Horizons (ssd.jpl.nasa.gov/api/horizons.api)",
+          "note": "queried topocentrically at NASA_JPL_HORIZONS_API_COORD_301"
+        },
+        {
+          "role": "terrain",
+          "identifier": "NASA_LOLA_PDS_LDEM_85S_20M",
+          "provider": "NASA PDS / GSFC PGDA LOLA",
+          "note": "20 m/pixel, precomputed in data/curated-horizons.json"
+        },
+        {
+          "role": "frame",
+          "identifier": "IAU_MOON_ME",
+          "provider": "IAU/IAG lunar Mean Earth / Polar Axis",
+          "note": "spherical reference radius 1737.4 km, flattening 0"
+        },
+        {
+          "role": "time_scale",
+          "identifier": "UTC_TO_TT_OFFSET_69.184_S",
+          "provider": "IAU SOFA leap-second policy",
+          "note": "fixed offset published in provenance.timeScaleOffsetTtMinusUtcSec"
+        },
+        {
+          "role": "solver",
+          "identifier": "ROLLE_HERMITE_BRENT_EVENT_SPLITTER",
+          "provider": "LunaMission",
+          "note": "four-stage Rolle's theorem event splitter with Brent root refinement"
+        }
+      ],
+      "numericalTolerances": {
+        "rootBracketToleranceSec": 1,
+        "tangentialGrazeToleranceDeg": 1e-7,
+        "azimuthBins": 360,
+        "azimuthStepDeg": 1,
+        "solarDiskQuadrature": {
+          "azimuthStepDeg": 0.05,
+          "limbDarkeningCoefficient": 0.6
+        }
+      }
+    }
+  },
+  "horizonProfile": [
+    {
+      "azimuthDeg": 0,
+      "thetaNomDeg": -2.216,
+      "thetaLowDeg": -2.217,
+      "thetaHighDeg": -2.215
+    },
+    {
+      "azimuthDeg": 1,
+      "thetaNomDeg": -2.186,
+      "thetaLowDeg": -2.187,
+      "thetaHighDeg": -2.185
+    },
+    {
+      "azimuthDeg": 2,
+      "thetaNomDeg": -2.169,
+      "thetaLowDeg": -2.17,
+      "thetaHighDeg": -2.168
+    },
+    {
+      "azimuthDeg": 3,
+      "thetaNomDeg": -1.94,
+      "thetaLowDeg": -1.94,
+      "thetaHighDeg": -1.939
+    },
+    {
+      "azimuthDeg": 4,
+      "thetaNomDeg": -1.772,
+      "thetaLowDeg": -1.772,
+      "thetaHighDeg": -1.771
+    },
+    {
+      "azimuthDeg": 5,
+      "thetaNomDeg": -1.703,
+      "thetaLowDeg": -1.704,
+      "thetaHighDeg": -1.702
+    },
+    {
+      "azimuthDeg": 6,
+      "thetaNomDeg": -1.53,
+      "thetaLowDeg": -1.531,
+      "thetaHighDeg": -1.529
+    },
+    {
+      "azimuthDeg": 7,
+      "thetaNomDeg": -1.538,
+      "thetaLowDeg": -1.539,
+      "thetaHighDeg": -1.537
+    },
+    {
+      "azimuthDeg": 8,
+      "thetaNomDeg": -1.627,
+      "thetaLowDeg": -1.627,
+      "thetaHighDeg": -1.626
+    },
+    {
+      "azimuthDeg": 9,
+      "thetaNomDeg": -1.769,
+      "thetaLowDeg": -1.77,
+      "thetaHighDeg": -1.769
+    },
+    {
+      "azimuthDeg": 10,
+      "thetaNomDeg": -1.901,
+      "thetaLowDeg": -1.902,
+      "thetaHighDeg": -1.9
+    },
+    {
+      "azimuthDeg": 11,
+      "thetaNomDeg": -1.904,
+      "thetaLowDeg": -1.905,
+      "thetaHighDeg": -1.903
+    },
+    {
+      "azimuthDeg": 12,
+      "thetaNomDeg": -1.899,
+      "thetaLowDeg": -1.9,
+      "thetaHighDeg": -1.899
+    },
+    {
+      "azimuthDeg": 13,
+      "thetaNomDeg": -1.907,
+      "thetaLowDeg": -1.908,
+      "thetaHighDeg": -1.906
+    },
+    {
+      "azimuthDeg": 14,
+      "thetaNomDeg": -1.755,
+      "thetaLowDeg": -1.756,
+      "thetaHighDeg": -1.754
+    },
+    {
+      "azimuthDeg": 15,
+      "thetaNomDeg": -1.676,
+      "thetaLowDeg": -1.677,
+      "thetaHighDeg": -1.675
+    },
+    {
+      "azimuthDeg": 16,
+      "thetaNomDeg": -1.639,
+      "thetaLowDeg": -1.64,
+      "thetaHighDeg": -1.638
+    },
+    {
+      "azimuthDeg": 17,
+      "thetaNomDeg": -1.62,
+      "thetaLowDeg": -1.621,
+      "thetaHighDeg": -1.619
+    },
+    {
+      "azimuthDeg": 18,
+      "thetaNomDeg": -1.634,
+      "thetaLowDeg": -1.635,
+      "thetaHighDeg": -1.633
+    },
+    {
+      "azimuthDeg": 19,
+      "thetaNomDeg": -1.569,
+      "thetaLowDeg": -1.569,
+      "thetaHighDeg": -1.568
+    },
+    {
+      "azimuthDeg": 20,
+      "thetaNomDeg": -1.511,
+      "thetaLowDeg": -1.512,
+      "thetaHighDeg": -1.511
+    },
+    {
+      "azimuthDeg": 21,
+      "thetaNomDeg": -1.496,
+      "thetaLowDeg": -1.497,
+      "thetaHighDeg": -1.495
+    },
+    {
+      "azimuthDeg": 22,
+      "thetaNomDeg": -1.541,
+      "thetaLowDeg": -1.542,
+      "thetaHighDeg": -1.541
+    },
+    {
+      "azimuthDeg": 23,
+      "thetaNomDeg": -1.629,
+      "thetaLowDeg": -1.629,
+      "thetaHighDeg": -1.628
+    },
+    {
+      "azimuthDeg": 24,
+      "thetaNomDeg": -1.622,
+      "thetaLowDeg": -1.622,
+      "thetaHighDeg": -1.621
+    },
+    {
+      "azimuthDeg": 25,
+      "thetaNomDeg": -1.784,
+      "thetaLowDeg": -1.785,
+      "thetaHighDeg": -1.784
+    },
+    {
+      "azimuthDeg": 26,
+      "thetaNomDeg": -1.839,
+      "thetaLowDeg": -1.839,
+      "thetaHighDeg": -1.838
+    },
+    {
+      "azimuthDeg": 27,
+      "thetaNomDeg": -1.984,
+      "thetaLowDeg": -1.985,
+      "thetaHighDeg": -1.983
+    },
+    {
+      "azimuthDeg": 28,
+      "thetaNomDeg": -2.013,
+      "thetaLowDeg": -2.014,
+      "thetaHighDeg": -2.012
+    },
+    {
+      "azimuthDeg": 29,
+      "thetaNomDeg": -2.085,
+      "thetaLowDeg": -2.086,
+      "thetaHighDeg": -2.084
+    },
+    {
+      "azimuthDeg": 30,
+      "thetaNomDeg": -2.303,
+      "thetaLowDeg": -2.303,
+      "thetaHighDeg": -2.303
+    },
+    {
+      "azimuthDeg": 31,
+      "thetaNomDeg": -2.339,
+      "thetaLowDeg": -2.339,
+      "thetaHighDeg": -2.338
+    },
+    {
+      "azimuthDeg": 32,
+      "thetaNomDeg": -2.261,
+      "thetaLowDeg": -2.261,
+      "thetaHighDeg": -2.26
+    },
+    {
+      "azimuthDeg": 33,
+      "thetaNomDeg": -2.224,
+      "thetaLowDeg": -2.225,
+      "thetaHighDeg": -2.224
+    },
+    {
+      "azimuthDeg": 34,
+      "thetaNomDeg": -2.192,
+      "thetaLowDeg": -2.192,
+      "thetaHighDeg": -2.192
+    },
+    {
+      "azimuthDeg": 35,
+      "thetaNomDeg": -2.367,
+      "thetaLowDeg": -2.368,
+      "thetaHighDeg": -2.366
+    },
+    {
+      "azimuthDeg": 36,
+      "thetaNomDeg": -2.256,
+      "thetaLowDeg": -2.257,
+      "thetaHighDeg": -2.256
+    },
+    {
+      "azimuthDeg": 37,
+      "thetaNomDeg": -2.277,
+      "thetaLowDeg": -2.277,
+      "thetaHighDeg": -2.276
+    },
+    {
+      "azimuthDeg": 38,
+      "thetaNomDeg": -2.262,
+      "thetaLowDeg": -2.262,
+      "thetaHighDeg": -2.262
+    },
+    {
+      "azimuthDeg": 39,
+      "thetaNomDeg": -2.234,
+      "thetaLowDeg": -2.234,
+      "thetaHighDeg": -2.233
+    },
+    {
+      "azimuthDeg": 40,
+      "thetaNomDeg": -2.295,
+      "thetaLowDeg": -2.295,
+      "thetaHighDeg": -2.295
+    },
+    {
+      "azimuthDeg": 41,
+      "thetaNomDeg": -2.237,
+      "thetaLowDeg": -2.246,
+      "thetaHighDeg": -2.229
+    },
+    {
+      "azimuthDeg": 42,
+      "thetaNomDeg": -1.964,
+      "thetaLowDeg": -1.971,
+      "thetaHighDeg": -1.956
+    },
+    {
+      "azimuthDeg": 43,
+      "thetaNomDeg": -1.636,
+      "thetaLowDeg": -1.65,
+      "thetaHighDeg": -1.621
+    },
+    {
+      "azimuthDeg": 44,
+      "thetaNomDeg": -1.24,
+      "thetaLowDeg": -1.255,
+      "thetaHighDeg": -1.226
+    },
+    {
+      "azimuthDeg": 45,
+      "thetaNomDeg": -0.859,
+      "thetaLowDeg": -0.873,
+      "thetaHighDeg": -0.845
+    },
+    {
+      "azimuthDeg": 46,
+      "thetaNomDeg": -0.442,
+      "thetaLowDeg": -0.456,
+      "thetaHighDeg": -0.428
+    },
+    {
+      "azimuthDeg": 47,
+      "thetaNomDeg": -0.035,
+      "thetaLowDeg": -0.048,
+      "thetaHighDeg": -0.021
+    },
+    {
+      "azimuthDeg": 48,
+      "thetaNomDeg": 0.339,
+      "thetaLowDeg": 0.326,
+      "thetaHighDeg": 0.352
+    },
+    {
+      "azimuthDeg": 49,
+      "thetaNomDeg": 0.702,
+      "thetaLowDeg": 0.687,
+      "thetaHighDeg": 0.716
+    },
+    {
+      "azimuthDeg": 50,
+      "thetaNomDeg": 1.067,
+      "thetaLowDeg": 1.052,
+      "thetaHighDeg": 1.081
+    },
+    {
+      "azimuthDeg": 51,
+      "thetaNomDeg": 1.431,
+      "thetaLowDeg": 1.417,
+      "thetaHighDeg": 1.446
+    },
+    {
+      "azimuthDeg": 52,
+      "thetaNomDeg": 1.806,
+      "thetaLowDeg": 1.791,
+      "thetaHighDeg": 1.82
+    },
+    {
+      "azimuthDeg": 53,
+      "thetaNomDeg": 2.228,
+      "thetaLowDeg": 2.213,
+      "thetaHighDeg": 2.243
+    },
+    {
+      "azimuthDeg": 54,
+      "thetaNomDeg": 2.697,
+      "thetaLowDeg": 2.681,
+      "thetaHighDeg": 2.712
+    },
+    {
+      "azimuthDeg": 55,
+      "thetaNomDeg": 3.127,
+      "thetaLowDeg": 3.112,
+      "thetaHighDeg": 3.143
+    },
+    {
+      "azimuthDeg": 56,
+      "thetaNomDeg": 3.528,
+      "thetaLowDeg": 3.513,
+      "thetaHighDeg": 3.543
+    },
+    {
+      "azimuthDeg": 57,
+      "thetaNomDeg": 3.87,
+      "thetaLowDeg": 3.854,
+      "thetaHighDeg": 3.885
+    },
+    {
+      "azimuthDeg": 58,
+      "thetaNomDeg": 4.229,
+      "thetaLowDeg": 4.216,
+      "thetaHighDeg": 4.242
+    },
+    {
+      "azimuthDeg": 59,
+      "thetaNomDeg": 4.573,
+      "thetaLowDeg": 4.56,
+      "thetaHighDeg": 4.586
+    },
+    {
+      "azimuthDeg": 60,
+      "thetaNomDeg": 4.949,
+      "thetaLowDeg": 4.936,
+      "thetaHighDeg": 4.962
+    },
+    {
+      "azimuthDeg": 61,
+      "thetaNomDeg": 5.384,
+      "thetaLowDeg": 5.371,
+      "thetaHighDeg": 5.397
+    },
+    {
+      "azimuthDeg": 62,
+      "thetaNomDeg": 5.814,
+      "thetaLowDeg": 5.801,
+      "thetaHighDeg": 5.827
+    },
+    {
+      "azimuthDeg": 63,
+      "thetaNomDeg": 6.204,
+      "thetaLowDeg": 6.191,
+      "thetaHighDeg": 6.217
+    },
+    {
+      "azimuthDeg": 64,
+      "thetaNomDeg": 6.551,
+      "thetaLowDeg": 6.536,
+      "thetaHighDeg": 6.565
+    },
+    {
+      "azimuthDeg": 65,
+      "thetaNomDeg": 6.888,
+      "thetaLowDeg": 6.874,
+      "thetaHighDeg": 6.902
+    },
+    {
+      "azimuthDeg": 66,
+      "thetaNomDeg": 7.316,
+      "thetaLowDeg": 7.301,
+      "thetaHighDeg": 7.33
+    },
+    {
+      "azimuthDeg": 67,
+      "thetaNomDeg": 7.676,
+      "thetaLowDeg": 7.661,
+      "thetaHighDeg": 7.691
+    },
+    {
+      "azimuthDeg": 68,
+      "thetaNomDeg": 8.055,
+      "thetaLowDeg": 8.04,
+      "thetaHighDeg": 8.071
+    },
+    {
+      "azimuthDeg": 69,
+      "thetaNomDeg": 8.424,
+      "thetaLowDeg": 8.408,
+      "thetaHighDeg": 8.439
+    },
+    {
+      "azimuthDeg": 70,
+      "thetaNomDeg": 8.741,
+      "thetaLowDeg": 8.727,
+      "thetaHighDeg": 8.754
+    },
+    {
+      "azimuthDeg": 71,
+      "thetaNomDeg": 9.093,
+      "thetaLowDeg": 9.08,
+      "thetaHighDeg": 9.106
+    },
+    {
+      "azimuthDeg": 72,
+      "thetaNomDeg": 9.373,
+      "thetaLowDeg": 9.36,
+      "thetaHighDeg": 9.387
+    },
+    {
+      "azimuthDeg": 73,
+      "thetaNomDeg": 9.724,
+      "thetaLowDeg": 9.709,
+      "thetaHighDeg": 9.739
+    },
+    {
+      "azimuthDeg": 74,
+      "thetaNomDeg": 10.145,
+      "thetaLowDeg": 10.13,
+      "thetaHighDeg": 10.16
+    },
+    {
+      "azimuthDeg": 75,
+      "thetaNomDeg": 10.572,
+      "thetaLowDeg": 10.557,
+      "thetaHighDeg": 10.588
+    },
+    {
+      "azimuthDeg": 76,
+      "thetaNomDeg": 10.931,
+      "thetaLowDeg": 10.915,
+      "thetaHighDeg": 10.945
+    },
+    {
+      "azimuthDeg": 77,
+      "thetaNomDeg": 11.235,
+      "thetaLowDeg": 11.22,
+      "thetaHighDeg": 11.251
+    },
+    {
+      "azimuthDeg": 78,
+      "thetaNomDeg": 11.556,
+      "thetaLowDeg": 11.543,
+      "thetaHighDeg": 11.57
+    },
+    {
+      "azimuthDeg": 79,
+      "thetaNomDeg": 11.966,
+      "thetaLowDeg": 11.954,
+      "thetaHighDeg": 11.979
+    },
+    {
+      "azimuthDeg": 80,
+      "thetaNomDeg": 12.269,
+      "thetaLowDeg": 12.256,
+      "thetaHighDeg": 12.282
+    },
+    {
+      "azimuthDeg": 81,
+      "thetaNomDeg": 12.56,
+      "thetaLowDeg": 12.547,
+      "thetaHighDeg": 12.573
+    },
+    {
+      "azimuthDeg": 82,
+      "thetaNomDeg": 12.83,
+      "thetaLowDeg": 12.817,
+      "thetaHighDeg": 12.843
+    },
+    {
+      "azimuthDeg": 83,
+      "thetaNomDeg": 13.092,
+      "thetaLowDeg": 13.079,
+      "thetaHighDeg": 13.105
+    },
+    {
+      "azimuthDeg": 84,
+      "thetaNomDeg": 13.254,
+      "thetaLowDeg": 13.241,
+      "thetaHighDeg": 13.268
+    },
+    {
+      "azimuthDeg": 85,
+      "thetaNomDeg": 13.425,
+      "thetaLowDeg": 13.412,
+      "thetaHighDeg": 13.439
+    },
+    {
+      "azimuthDeg": 86,
+      "thetaNomDeg": 13.737,
+      "thetaLowDeg": 13.718,
+      "thetaHighDeg": 13.756
+    },
+    {
+      "azimuthDeg": 87,
+      "thetaNomDeg": 14.116,
+      "thetaLowDeg": 14.097,
+      "thetaHighDeg": 14.135
+    },
+    {
+      "azimuthDeg": 88,
+      "thetaNomDeg": 14.458,
+      "thetaLowDeg": 14.439,
+      "thetaHighDeg": 14.477
+    },
+    {
+      "azimuthDeg": 89,
+      "thetaNomDeg": 14.741,
+      "thetaLowDeg": 14.722,
+      "thetaHighDeg": 14.759
+    },
+    {
+      "azimuthDeg": 90,
+      "thetaNomDeg": 15.02,
+      "thetaLowDeg": 15.001,
+      "thetaHighDeg": 15.038
+    },
+    {
+      "azimuthDeg": 91,
+      "thetaNomDeg": 15.254,
+      "thetaLowDeg": 15.236,
+      "thetaHighDeg": 15.273
+    },
+    {
+      "azimuthDeg": 92,
+      "thetaNomDeg": 15.556,
+      "thetaLowDeg": 15.539,
+      "thetaHighDeg": 15.574
+    },
+    {
+      "azimuthDeg": 93,
+      "thetaNomDeg": 15.874,
+      "thetaLowDeg": 15.857,
+      "thetaHighDeg": 15.891
+    },
+    {
+      "azimuthDeg": 94,
+      "thetaNomDeg": 16.164,
+      "thetaLowDeg": 16.146,
+      "thetaHighDeg": 16.182
+    },
+    {
+      "azimuthDeg": 95,
+      "thetaNomDeg": 16.425,
+      "thetaLowDeg": 16.407,
+      "thetaHighDeg": 16.443
+    },
+    {
+      "azimuthDeg": 96,
+      "thetaNomDeg": 16.656,
+      "thetaLowDeg": 16.638,
+      "thetaHighDeg": 16.674
+    },
+    {
+      "azimuthDeg": 97,
+      "thetaNomDeg": 16.812,
+      "thetaLowDeg": 16.794,
+      "thetaHighDeg": 16.829
+    },
+    {
+      "azimuthDeg": 98,
+      "thetaNomDeg": 16.936,
+      "thetaLowDeg": 16.919,
+      "thetaHighDeg": 16.954
+    },
+    {
+      "azimuthDeg": 99,
+      "thetaNomDeg": 17.034,
+      "thetaLowDeg": 17.016,
+      "thetaHighDeg": 17.051
+    },
+    {
+      "azimuthDeg": 100,
+      "thetaNomDeg": 17.13,
+      "thetaLowDeg": 17.112,
+      "thetaHighDeg": 17.148
+    },
+    {
+      "azimuthDeg": 101,
+      "thetaNomDeg": 17.277,
+      "thetaLowDeg": 17.256,
+      "thetaHighDeg": 17.298
+    },
+    {
+      "azimuthDeg": 102,
+      "thetaNomDeg": 17.478,
+      "thetaLowDeg": 17.457,
+      "thetaHighDeg": 17.499
+    },
+    {
+      "azimuthDeg": 103,
+      "thetaNomDeg": 17.67,
+      "thetaLowDeg": 17.649,
+      "thetaHighDeg": 17.692
+    },
+    {
+      "azimuthDeg": 104,
+      "thetaNomDeg": 17.851,
+      "thetaLowDeg": 17.829,
+      "thetaHighDeg": 17.872
+    },
+    {
+      "azimuthDeg": 105,
+      "thetaNomDeg": 18.026,
+      "thetaLowDeg": 18.005,
+      "thetaHighDeg": 18.048
+    },
+    {
+      "azimuthDeg": 106,
+      "thetaNomDeg": 18.232,
+      "thetaLowDeg": 18.204,
+      "thetaHighDeg": 18.26
+    },
+    {
+      "azimuthDeg": 107,
+      "thetaNomDeg": 18.444,
+      "thetaLowDeg": 18.416,
+      "thetaHighDeg": 18.472
+    },
+    {
+      "azimuthDeg": 108,
+      "thetaNomDeg": 18.665,
+      "thetaLowDeg": 18.633,
+      "thetaHighDeg": 18.697
+    },
+    {
+      "azimuthDeg": 109,
+      "thetaNomDeg": 18.878,
+      "thetaLowDeg": 18.846,
+      "thetaHighDeg": 18.91
+    },
+    {
+      "azimuthDeg": 110,
+      "thetaNomDeg": 19.088,
+      "thetaLowDeg": 19.056,
+      "thetaHighDeg": 19.12
+    },
+    {
+      "azimuthDeg": 111,
+      "thetaNomDeg": 19.288,
+      "thetaLowDeg": 19.256,
+      "thetaHighDeg": 19.32
+    },
+    {
+      "azimuthDeg": 112,
+      "thetaNomDeg": 19.494,
+      "thetaLowDeg": 19.462,
+      "thetaHighDeg": 19.526
+    },
+    {
+      "azimuthDeg": 113,
+      "thetaNomDeg": 19.707,
+      "thetaLowDeg": 19.675,
+      "thetaHighDeg": 19.739
+    },
+    {
+      "azimuthDeg": 114,
+      "thetaNomDeg": 19.923,
+      "thetaLowDeg": 19.892,
+      "thetaHighDeg": 19.955
+    },
+    {
+      "azimuthDeg": 115,
+      "thetaNomDeg": 20.125,
+      "thetaLowDeg": 20.093,
+      "thetaHighDeg": 20.156
+    },
+    {
+      "azimuthDeg": 116,
+      "thetaNomDeg": 20.31,
+      "thetaLowDeg": 20.279,
+      "thetaHighDeg": 20.342
+    },
+    {
+      "azimuthDeg": 117,
+      "thetaNomDeg": 20.496,
+      "thetaLowDeg": 20.463,
+      "thetaHighDeg": 20.529
+    },
+    {
+      "azimuthDeg": 118,
+      "thetaNomDeg": 20.642,
+      "thetaLowDeg": 20.609,
+      "thetaHighDeg": 20.675
+    },
+    {
+      "azimuthDeg": 119,
+      "thetaNomDeg": 20.745,
+      "thetaLowDeg": 20.712,
+      "thetaHighDeg": 20.778
+    },
+    {
+      "azimuthDeg": 120,
+      "thetaNomDeg": 20.85,
+      "thetaLowDeg": 20.822,
+      "thetaHighDeg": 20.879
+    },
+    {
+      "azimuthDeg": 121,
+      "thetaNomDeg": 20.996,
+      "thetaLowDeg": 20.968,
+      "thetaHighDeg": 21.024
+    },
+    {
+      "azimuthDeg": 122,
+      "thetaNomDeg": 21.134,
+      "thetaLowDeg": 21.106,
+      "thetaHighDeg": 21.162
+    },
+    {
+      "azimuthDeg": 123,
+      "thetaNomDeg": 21.277,
+      "thetaLowDeg": 21.242,
+      "thetaHighDeg": 21.311
+    },
+    {
+      "azimuthDeg": 124,
+      "thetaNomDeg": 21.434,
+      "thetaLowDeg": 21.402,
+      "thetaHighDeg": 21.467
+    },
+    {
+      "azimuthDeg": 125,
+      "thetaNomDeg": 21.58,
+      "thetaLowDeg": 21.547,
+      "thetaHighDeg": 21.612
+    },
+    {
+      "azimuthDeg": 126,
+      "thetaNomDeg": 21.688,
+      "thetaLowDeg": 21.656,
+      "thetaHighDeg": 21.721
+    },
+    {
+      "azimuthDeg": 127,
+      "thetaNomDeg": 21.79,
+      "thetaLowDeg": 21.757,
+      "thetaHighDeg": 21.822
+    },
+    {
+      "azimuthDeg": 128,
+      "thetaNomDeg": 21.882,
+      "thetaLowDeg": 21.85,
+      "thetaHighDeg": 21.915
+    },
+    {
+      "azimuthDeg": 129,
+      "thetaNomDeg": 21.945,
+      "thetaLowDeg": 21.913,
+      "thetaHighDeg": 21.977
+    },
+    {
+      "azimuthDeg": 130,
+      "thetaNomDeg": 22.02,
+      "thetaLowDeg": 21.986,
+      "thetaHighDeg": 22.054
+    },
+    {
+      "azimuthDeg": 131,
+      "thetaNomDeg": 22.088,
+      "thetaLowDeg": 22.053,
+      "thetaHighDeg": 22.122
+    },
+    {
+      "azimuthDeg": 132,
+      "thetaNomDeg": 22.114,
+      "thetaLowDeg": 22.08,
+      "thetaHighDeg": 22.148
+    },
+    {
+      "azimuthDeg": 133,
+      "thetaNomDeg": 22.142,
+      "thetaLowDeg": 22.108,
+      "thetaHighDeg": 22.176
+    },
+    {
+      "azimuthDeg": 134,
+      "thetaNomDeg": 22.166,
+      "thetaLowDeg": 22.132,
+      "thetaHighDeg": 22.2
+    },
+    {
+      "azimuthDeg": 135,
+      "thetaNomDeg": 22.182,
+      "thetaLowDeg": 22.15,
+      "thetaHighDeg": 22.214
+    },
+    {
+      "azimuthDeg": 136,
+      "thetaNomDeg": 22.211,
+      "thetaLowDeg": 22.179,
+      "thetaHighDeg": 22.244
+    },
+    {
+      "azimuthDeg": 137,
+      "thetaNomDeg": 22.226,
+      "thetaLowDeg": 22.193,
+      "thetaHighDeg": 22.258
+    },
+    {
+      "azimuthDeg": 138,
+      "thetaNomDeg": 22.215,
+      "thetaLowDeg": 22.183,
+      "thetaHighDeg": 22.247
+    },
+    {
+      "azimuthDeg": 139,
+      "thetaNomDeg": 22.215,
+      "thetaLowDeg": 22.185,
+      "thetaHighDeg": 22.246
+    },
+    {
+      "azimuthDeg": 140,
+      "thetaNomDeg": 22.204,
+      "thetaLowDeg": 22.174,
+      "thetaHighDeg": 22.235
+    },
+    {
+      "azimuthDeg": 141,
+      "thetaNomDeg": 22.177,
+      "thetaLowDeg": 22.146,
+      "thetaHighDeg": 22.208
+    },
+    {
+      "azimuthDeg": 142,
+      "thetaNomDeg": 22.149,
+      "thetaLowDeg": 22.118,
+      "thetaHighDeg": 22.179
+    },
+    {
+      "azimuthDeg": 143,
+      "thetaNomDeg": 22.083,
+      "thetaLowDeg": 22.053,
+      "thetaHighDeg": 22.114
+    },
+    {
+      "azimuthDeg": 144,
+      "thetaNomDeg": 21.969,
+      "thetaLowDeg": 21.938,
+      "thetaHighDeg": 22
+    },
+    {
+      "azimuthDeg": 145,
+      "thetaNomDeg": 21.855,
+      "thetaLowDeg": 21.824,
+      "thetaHighDeg": 21.886
+    },
+    {
+      "azimuthDeg": 146,
+      "thetaNomDeg": 21.746,
+      "thetaLowDeg": 21.715,
+      "thetaHighDeg": 21.777
+    },
+    {
+      "azimuthDeg": 147,
+      "thetaNomDeg": 21.641,
+      "thetaLowDeg": 21.61,
+      "thetaHighDeg": 21.672
+    },
+    {
+      "azimuthDeg": 148,
+      "thetaNomDeg": 21.521,
+      "thetaLowDeg": 21.491,
+      "thetaHighDeg": 21.552
+    },
+    {
+      "azimuthDeg": 149,
+      "thetaNomDeg": 21.408,
+      "thetaLowDeg": 21.375,
+      "thetaHighDeg": 21.44
+    },
+    {
+      "azimuthDeg": 150,
+      "thetaNomDeg": 21.291,
+      "thetaLowDeg": 21.259,
+      "thetaHighDeg": 21.324
+    },
+    {
+      "azimuthDeg": 151,
+      "thetaNomDeg": 21.19,
+      "thetaLowDeg": 21.155,
+      "thetaHighDeg": 21.224
+    },
+    {
+      "azimuthDeg": 152,
+      "thetaNomDeg": 21.081,
+      "thetaLowDeg": 21.046,
+      "thetaHighDeg": 21.116
+    },
+    {
+      "azimuthDeg": 153,
+      "thetaNomDeg": 20.958,
+      "thetaLowDeg": 20.924,
+      "thetaHighDeg": 20.993
+    },
+    {
+      "azimuthDeg": 154,
+      "thetaNomDeg": 20.823,
+      "thetaLowDeg": 20.789,
+      "thetaHighDeg": 20.858
+    },
+    {
+      "azimuthDeg": 155,
+      "thetaNomDeg": 20.679,
+      "thetaLowDeg": 20.644,
+      "thetaHighDeg": 20.714
+    },
+    {
+      "azimuthDeg": 156,
+      "thetaNomDeg": 20.535,
+      "thetaLowDeg": 20.5,
+      "thetaHighDeg": 20.57
+    },
+    {
+      "azimuthDeg": 157,
+      "thetaNomDeg": 20.392,
+      "thetaLowDeg": 20.357,
+      "thetaHighDeg": 20.427
+    },
+    {
+      "azimuthDeg": 158,
+      "thetaNomDeg": 20.232,
+      "thetaLowDeg": 20.197,
+      "thetaHighDeg": 20.267
+    },
+    {
+      "azimuthDeg": 159,
+      "thetaNomDeg": 20.064,
+      "thetaLowDeg": 20.029,
+      "thetaHighDeg": 20.099
+    },
+    {
+      "azimuthDeg": 160,
+      "thetaNomDeg": 19.89,
+      "thetaLowDeg": 19.856,
+      "thetaHighDeg": 19.923
+    },
+    {
+      "azimuthDeg": 161,
+      "thetaNomDeg": 19.755,
+      "thetaLowDeg": 19.712,
+      "thetaHighDeg": 19.797
+    },
+    {
+      "azimuthDeg": 162,
+      "thetaNomDeg": 19.619,
+      "thetaLowDeg": 19.577,
+      "thetaHighDeg": 19.662
+    },
+    {
+      "azimuthDeg": 163,
+      "thetaNomDeg": 19.477,
+      "thetaLowDeg": 19.434,
+      "thetaHighDeg": 19.519
+    },
+    {
+      "azimuthDeg": 164,
+      "thetaNomDeg": 19.327,
+      "thetaLowDeg": 19.285,
+      "thetaHighDeg": 19.37
+    },
+    {
+      "azimuthDeg": 165,
+      "thetaNomDeg": 19.161,
+      "thetaLowDeg": 19.118,
+      "thetaHighDeg": 19.203
+    },
+    {
+      "azimuthDeg": 166,
+      "thetaNomDeg": 18.978,
+      "thetaLowDeg": 18.935,
+      "thetaHighDeg": 19.02
+    },
+    {
+      "azimuthDeg": 167,
+      "thetaNomDeg": 18.789,
+      "thetaLowDeg": 18.746,
+      "thetaHighDeg": 18.831
+    },
+    {
+      "azimuthDeg": 168,
+      "thetaNomDeg": 18.598,
+      "thetaLowDeg": 18.57,
+      "thetaHighDeg": 18.626
+    },
+    {
+      "azimuthDeg": 169,
+      "thetaNomDeg": 18.413,
+      "thetaLowDeg": 18.384,
+      "thetaHighDeg": 18.441
+    },
+    {
+      "azimuthDeg": 170,
+      "thetaNomDeg": 18.221,
+      "thetaLowDeg": 18.193,
+      "thetaHighDeg": 18.25
+    },
+    {
+      "azimuthDeg": 171,
+      "thetaNomDeg": 18.045,
+      "thetaLowDeg": 18.015,
+      "thetaHighDeg": 18.074
+    },
+    {
+      "azimuthDeg": 172,
+      "thetaNomDeg": 17.87,
+      "thetaLowDeg": 17.841,
+      "thetaHighDeg": 17.9
+    },
+    {
+      "azimuthDeg": 173,
+      "thetaNomDeg": 17.756,
+      "thetaLowDeg": 17.738,
+      "thetaHighDeg": 17.774
+    },
+    {
+      "azimuthDeg": 174,
+      "thetaNomDeg": 17.675,
+      "thetaLowDeg": 17.657,
+      "thetaHighDeg": 17.693
+    },
+    {
+      "azimuthDeg": 175,
+      "thetaNomDeg": 17.592,
+      "thetaLowDeg": 17.574,
+      "thetaHighDeg": 17.61
+    },
+    {
+      "azimuthDeg": 176,
+      "thetaNomDeg": 17.495,
+      "thetaLowDeg": 17.477,
+      "thetaHighDeg": 17.513
+    },
+    {
+      "azimuthDeg": 177,
+      "thetaNomDeg": 17.415,
+      "thetaLowDeg": 17.397,
+      "thetaHighDeg": 17.432
+    },
+    {
+      "azimuthDeg": 178,
+      "thetaNomDeg": 17.32,
+      "thetaLowDeg": 17.302,
+      "thetaHighDeg": 17.337
+    },
+    {
+      "azimuthDeg": 179,
+      "thetaNomDeg": 17.219,
+      "thetaLowDeg": 17.201,
+      "thetaHighDeg": 17.236
+    },
+    {
+      "azimuthDeg": 180,
+      "thetaNomDeg": 17.112,
+      "thetaLowDeg": 17.094,
+      "thetaHighDeg": 17.129
+    },
+    {
+      "azimuthDeg": 181,
+      "thetaNomDeg": 17.002,
+      "thetaLowDeg": 16.985,
+      "thetaHighDeg": 17.02
+    },
+    {
+      "azimuthDeg": 182,
+      "thetaNomDeg": 16.881,
+      "thetaLowDeg": 16.863,
+      "thetaHighDeg": 16.899
+    },
+    {
+      "azimuthDeg": 183,
+      "thetaNomDeg": 16.746,
+      "thetaLowDeg": 16.728,
+      "thetaHighDeg": 16.764
+    },
+    {
+      "azimuthDeg": 184,
+      "thetaNomDeg": 16.572,
+      "thetaLowDeg": 16.554,
+      "thetaHighDeg": 16.59
+    },
+    {
+      "azimuthDeg": 185,
+      "thetaNomDeg": 16.348,
+      "thetaLowDeg": 16.33,
+      "thetaHighDeg": 16.366
+    },
+    {
+      "azimuthDeg": 186,
+      "thetaNomDeg": 16.082,
+      "thetaLowDeg": 16.065,
+      "thetaHighDeg": 16.1
+    },
+    {
+      "azimuthDeg": 187,
+      "thetaNomDeg": 15.742,
+      "thetaLowDeg": 15.725,
+      "thetaHighDeg": 15.76
+    },
+    {
+      "azimuthDeg": 188,
+      "thetaNomDeg": 15.39,
+      "thetaLowDeg": 15.373,
+      "thetaHighDeg": 15.408
+    },
+    {
+      "azimuthDeg": 189,
+      "thetaNomDeg": 15.04,
+      "thetaLowDeg": 15.022,
+      "thetaHighDeg": 15.059
+    },
+    {
+      "azimuthDeg": 190,
+      "thetaNomDeg": 14.7,
+      "thetaLowDeg": 14.682,
+      "thetaHighDeg": 14.718
+    },
+    {
+      "azimuthDeg": 191,
+      "thetaNomDeg": 14.36,
+      "thetaLowDeg": 14.341,
+      "thetaHighDeg": 14.378
+    },
+    {
+      "azimuthDeg": 192,
+      "thetaNomDeg": 14.027,
+      "thetaLowDeg": 14.009,
+      "thetaHighDeg": 14.045
+    },
+    {
+      "azimuthDeg": 193,
+      "thetaNomDeg": 13.736,
+      "thetaLowDeg": 13.718,
+      "thetaHighDeg": 13.754
+    },
+    {
+      "azimuthDeg": 194,
+      "thetaNomDeg": 13.488,
+      "thetaLowDeg": 13.47,
+      "thetaHighDeg": 13.506
+    },
+    {
+      "azimuthDeg": 195,
+      "thetaNomDeg": 13.253,
+      "thetaLowDeg": 13.235,
+      "thetaHighDeg": 13.271
+    },
+    {
+      "azimuthDeg": 196,
+      "thetaNomDeg": 12.964,
+      "thetaLowDeg": 12.946,
+      "thetaHighDeg": 12.982
+    },
+    {
+      "azimuthDeg": 197,
+      "thetaNomDeg": 12.654,
+      "thetaLowDeg": 12.637,
+      "thetaHighDeg": 12.672
+    },
+    {
+      "azimuthDeg": 198,
+      "thetaNomDeg": 12.329,
+      "thetaLowDeg": 12.311,
+      "thetaHighDeg": 12.346
+    },
+    {
+      "azimuthDeg": 199,
+      "thetaNomDeg": 12.005,
+      "thetaLowDeg": 11.989,
+      "thetaHighDeg": 12.022
+    },
+    {
+      "azimuthDeg": 200,
+      "thetaNomDeg": 11.675,
+      "thetaLowDeg": 11.658,
+      "thetaHighDeg": 11.691
+    },
+    {
+      "azimuthDeg": 201,
+      "thetaNomDeg": 11.316,
+      "thetaLowDeg": 11.299,
+      "thetaHighDeg": 11.332
+    },
+    {
+      "azimuthDeg": 202,
+      "thetaNomDeg": 10.937,
+      "thetaLowDeg": 10.92,
+      "thetaHighDeg": 10.953
+    },
+    {
+      "azimuthDeg": 203,
+      "thetaNomDeg": 10.566,
+      "thetaLowDeg": 10.549,
+      "thetaHighDeg": 10.583
+    },
+    {
+      "azimuthDeg": 204,
+      "thetaNomDeg": 10.191,
+      "thetaLowDeg": 10.175,
+      "thetaHighDeg": 10.207
+    },
+    {
+      "azimuthDeg": 205,
+      "thetaNomDeg": 9.847,
+      "thetaLowDeg": 9.831,
+      "thetaHighDeg": 9.864
+    },
+    {
+      "azimuthDeg": 206,
+      "thetaNomDeg": 9.479,
+      "thetaLowDeg": 9.463,
+      "thetaHighDeg": 9.495
+    },
+    {
+      "azimuthDeg": 207,
+      "thetaNomDeg": 9.004,
+      "thetaLowDeg": 8.987,
+      "thetaHighDeg": 9.02
+    },
+    {
+      "azimuthDeg": 208,
+      "thetaNomDeg": 8.531,
+      "thetaLowDeg": 8.515,
+      "thetaHighDeg": 8.547
+    },
+    {
+      "azimuthDeg": 209,
+      "thetaNomDeg": 8.143,
+      "thetaLowDeg": 8.127,
+      "thetaHighDeg": 8.159
+    },
+    {
+      "azimuthDeg": 210,
+      "thetaNomDeg": 7.69,
+      "thetaLowDeg": 7.67,
+      "thetaHighDeg": 7.709
+    },
+    {
+      "azimuthDeg": 211,
+      "thetaNomDeg": 7.333,
+      "thetaLowDeg": 7.313,
+      "thetaHighDeg": 7.352
+    },
+    {
+      "azimuthDeg": 212,
+      "thetaNomDeg": 6.987,
+      "thetaLowDeg": 6.968,
+      "thetaHighDeg": 7.005
+    },
+    {
+      "azimuthDeg": 213,
+      "thetaNomDeg": 6.656,
+      "thetaLowDeg": 6.638,
+      "thetaHighDeg": 6.675
+    },
+    {
+      "azimuthDeg": 214,
+      "thetaNomDeg": 6.301,
+      "thetaLowDeg": 6.282,
+      "thetaHighDeg": 6.319
+    },
+    {
+      "azimuthDeg": 215,
+      "thetaNomDeg": 5.936,
+      "thetaLowDeg": 5.917,
+      "thetaHighDeg": 5.955
+    },
+    {
+      "azimuthDeg": 216,
+      "thetaNomDeg": 5.505,
+      "thetaLowDeg": 5.487,
+      "thetaHighDeg": 5.524
+    },
+    {
+      "azimuthDeg": 217,
+      "thetaNomDeg": 4.986,
+      "thetaLowDeg": 4.968,
+      "thetaHighDeg": 5.005
+    },
+    {
+      "azimuthDeg": 218,
+      "thetaNomDeg": 4.47,
+      "thetaLowDeg": 4.452,
+      "thetaHighDeg": 4.489
+    },
+    {
+      "azimuthDeg": 219,
+      "thetaNomDeg": 3.906,
+      "thetaLowDeg": 3.888,
+      "thetaHighDeg": 3.925
+    },
+    {
+      "azimuthDeg": 220,
+      "thetaNomDeg": 3.387,
+      "thetaLowDeg": 3.369,
+      "thetaHighDeg": 3.405
+    },
+    {
+      "azimuthDeg": 221,
+      "thetaNomDeg": 2.98,
+      "thetaLowDeg": 2.951,
+      "thetaHighDeg": 3.009
+    },
+    {
+      "azimuthDeg": 222,
+      "thetaNomDeg": 2.591,
+      "thetaLowDeg": 2.561,
+      "thetaHighDeg": 2.62
+    },
+    {
+      "azimuthDeg": 223,
+      "thetaNomDeg": 2.136,
+      "thetaLowDeg": 2.107,
+      "thetaHighDeg": 2.165
+    },
+    {
+      "azimuthDeg": 224,
+      "thetaNomDeg": 1.81,
+      "thetaLowDeg": 1.808,
+      "thetaHighDeg": 1.811
+    },
+    {
+      "azimuthDeg": 225,
+      "thetaNomDeg": 1.538,
+      "thetaLowDeg": 1.537,
+      "thetaHighDeg": 1.54
+    },
+    {
+      "azimuthDeg": 226,
+      "thetaNomDeg": 1.459,
+      "thetaLowDeg": 1.458,
+      "thetaHighDeg": 1.461
+    },
+    {
+      "azimuthDeg": 227,
+      "thetaNomDeg": 1.445,
+      "thetaLowDeg": 1.444,
+      "thetaHighDeg": 1.447
+    },
+    {
+      "azimuthDeg": 228,
+      "thetaNomDeg": 1.458,
+      "thetaLowDeg": 1.457,
+      "thetaHighDeg": 1.459
+    },
+    {
+      "azimuthDeg": 229,
+      "thetaNomDeg": 1.366,
+      "thetaLowDeg": 1.365,
+      "thetaHighDeg": 1.368
+    },
+    {
+      "azimuthDeg": 230,
+      "thetaNomDeg": 1.454,
+      "thetaLowDeg": 1.452,
+      "thetaHighDeg": 1.455
+    },
+    {
+      "azimuthDeg": 231,
+      "thetaNomDeg": 1.614,
+      "thetaLowDeg": 1.612,
+      "thetaHighDeg": 1.615
+    },
+    {
+      "azimuthDeg": 232,
+      "thetaNomDeg": 1.739,
+      "thetaLowDeg": 1.737,
+      "thetaHighDeg": 1.74
+    },
+    {
+      "azimuthDeg": 233,
+      "thetaNomDeg": 1.806,
+      "thetaLowDeg": 1.804,
+      "thetaHighDeg": 1.807
+    },
+    {
+      "azimuthDeg": 234,
+      "thetaNomDeg": 1.835,
+      "thetaLowDeg": 1.834,
+      "thetaHighDeg": 1.836
+    },
+    {
+      "azimuthDeg": 235,
+      "thetaNomDeg": 1.836,
+      "thetaLowDeg": 1.835,
+      "thetaHighDeg": 1.838
+    },
+    {
+      "azimuthDeg": 236,
+      "thetaNomDeg": 1.997,
+      "thetaLowDeg": 1.995,
+      "thetaHighDeg": 1.998
+    },
+    {
+      "azimuthDeg": 237,
+      "thetaNomDeg": 2.153,
+      "thetaLowDeg": 2.152,
+      "thetaHighDeg": 2.154
+    },
+    {
+      "azimuthDeg": 238,
+      "thetaNomDeg": 2.284,
+      "thetaLowDeg": 2.283,
+      "thetaHighDeg": 2.285
+    },
+    {
+      "azimuthDeg": 239,
+      "thetaNomDeg": 2.334,
+      "thetaLowDeg": 2.333,
+      "thetaHighDeg": 2.335
+    },
+    {
+      "azimuthDeg": 240,
+      "thetaNomDeg": 2.262,
+      "thetaLowDeg": 2.261,
+      "thetaHighDeg": 2.264
+    },
+    {
+      "azimuthDeg": 241,
+      "thetaNomDeg": 2.061,
+      "thetaLowDeg": 2.06,
+      "thetaHighDeg": 2.062
+    },
+    {
+      "azimuthDeg": 242,
+      "thetaNomDeg": 1.78,
+      "thetaLowDeg": 1.779,
+      "thetaHighDeg": 1.781
+    },
+    {
+      "azimuthDeg": 243,
+      "thetaNomDeg": 1.532,
+      "thetaLowDeg": 1.531,
+      "thetaHighDeg": 1.534
+    },
+    {
+      "azimuthDeg": 244,
+      "thetaNomDeg": 1.363,
+      "thetaLowDeg": 1.361,
+      "thetaHighDeg": 1.364
+    },
+    {
+      "azimuthDeg": 245,
+      "thetaNomDeg": 1.214,
+      "thetaLowDeg": 1.213,
+      "thetaHighDeg": 1.215
+    },
+    {
+      "azimuthDeg": 246,
+      "thetaNomDeg": 1.041,
+      "thetaLowDeg": 1.04,
+      "thetaHighDeg": 1.042
+    },
+    {
+      "azimuthDeg": 247,
+      "thetaNomDeg": 0.798,
+      "thetaLowDeg": 0.797,
+      "thetaHighDeg": 0.799
+    },
+    {
+      "azimuthDeg": 248,
+      "thetaNomDeg": 0.647,
+      "thetaLowDeg": 0.646,
+      "thetaHighDeg": 0.648
+    },
+    {
+      "azimuthDeg": 249,
+      "thetaNomDeg": 0.572,
+      "thetaLowDeg": 0.571,
+      "thetaHighDeg": 0.573
+    },
+    {
+      "azimuthDeg": 250,
+      "thetaNomDeg": 0.519,
+      "thetaLowDeg": 0.518,
+      "thetaHighDeg": 0.52
+    },
+    {
+      "azimuthDeg": 251,
+      "thetaNomDeg": 0.458,
+      "thetaLowDeg": 0.457,
+      "thetaHighDeg": 0.459
+    },
+    {
+      "azimuthDeg": 252,
+      "thetaNomDeg": 0.494,
+      "thetaLowDeg": 0.493,
+      "thetaHighDeg": 0.495
+    },
+    {
+      "azimuthDeg": 253,
+      "thetaNomDeg": 0.634,
+      "thetaLowDeg": 0.633,
+      "thetaHighDeg": 0.635
+    },
+    {
+      "azimuthDeg": 254,
+      "thetaNomDeg": 0.84,
+      "thetaLowDeg": 0.839,
+      "thetaHighDeg": 0.84
+    },
+    {
+      "azimuthDeg": 255,
+      "thetaNomDeg": 0.997,
+      "thetaLowDeg": 0.996,
+      "thetaHighDeg": 0.998
+    },
+    {
+      "azimuthDeg": 256,
+      "thetaNomDeg": 1.089,
+      "thetaLowDeg": 1.088,
+      "thetaHighDeg": 1.09
+    },
+    {
+      "azimuthDeg": 257,
+      "thetaNomDeg": 1.133,
+      "thetaLowDeg": 1.132,
+      "thetaHighDeg": 1.134
+    },
+    {
+      "azimuthDeg": 258,
+      "thetaNomDeg": 1.2,
+      "thetaLowDeg": 1.199,
+      "thetaHighDeg": 1.201
+    },
+    {
+      "azimuthDeg": 259,
+      "thetaNomDeg": 1.172,
+      "thetaLowDeg": 1.171,
+      "thetaHighDeg": 1.173
+    },
+    {
+      "azimuthDeg": 260,
+      "thetaNomDeg": 1.202,
+      "thetaLowDeg": 1.201,
+      "thetaHighDeg": 1.203
+    },
+    {
+      "azimuthDeg": 261,
+      "thetaNomDeg": 1.166,
+      "thetaLowDeg": 1.165,
+      "thetaHighDeg": 1.167
+    },
+    {
+      "azimuthDeg": 262,
+      "thetaNomDeg": 1.176,
+      "thetaLowDeg": 1.175,
+      "thetaHighDeg": 1.177
+    },
+    {
+      "azimuthDeg": 263,
+      "thetaNomDeg": 1.08,
+      "thetaLowDeg": 1.079,
+      "thetaHighDeg": 1.081
+    },
+    {
+      "azimuthDeg": 264,
+      "thetaNomDeg": 0.959,
+      "thetaLowDeg": 0.958,
+      "thetaHighDeg": 0.96
+    },
+    {
+      "azimuthDeg": 265,
+      "thetaNomDeg": 0.825,
+      "thetaLowDeg": 0.824,
+      "thetaHighDeg": 0.825
+    },
+    {
+      "azimuthDeg": 266,
+      "thetaNomDeg": 0.635,
+      "thetaLowDeg": 0.634,
+      "thetaHighDeg": 0.636
+    },
+    {
+      "azimuthDeg": 267,
+      "thetaNomDeg": 0.538,
+      "thetaLowDeg": 0.537,
+      "thetaHighDeg": 0.539
+    },
+    {
+      "azimuthDeg": 268,
+      "thetaNomDeg": 0.52,
+      "thetaLowDeg": 0.519,
+      "thetaHighDeg": 0.521
+    },
+    {
+      "azimuthDeg": 269,
+      "thetaNomDeg": 0.422,
+      "thetaLowDeg": 0.421,
+      "thetaHighDeg": 0.423
+    },
+    {
+      "azimuthDeg": 270,
+      "thetaNomDeg": 0.285,
+      "thetaLowDeg": 0.284,
+      "thetaHighDeg": 0.286
+    },
+    {
+      "azimuthDeg": 271,
+      "thetaNomDeg": 0.136,
+      "thetaLowDeg": 0.135,
+      "thetaHighDeg": 0.137
+    },
+    {
+      "azimuthDeg": 272,
+      "thetaNomDeg": 0.018,
+      "thetaLowDeg": 0.017,
+      "thetaHighDeg": 0.019
+    },
+    {
+      "azimuthDeg": 273,
+      "thetaNomDeg": -0.053,
+      "thetaLowDeg": -0.054,
+      "thetaHighDeg": -0.052
+    },
+    {
+      "azimuthDeg": 274,
+      "thetaNomDeg": -0.059,
+      "thetaLowDeg": -0.06,
+      "thetaHighDeg": -0.058
+    },
+    {
+      "azimuthDeg": 275,
+      "thetaNomDeg": -0.119,
+      "thetaLowDeg": -0.12,
+      "thetaHighDeg": -0.118
+    },
+    {
+      "azimuthDeg": 276,
+      "thetaNomDeg": -0.2,
+      "thetaLowDeg": -0.201,
+      "thetaHighDeg": -0.199
+    },
+    {
+      "azimuthDeg": 277,
+      "thetaNomDeg": -0.198,
+      "thetaLowDeg": -0.199,
+      "thetaHighDeg": -0.198
+    },
+    {
+      "azimuthDeg": 278,
+      "thetaNomDeg": -0.102,
+      "thetaLowDeg": -0.102,
+      "thetaHighDeg": -0.101
+    },
+    {
+      "azimuthDeg": 279,
+      "thetaNomDeg": -0.068,
+      "thetaLowDeg": -0.068,
+      "thetaHighDeg": -0.067
+    },
+    {
+      "azimuthDeg": 280,
+      "thetaNomDeg": -0.017,
+      "thetaLowDeg": -0.018,
+      "thetaHighDeg": -0.016
+    },
+    {
+      "azimuthDeg": 281,
+      "thetaNomDeg": -0.013,
+      "thetaLowDeg": -0.014,
+      "thetaHighDeg": -0.012
+    },
+    {
+      "azimuthDeg": 282,
+      "thetaNomDeg": -0.109,
+      "thetaLowDeg": -0.11,
+      "thetaHighDeg": -0.108
+    },
+    {
+      "azimuthDeg": 283,
+      "thetaNomDeg": -0.111,
+      "thetaLowDeg": -0.112,
+      "thetaHighDeg": -0.11
+    },
+    {
+      "azimuthDeg": 284,
+      "thetaNomDeg": -0.018,
+      "thetaLowDeg": -0.019,
+      "thetaHighDeg": -0.017
+    },
+    {
+      "azimuthDeg": 285,
+      "thetaNomDeg": 0.443,
+      "thetaLowDeg": 0.442,
+      "thetaHighDeg": 0.444
+    },
+    {
+      "azimuthDeg": 286,
+      "thetaNomDeg": 0.835,
+      "thetaLowDeg": 0.834,
+      "thetaHighDeg": 0.836
+    },
+    {
+      "azimuthDeg": 287,
+      "thetaNomDeg": 1.051,
+      "thetaLowDeg": 1.05,
+      "thetaHighDeg": 1.052
+    },
+    {
+      "azimuthDeg": 288,
+      "thetaNomDeg": 1.05,
+      "thetaLowDeg": 1.049,
+      "thetaHighDeg": 1.05
+    },
+    {
+      "azimuthDeg": 289,
+      "thetaNomDeg": 0.88,
+      "thetaLowDeg": 0.879,
+      "thetaHighDeg": 0.881
+    },
+    {
+      "azimuthDeg": 290,
+      "thetaNomDeg": 0.639,
+      "thetaLowDeg": 0.638,
+      "thetaHighDeg": 0.639
+    },
+    {
+      "azimuthDeg": 291,
+      "thetaNomDeg": 0.424,
+      "thetaLowDeg": 0.423,
+      "thetaHighDeg": 0.424
+    },
+    {
+      "azimuthDeg": 292,
+      "thetaNomDeg": 0.294,
+      "thetaLowDeg": 0.293,
+      "thetaHighDeg": 0.294
+    },
+    {
+      "azimuthDeg": 293,
+      "thetaNomDeg": 0.119,
+      "thetaLowDeg": 0.118,
+      "thetaHighDeg": 0.119
+    },
+    {
+      "azimuthDeg": 294,
+      "thetaNomDeg": -0.047,
+      "thetaLowDeg": -0.048,
+      "thetaHighDeg": -0.047
+    },
+    {
+      "azimuthDeg": 295,
+      "thetaNomDeg": -0.116,
+      "thetaLowDeg": -0.117,
+      "thetaHighDeg": -0.116
+    },
+    {
+      "azimuthDeg": 296,
+      "thetaNomDeg": -0.282,
+      "thetaLowDeg": -0.283,
+      "thetaHighDeg": -0.281
+    },
+    {
+      "azimuthDeg": 297,
+      "thetaNomDeg": -0.547,
+      "thetaLowDeg": -0.547,
+      "thetaHighDeg": -0.546
+    },
+    {
+      "azimuthDeg": 298,
+      "thetaNomDeg": -0.783,
+      "thetaLowDeg": -0.783,
+      "thetaHighDeg": -0.782
+    },
+    {
+      "azimuthDeg": 299,
+      "thetaNomDeg": -0.981,
+      "thetaLowDeg": -0.982,
+      "thetaHighDeg": -0.98
+    },
+    {
+      "azimuthDeg": 300,
+      "thetaNomDeg": -1.009,
+      "thetaLowDeg": -1.01,
+      "thetaHighDeg": -1.009
+    },
+    {
+      "azimuthDeg": 301,
+      "thetaNomDeg": -0.903,
+      "thetaLowDeg": -0.904,
+      "thetaHighDeg": -0.902
+    },
+    {
+      "azimuthDeg": 302,
+      "thetaNomDeg": -0.966,
+      "thetaLowDeg": -0.967,
+      "thetaHighDeg": -0.965
+    },
+    {
+      "azimuthDeg": 303,
+      "thetaNomDeg": -0.903,
+      "thetaLowDeg": -0.904,
+      "thetaHighDeg": -0.902
+    },
+    {
+      "azimuthDeg": 304,
+      "thetaNomDeg": -0.93,
+      "thetaLowDeg": -0.931,
+      "thetaHighDeg": -0.929
+    },
+    {
+      "azimuthDeg": 305,
+      "thetaNomDeg": -0.972,
+      "thetaLowDeg": -0.972,
+      "thetaHighDeg": -0.971
+    },
+    {
+      "azimuthDeg": 306,
+      "thetaNomDeg": -1.036,
+      "thetaLowDeg": -1.037,
+      "thetaHighDeg": -1.036
+    },
+    {
+      "azimuthDeg": 307,
+      "thetaNomDeg": -1.166,
+      "thetaLowDeg": -1.166,
+      "thetaHighDeg": -1.165
+    },
+    {
+      "azimuthDeg": 308,
+      "thetaNomDeg": -1.261,
+      "thetaLowDeg": -1.262,
+      "thetaHighDeg": -1.26
+    },
+    {
+      "azimuthDeg": 309,
+      "thetaNomDeg": -1.347,
+      "thetaLowDeg": -1.348,
+      "thetaHighDeg": -1.347
+    },
+    {
+      "azimuthDeg": 310,
+      "thetaNomDeg": -1.456,
+      "thetaLowDeg": -1.457,
+      "thetaHighDeg": -1.456
+    },
+    {
+      "azimuthDeg": 311,
+      "thetaNomDeg": -1.663,
+      "thetaLowDeg": -1.664,
+      "thetaHighDeg": -1.663
+    },
+    {
+      "azimuthDeg": 312,
+      "thetaNomDeg": -1.988,
+      "thetaLowDeg": -1.988,
+      "thetaHighDeg": -1.987
+    },
+    {
+      "azimuthDeg": 313,
+      "thetaNomDeg": -2.2,
+      "thetaLowDeg": -2.2,
+      "thetaHighDeg": -2.199
+    },
+    {
+      "azimuthDeg": 314,
+      "thetaNomDeg": -2.216,
+      "thetaLowDeg": -2.217,
+      "thetaHighDeg": -2.216
+    },
+    {
+      "azimuthDeg": 315,
+      "thetaNomDeg": -2.257,
+      "thetaLowDeg": -2.258,
+      "thetaHighDeg": -2.257
+    },
+    {
+      "azimuthDeg": 316,
+      "thetaNomDeg": -2.251,
+      "thetaLowDeg": -2.252,
+      "thetaHighDeg": -2.25
+    },
+    {
+      "azimuthDeg": 317,
+      "thetaNomDeg": -2.259,
+      "thetaLowDeg": -2.259,
+      "thetaHighDeg": -2.258
+    },
+    {
+      "azimuthDeg": 318,
+      "thetaNomDeg": -2.031,
+      "thetaLowDeg": -2.031,
+      "thetaHighDeg": -2.03
+    },
+    {
+      "azimuthDeg": 319,
+      "thetaNomDeg": -1.838,
+      "thetaLowDeg": -1.838,
+      "thetaHighDeg": -1.837
+    },
+    {
+      "azimuthDeg": 320,
+      "thetaNomDeg": -1.818,
+      "thetaLowDeg": -1.818,
+      "thetaHighDeg": -1.817
+    },
+    {
+      "azimuthDeg": 321,
+      "thetaNomDeg": -1.78,
+      "thetaLowDeg": -1.78,
+      "thetaHighDeg": -1.779
+    },
+    {
+      "azimuthDeg": 322,
+      "thetaNomDeg": -1.84,
+      "thetaLowDeg": -1.84,
+      "thetaHighDeg": -1.84
+    },
+    {
+      "azimuthDeg": 323,
+      "thetaNomDeg": -1.767,
+      "thetaLowDeg": -1.768,
+      "thetaHighDeg": -1.767
+    },
+    {
+      "azimuthDeg": 324,
+      "thetaNomDeg": -1.688,
+      "thetaLowDeg": -1.688,
+      "thetaHighDeg": -1.688
+    },
+    {
+      "azimuthDeg": 325,
+      "thetaNomDeg": -1.857,
+      "thetaLowDeg": -1.857,
+      "thetaHighDeg": -1.857
+    },
+    {
+      "azimuthDeg": 326,
+      "thetaNomDeg": -2.059,
+      "thetaLowDeg": -2.059,
+      "thetaHighDeg": -2.059
+    },
+    {
+      "azimuthDeg": 327,
+      "thetaNomDeg": -1.942,
+      "thetaLowDeg": -1.942,
+      "thetaHighDeg": -1.941
+    },
+    {
+      "azimuthDeg": 328,
+      "thetaNomDeg": -1.83,
+      "thetaLowDeg": -1.83,
+      "thetaHighDeg": -1.829
+    },
+    {
+      "azimuthDeg": 329,
+      "thetaNomDeg": -1.763,
+      "thetaLowDeg": -1.764,
+      "thetaHighDeg": -1.763
+    },
+    {
+      "azimuthDeg": 330,
+      "thetaNomDeg": -1.761,
+      "thetaLowDeg": -1.762,
+      "thetaHighDeg": -1.761
+    },
+    {
+      "azimuthDeg": 331,
+      "thetaNomDeg": -1.819,
+      "thetaLowDeg": -1.819,
+      "thetaHighDeg": -1.818
+    },
+    {
+      "azimuthDeg": 332,
+      "thetaNomDeg": -1.656,
+      "thetaLowDeg": -1.657,
+      "thetaHighDeg": -1.656
+    },
+    {
+      "azimuthDeg": 333,
+      "thetaNomDeg": -1.415,
+      "thetaLowDeg": -1.415,
+      "thetaHighDeg": -1.415
+    },
+    {
+      "azimuthDeg": 334,
+      "thetaNomDeg": -1.233,
+      "thetaLowDeg": -1.233,
+      "thetaHighDeg": -1.232
+    },
+    {
+      "azimuthDeg": 335,
+      "thetaNomDeg": -1.254,
+      "thetaLowDeg": -1.255,
+      "thetaHighDeg": -1.254
+    },
+    {
+      "azimuthDeg": 336,
+      "thetaNomDeg": -1.475,
+      "thetaLowDeg": -1.475,
+      "thetaHighDeg": -1.474
+    },
+    {
+      "azimuthDeg": 337,
+      "thetaNomDeg": -1.63,
+      "thetaLowDeg": -1.63,
+      "thetaHighDeg": -1.629
+    },
+    {
+      "azimuthDeg": 338,
+      "thetaNomDeg": -1.686,
+      "thetaLowDeg": -1.686,
+      "thetaHighDeg": -1.685
+    },
+    {
+      "azimuthDeg": 339,
+      "thetaNomDeg": -1.744,
+      "thetaLowDeg": -1.744,
+      "thetaHighDeg": -1.744
+    },
+    {
+      "azimuthDeg": 340,
+      "thetaNomDeg": -1.819,
+      "thetaLowDeg": -1.819,
+      "thetaHighDeg": -1.818
+    },
+    {
+      "azimuthDeg": 341,
+      "thetaNomDeg": -1.693,
+      "thetaLowDeg": -1.694,
+      "thetaHighDeg": -1.693
+    },
+    {
+      "azimuthDeg": 342,
+      "thetaNomDeg": -1.757,
+      "thetaLowDeg": -1.758,
+      "thetaHighDeg": -1.757
+    },
+    {
+      "azimuthDeg": 343,
+      "thetaNomDeg": -1.918,
+      "thetaLowDeg": -1.919,
+      "thetaHighDeg": -1.917
+    },
+    {
+      "azimuthDeg": 344,
+      "thetaNomDeg": -2.133,
+      "thetaLowDeg": -2.133,
+      "thetaHighDeg": -2.132
+    },
+    {
+      "azimuthDeg": 345,
+      "thetaNomDeg": -2.413,
+      "thetaLowDeg": -2.414,
+      "thetaHighDeg": -2.413
+    },
+    {
+      "azimuthDeg": 346,
+      "thetaNomDeg": -2.712,
+      "thetaLowDeg": -2.712,
+      "thetaHighDeg": -2.711
+    },
+    {
+      "azimuthDeg": 347,
+      "thetaNomDeg": -3.019,
+      "thetaLowDeg": -3.019,
+      "thetaHighDeg": -3.018
+    },
+    {
+      "azimuthDeg": 348,
+      "thetaNomDeg": -3.054,
+      "thetaLowDeg": -3.055,
+      "thetaHighDeg": -3.053
+    },
+    {
+      "azimuthDeg": 349,
+      "thetaNomDeg": -2.9,
+      "thetaLowDeg": -2.901,
+      "thetaHighDeg": -2.899
+    },
+    {
+      "azimuthDeg": 350,
+      "thetaNomDeg": -2.745,
+      "thetaLowDeg": -2.746,
+      "thetaHighDeg": -2.744
+    },
+    {
+      "azimuthDeg": 351,
+      "thetaNomDeg": -2.601,
+      "thetaLowDeg": -2.602,
+      "thetaHighDeg": -2.6
+    },
+    {
+      "azimuthDeg": 352,
+      "thetaNomDeg": -2.483,
+      "thetaLowDeg": -2.484,
+      "thetaHighDeg": -2.482
+    },
+    {
+      "azimuthDeg": 353,
+      "thetaNomDeg": -2.402,
+      "thetaLowDeg": -2.403,
+      "thetaHighDeg": -2.401
+    },
+    {
+      "azimuthDeg": 354,
+      "thetaNomDeg": -2.316,
+      "thetaLowDeg": -2.317,
+      "thetaHighDeg": -2.315
+    },
+    {
+      "azimuthDeg": 355,
+      "thetaNomDeg": -2.256,
+      "thetaLowDeg": -2.257,
+      "thetaHighDeg": -2.256
+    },
+    {
+      "azimuthDeg": 356,
+      "thetaNomDeg": -2.213,
+      "thetaLowDeg": -2.214,
+      "thetaHighDeg": -2.212
+    },
+    {
+      "azimuthDeg": 357,
+      "thetaNomDeg": -2.178,
+      "thetaLowDeg": -2.179,
+      "thetaHighDeg": -2.177
+    },
+    {
+      "azimuthDeg": 358,
+      "thetaNomDeg": -2.172,
+      "thetaLowDeg": -2.173,
+      "thetaHighDeg": -2.171
+    },
+    {
+      "azimuthDeg": 359,
+      "thetaNomDeg": -2.209,
+      "thetaLowDeg": -2.21,
+      "thetaHighDeg": -2.208
+    }
+  ]
+}

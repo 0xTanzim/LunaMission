@@ -50,7 +50,7 @@ export class ScenarioCompareService {
     }
 
     const calculationId = scenarioCasCache.computeScenarioCompareHash(request);
-    const cached = scenarioCasCache.getScenarioComparison(calculationId);
+    const cached = await scenarioCasCache.getScenarioComparison(calculationId);
     // A comparison cached before the C13 trace existed has no explanation to publish, and an
     // unexplained verdict is exactly what this feature removes. Recompute instead of serving it.
     if (cached && cached.data.decisionTrace) {
@@ -226,7 +226,7 @@ export class ScenarioCompareService {
       },
     };
 
-    scenarioCasCache.saveScenarioComparison(calculationId, response);
+    await scenarioCasCache.saveScenarioComparison(calculationId, response);
     return response;
   }
 }

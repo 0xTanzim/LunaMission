@@ -95,7 +95,7 @@ export class ScenarioService {
 
     // Check Content-Addressable Storage (CAS)
     const calculationId = scenarioCasCache.computeScenarioHash(request);
-    const cached = scenarioCasCache.getScenarioEvaluation(calculationId);
+    const cached = await scenarioCasCache.getScenarioEvaluation(calculationId);
     if (cached) {
       // The manifest is re-derived rather than echoed: it is a pure function of this request and
       // the cached reported output, so a cache entry written by an older build still returns the
@@ -255,7 +255,7 @@ export class ScenarioService {
       })),
     };
 
-    scenarioCasCache.saveScenarioEvaluation(calculationId, response);
+    await scenarioCasCache.saveScenarioEvaluation(calculationId, response);
     return response;
   }
 }
