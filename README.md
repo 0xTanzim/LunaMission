@@ -89,7 +89,7 @@ flowchart TD
 
 ## 🔬 Mathematical & Astrodynamical Formulations
 
-LunaMission's scientific engine implements exact closed-form physical and orbital models documented in [`docs/SCIENCE_FEASIBILITY.md`](docs/SCIENCE_FEASIBILITY.md) and [`handbook.md`](handbook.md):
+LunaMission's scientific engine implements exact closed-form physical and orbital models documented in [`docs/SCIENCE_FEASIBILITY.md`](docs/SCIENCE_FEASIBILITY.md):
 
 ### 1. Topocentric Horizon Ray-Marching & Lunar Curvature
 For an observer at latitude $\phi$, longitude $\lambda$, surface elevation $z_0$ relative to the lunar reference sphere ($R_{\text{MOON}} = 1,737,400.0\text{ m}$, flattening $f = 0.0$), and mast height $h_{\text{obs}}$, the topocentric radius is:
@@ -284,7 +284,6 @@ LunaMission/
 │   ├── DATA_TAXONOMY.md         # Lunar data dictionaries and coordinate datums
 │   ├── VALIDATION_PROTOCOL.md   # Scientific validation gates and test cases
 │   └── API_CONTRACT.md          # REST API & Integration specifications
-├── handbook.md                  # Comprehensive Research & Engineering Resource Handbook (1,600+ lines)
 ├── packages/
 │   ├── config/                  # Shared TypeScript compiler configurations
 │   └── contracts/               # Shared Zod schemas and TypeScript API contracts
@@ -301,7 +300,7 @@ LunaMission/
 
 ## 📚 Official NASA Data Sources, Standards & Scientific Bibliography
 
-LunaMission's astrodynamics models, terrain elevations, and ephemeris trajectories trace directly to authoritative peer-reviewed literature and NASA archives documented in [`handbook.md`](handbook.md):
+LunaMission's astrodynamics models, terrain elevations, and ephemeris trajectories trace directly to authoritative peer-reviewed literature and NASA archives documented in [`docs/SCIENCE_FEASIBILITY.md`](docs/SCIENCE_FEASIBILITY.md) and [`docs/VALIDATION_PROTOCOL.md`](docs/VALIDATION_PROTOCOL.md):
 
 ### 1. NASA Planetary Data System & Altimetry Archives
 - **NASA PGDA Product 90 (Regional LOLA Topography):** 20m/px and 40m/px south-polar DEMs (`LDEM_85S_20M`, `LDEM_80S_40MPP_ADJ.TIF`), slope maps (`LDSM`), and Permanently Shadowed Region masks (`LPSR`). [https://pgda.gsfc.nasa.gov/products/90](https://pgda.gsfc.nasa.gov/products/90)

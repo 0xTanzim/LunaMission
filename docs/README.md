@@ -22,4 +22,4 @@ This directory contains the authoritative system requirements, architectural spe
 
 ## 🔬 Scientific & Research Reference
 
-For the comprehensive scientific bibliography, NASA data archive URLs, and research papers informing the project, refer to the root [`handbook.md`](../handbook.md).
+For the scientific feasibility analysis and validation gates behind the project, refer to [`SCIENCE_FEASIBILITY.md`](SCIENCE_FEASIBILITY.md) and [`VALIDATION_PROTOCOL.md`](VALIDATION_PROTOCOL.md).
