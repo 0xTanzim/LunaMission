@@ -21,9 +21,12 @@
     "ask:deepseek": "bun run tooling/scripts/deepseek-bridge.ts",
     "clean": "rm -rf dist apps/*/dist"
   },
+  "overrides": {
+    "@nextrush/types": "^4.2.0"
+  },
   "devDependencies": {
-    "@nextrush/adapter-bun": "^1.1.0",
-    "@nextrush/core": "^4.1.0",
+    "@nextrush/adapter-bun": "^1.2.0",
+    "@nextrush/core": "^4.2.0",
     "@types/bun": "^1.4.4",
     "@types/node": "^22.20.5",
     "@types/react": "^19.3.0",
