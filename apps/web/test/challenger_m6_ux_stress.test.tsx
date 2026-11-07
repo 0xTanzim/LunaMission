@@ -339,7 +339,7 @@ describe('Challenger M6 UX: Three-Tiered Comparison Boundary Cohorts', () => {
     const t3Html = renderToStaticMarkup(
       <Tier3PairwiseDeltaMatrix pairwiseDelta={mockPairwise} />,
     );
-    expect(t3Html).toContain('TIER 3: FOCUSED PAIRWISE DELTA MATRIX');
+    expect(t3Html).toContain('Tier 3 — Compare the top two');
     expect(t3Html).toContain('ZERO COMPOSITE SCORE');
     expect(t3Html).toContain('Site Alpha');
     expect(t3Html).toContain('Site Beta');

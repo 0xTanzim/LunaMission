@@ -71,7 +71,9 @@ export function ParetoFrontierPanel({ frontier, rankedCandidates }: ParetoFronti
           read.
         </p>
       ) : (
-        <div className="min-w-0 overflow-x-auto rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)]">
+        <div className="relative min-w-0 overflow-x-auto rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)]">
+          {/* relative anchors the table's abspos sr-only rows to this scroll box; otherwise they
+              escape the clip and widen the document on narrow viewports. */}
           <table className="w-full min-w-[520px] border-collapse text-left">
             <caption className="sr-only">
               Objective values in their own units for each non-dominated candidate. Unavailable
@@ -187,16 +189,7 @@ export function ParetoFrontierPanel({ frontier, rankedCandidates }: ParetoFronti
                   ? `holds ${candidate.uniquelyBestOn.join(', ')} outright, and no candidate is at least as good as it on every other comparable objective.`
                   : `is not the outright best on any comparable objective, yet no candidate beats it on all of them — this is a genuine trade-off, not a winner.`}
                 {' '}
-                Its objective values:{' '}
-                {candidate.cells
-                  .map((cell) => {
-                    const label =
-                      objectives.find((entry) => entry.objectiveId === cell.objectiveId)?.label ??
-                      cell.objectiveId;
-                    return `${label} ${cell.unavailable ? 'unavailable' : cell.text}`;
-                  })
-                  .join(' · ')}
-                .
+                Exact values are in the table above.
               </li>
             ))}
           </ul>
@@ -232,22 +225,33 @@ export function ParetoFrontierPanel({ frontier, rankedCandidates }: ParetoFronti
           <h4 className="text-[length:var(--lm-text-micro)] font-bold uppercase tracking-wider text-[var(--lm-color-warning)]">
             Objectives this comparison cannot evaluate
           </h4>
-          <ul className="flex list-none flex-col gap-1.5 p-0">
-            {unavailableObjectives.map((objective) => (
-              <li
-                key={objective.objectiveId}
-                className="text-[length:var(--lm-text-micro)] leading-snug text-[var(--lm-color-text-secondary)]"
-              >
-                <span className="font-semibold text-[var(--lm-color-text-primary)]">
-                  {objective.label}
-                </span>
-                {' — UNAVAILABLE and excluded from the comparison. '}
-                {objective.limitationNote ?? objective.measurementBasis}
-                {' '}
-                Read it as unknown: never as 0, never as the best value, never as the worst.
-              </li>
-            ))}
-          </ul>
+          <p className="text-[length:var(--lm-text-micro)] leading-snug text-[var(--lm-color-text-secondary)]">
+            {unavailableObjectives.map((objective) => objective.label).join(', ')}{' '}
+            {unavailableObjectives.length === 1 ? 'is' : 'are'} unknown for this cohort, so{' '}
+            {unavailableObjectives.length === 1 ? 'it' : 'they'} take
+            {unavailableObjectives.length === 1 ? 's' : ''} no part in the ranking — read{' '}
+            {unavailableObjectives.length === 1 ? 'it' : 'them'} as unknown, never as 0, never as the
+            best or worst value.
+          </p>
+          <details>
+            <summary className="min-h-[24px] cursor-pointer text-[length:var(--lm-text-micro)] font-semibold uppercase tracking-wider text-[var(--lm-color-text-muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]">
+              Why unknown (data-model detail)
+            </summary>
+            <ul className="flex list-none flex-col gap-1.5 p-0 pt-1.5">
+              {unavailableObjectives.map((objective) => (
+                <li
+                  key={objective.objectiveId}
+                  className="text-[length:var(--lm-text-micro)] leading-snug text-[var(--lm-color-text-secondary)]"
+                >
+                  <span className="font-semibold text-[var(--lm-color-text-primary)]">
+                    {objective.label}
+                  </span>
+                  {' — '}
+                  {objective.limitationNote ?? objective.measurementBasis}
+                </li>
+              ))}
+            </ul>
+          </details>
         </div>
       ) : null}
     </section>

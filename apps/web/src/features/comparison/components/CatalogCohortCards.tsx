@@ -26,7 +26,7 @@ const CARD_CLASS =
   'flex flex-col justify-between gap-2.5 p-3 rounded-[var(--lm-radius-md)] border bg-[var(--lm-color-surface-elevated)]';
 
 const ACTION_CLASS =
-  'inline-flex items-center justify-center gap-1 px-2 py-1 rounded-[var(--lm-radius-sm)] text-[11px] font-semibold border transition-colors min-h-[30px]';
+  'inline-flex items-center justify-center gap-1 px-2 py-1 rounded-[var(--lm-radius-sm)] text-[11px] font-semibold border transition-colors min-h-[30px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]';
 
 interface CatalogueCardProps {
   entry: CatalogueEntry;

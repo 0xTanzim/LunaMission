@@ -108,6 +108,34 @@ describe('Observable labelling: geometric Earth line-of-sight is not RF link clo
     expect(lower).not.toContain('guaranteed');
   });
 
+  it('the terrain penalty tile never renders negative zero and tones by value', () => {
+    const base: SummaryMetrics = {
+      cumulativeSunlitHours: 300,
+      solarAccessPercentage: 89.3,
+      longestContinuousSunlitWindowHours: 300,
+      longestContinuousDarkWindowHours: 0,
+      cumulativeDteHours: 210,
+      dteAccessPercentage: 62.5,
+      cumulativeOverlapHours: 210,
+      overlapPercentage: 62.5,
+      topographicShadowPenaltyHours: 0,
+    } as SummaryMetrics;
+
+    const zeroHtml = renderToStaticMarkup(<ExecutiveKpiStrip metrics={base} />);
+    expect(zeroHtml).not.toContain('−0.0h');
+    expect(zeroHtml).toContain('0.0h');
+    // A zero cost must not read as a threat: no danger tone on a benign tile.
+    expect(zeroHtml).not.toContain('text-[var(--lm-color-danger)]');
+    expect(zeroHtml).toContain('No sunlit time is lost behind local terrain');
+
+    const penalizedHtml = renderToStaticMarkup(
+      <ExecutiveKpiStrip metrics={{ ...base, topographicShadowPenaltyHours: 12.5 }} />,
+    );
+    expect(penalizedHtml).toContain('12.5h');
+    expect(penalizedHtml).toContain('text-[var(--lm-color-danger)]');
+    expect(penalizedHtml).toContain('clears the smooth horizon but local terrain blocks it');
+  });
+
   it('the Gantt timeline labels sensitivity whiskers and never claims DTE', () => {
     const html = renderToStaticMarkup(
       <GanttTimelineCanvas

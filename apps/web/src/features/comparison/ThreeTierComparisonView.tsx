@@ -174,6 +174,7 @@ export const ThreeTierComparisonView: React.FC = () => {
             pairwiseDelta={data.tier3Pairwise}
             coordinatesA={candA?.coordinates}
             coordinatesB={candB?.coordinates}
+            onRelaxConstraints={handleRelaxConstraints}
           />
 
           <DecisionTracePanel trace={data?.decisionTrace} />

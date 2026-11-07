@@ -58,7 +58,7 @@ export function MissionDateWindowSelector({
           <button
             type="button"
             onClick={onOpenParetoSolver}
-            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-info)]/60 bg-gradient-to-r from-[var(--lm-color-info-surface-strong)] to-[var(--lm-color-series-b-surface-strong)] text-[var(--lm-color-info)] hover:from-[var(--lm-color-info-surface-strong)] hover:to-[var(--lm-color-series-b-surface-strong)] transition-all cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-info)]/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] bg-gradient-to-r from-[var(--lm-color-info-surface-strong)] to-[var(--lm-color-series-b-surface-strong)] text-[var(--lm-color-info)] hover:from-[var(--lm-color-info-surface-strong)] hover:to-[var(--lm-color-series-b-surface-strong)] transition-all cursor-pointer shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5 text-[var(--lm-color-info)]" />
             <span>Pareto Solver (2026-2028)</span>
@@ -73,7 +73,7 @@ export function MissionDateWindowSelector({
               type="button"
               onClick={() => onSelectDate(new Date(preset.dateIso))}
               title={preset.description}
-              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-[var(--lm-radius-sm)] border transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-[var(--lm-radius-sm)] border transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
                 isActive
                   ? 'bg-[var(--lm-color-info-surface-strong)] border-[var(--lm-color-info)]/60 text-[var(--lm-color-info)] font-semibold'
                   : 'bg-[var(--lm-color-surface-elevated)] border-[var(--lm-color-border-subtle)] text-[var(--lm-color-text-muted)] hover:text-[var(--lm-color-text-primary)] hover:border-[var(--lm-color-border)]'
@@ -91,7 +91,7 @@ export function MissionDateWindowSelector({
           type="button"
           onClick={() => onSelectDate(new Date())}
           title="Jump to today's real-time date"
-          className="px-2.5 py-1 text-xs font-mono rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-elevated)] text-[var(--lm-color-text-muted)] hover:text-[var(--lm-color-text-primary)] cursor-pointer"
+          className="px-2.5 py-1 text-xs font-mono rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-elevated)] text-[var(--lm-color-text-muted)] hover:text-[var(--lm-color-text-primary)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]"
         >
           Today
         </button>

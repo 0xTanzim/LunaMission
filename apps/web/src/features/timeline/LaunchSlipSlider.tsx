@@ -26,7 +26,9 @@ export const LaunchSlipSlider: React.FC<LaunchSlipSliderProps> = ({
     >
       <div className="flex items-center gap-2">
         <label htmlFor="timeline-slip-slider" className="text-[var(--lm-color-text-muted)] font-semibold uppercase text-[11px] flex items-center gap-1.5">
-          <span>Launch Slip (Δt):</span>
+          <span title="Same control as the header SLIP scrubber — moving either moves both">
+            Launch Slip (mission-wide):
+          </span>
           <span className={`px-2 py-0.5 rounded text-xs font-bold ${
             launchSlipOffsetDays > 0 ? 'bg-[var(--lm-color-warning-surface)] text-[var(--lm-color-warning)] border border-[var(--lm-color-warning-border)]' : 'bg-[var(--lm-color-surface-strong)] text-[var(--lm-color-text-secondary)]'
           }`}>

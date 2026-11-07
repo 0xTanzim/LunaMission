@@ -48,7 +48,7 @@ export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps>
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2.5">
         <div className="flex items-center gap-2">
-          <h3 className="text-[11px] font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
             Lead candidate
           </h3>
           <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-text-secondary)]">

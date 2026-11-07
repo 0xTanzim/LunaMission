@@ -59,7 +59,7 @@ export type SolarDiskModel =
   | { readonly kind: 'unsupported'; readonly reason: string };
 
 export const DISK_UNSUPPORTED_REASON =
-  'the evaluation response publishes no apparent-disk boundary samples and no apparent angular radius';
+  'this evaluation carries no apparent-disk outline, so the Sun is shown as a point and clearance values use centre-of-disk geometry';
 
 function usableSamples(
   boundary: readonly ApparentDiskBoundarySample[],

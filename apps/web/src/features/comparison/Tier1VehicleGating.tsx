@@ -45,7 +45,7 @@ export const Tier1VehicleGating: React.FC<Tier1VehicleGatingProps> = ({
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
-            TIER 1: VEHICLE CONSTRAINT GATING
+            Tier 1 — Can the vehicle survive here?
           </h3>
           <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-text-muted)]">
             HARD GO / NO-GO

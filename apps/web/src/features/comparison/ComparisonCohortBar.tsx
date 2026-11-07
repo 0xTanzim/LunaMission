@@ -46,6 +46,14 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
         <span className="mr-1 shrink-0 text-[11px] font-bold uppercase tracking-wider text-[var(--lm-color-text-muted)]">
           Cohort ({cohortSiteIds.length}/{MAX_COHORT_SITES})
         </span>
+        {/* One concept, three roles on this page: the primary is the site Analyze reads,
+            the chips are the comparison set, and rank-1 candidates can be promoted into it. */}
+        <span
+          className="hidden w-full text-[11px] leading-snug text-[var(--lm-color-text-muted)] lg:inline"
+          title="The primary site is the one the Analyze workspace reads. Every chip here is compared; a ranked candidate can be promoted to primary."
+        >
+          The highlighted chip is the primary — the site the Analyze workspace reads.
+        </span>
 
         {cohortSiteIds.map((id) => {
           const isActive = id === activeSiteId;

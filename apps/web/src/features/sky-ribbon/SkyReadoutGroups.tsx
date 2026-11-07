@@ -96,8 +96,9 @@ export const SolarGroup: React.FC<SolarGroupProps> = ({ solar, disk, solarCriter
       </p>
     </div>
     {disk.kind === 'unsupported' && (
-      <p className="font-mono text-[length:var(--lm-text-micro)] leading-snug text-[var(--lm-color-warning)]">
-        Apparent-disk outline: unsupported — {disk.reason}.
+      <p className="font-mono text-[length:var(--lm-text-micro)] leading-snug text-[var(--lm-color-text-muted)]">
+        Sun-disk outline unavailable for this epoch: the Sun is drawn as a point marker, and
+        clearance values use centre-of-disk geometry.
       </p>
     )}
   </div>

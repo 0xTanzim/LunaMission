@@ -15,6 +15,42 @@ export const AnalyzeWorkspaceView: React.FC = () => {
   const { state, setHoveredAzimuth, setActiveBlocker } = useScenarioState();
   const [skyProjectionMode, setSkyProjectionMode] = useState<'ribbon' | 'radar'>('ribbon');
 
+  // All hooks run unconditionally — this view transitions loading/error → loaded within
+  // one mounted lifetime (retry), and a hooks count change would crash React (observed
+  // 2026-11-11: the retry path blanked the page).
+  // First sub-interval drives the Polar Sky Radar markers
+  const initialInterval = data?.intervals[0];
+
+  // Live horizon profile: backend LOLA bins when published, otherwise the
+  // backend's per-sub-interval skyline samples (re-shaped, never interpolated).
+  const liveHorizonProfile = useMemo(
+    () =>
+      data && data.horizonProfile && data.horizonProfile.length > 0
+        ? data.horizonProfile
+        : data
+          ? horizonBinsFromIntervals(data.intervals)
+          : [],
+    [data],
+  );
+
+  const liveSunPoint = useMemo(
+    () => (initialInterval ? {
+      azimuthDeg: initialInterval.sun.meanAzimuthDeg,
+      elevationDeg: initialInterval.sun.meanElevationDeg,
+      status: initialInterval.sun.status,
+    } : undefined),
+    [initialInterval],
+  );
+
+  const liveEarthPoint = useMemo(
+    () => (initialInterval ? {
+      azimuthDeg: initialInterval.earth.meanAzimuthDeg,
+      elevationDeg: initialInterval.earth.meanElevationDeg,
+      status: initialInterval.earth.status,
+    } : undefined),
+    [initialInterval],
+  );
+
   if (isLoading && !data) {
     return (
       <div data-testid="analyze-view-loading" className="w-full p-4">
@@ -52,41 +88,10 @@ export const AnalyzeWorkspaceView: React.FC = () => {
     );
   }
 
-  // First sub-interval drives the Polar Sky Radar markers
-  const initialInterval = data.intervals[0];
-
-  // Live horizon profile: backend LOLA bins when published, otherwise the
-  // backend's per-sub-interval skyline samples (re-shaped, never interpolated).
-  const liveHorizonProfile = useMemo(
-    () =>
-      data.horizonProfile && data.horizonProfile.length > 0
-        ? data.horizonProfile
-        : horizonBinsFromIntervals(data.intervals),
-    [data.horizonProfile, data.intervals],
-  );
-
-  const liveSunPoint = useMemo(
-    () => (initialInterval ? {
-      azimuthDeg: initialInterval.sun.meanAzimuthDeg,
-      elevationDeg: initialInterval.sun.meanElevationDeg,
-      status: initialInterval.sun.status,
-    } : undefined),
-    [initialInterval],
-  );
-
-  const liveEarthPoint = useMemo(
-    () => (initialInterval ? {
-      azimuthDeg: initialInterval.earth.meanAzimuthDeg,
-      elevationDeg: initialInterval.earth.meanElevationDeg,
-      status: initialInterval.earth.status,
-    } : undefined),
-    [initialInterval],
-  );
-
   return (
     <div
       data-testid="analyze-workspace-view"
-      className="flex flex-col gap-5 w-full min-w-0"
+      className="flex flex-col gap-4 w-full min-w-0"
     >
       {data.status && data.status !== 'valid' && (
         <div data-testid="analyze-advisory-banner" className="w-full">
@@ -113,7 +118,7 @@ export const AnalyzeWorkspaceView: React.FC = () => {
               type="button"
               onClick={() => setSkyProjectionMode('ribbon')}
               aria-pressed={skyProjectionMode === 'ribbon'}
-              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[28px] ${
+              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
                 skyProjectionMode === 'ribbon'
                   ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
                   : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'
@@ -125,7 +130,7 @@ export const AnalyzeWorkspaceView: React.FC = () => {
               type="button"
               onClick={() => setSkyProjectionMode('radar')}
               aria-pressed={skyProjectionMode === 'radar'}
-              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[28px] ${
+              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
                 skyProjectionMode === 'radar'
                   ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
                   : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'

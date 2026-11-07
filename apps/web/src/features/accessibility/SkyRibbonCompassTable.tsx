@@ -94,7 +94,7 @@ export const SkyRibbonCompassTable: React.FC<SkyRibbonCompassTableProps> = ({
     >
       <div className="flex items-center justify-between mb-3 border-b border-[var(--lm-color-border-subtle)] pb-2">
         <h3 className="font-semibold text-[var(--lm-color-text-primary)] uppercase tracking-wider text-sm">
-          360° Skyline 8-Octant Compass Companion (WCAG 1.1.1 Mirror)
+          Skyline by Compass Octant
         </h3>
         <span className="text-[var(--lm-color-text-muted)]">Site: {siteName}</span>
       </div>

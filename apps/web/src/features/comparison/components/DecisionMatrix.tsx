@@ -35,17 +35,19 @@ export interface DecisionMatrixProps {
 }
 
 function useSectionExpansion() {
-  const [expanded, setExpanded] = useState<ReadonlySet<string>>(() => new Set<string>());
+  // Detail rows are visible by default: this page exists to show every comparison row, and
+  // the deciding-rows-first order already gives the summary for free. The toggle collapses.
+  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set<string>());
   const toggle = (sectionId: string) =>
-    setExpanded((previous) => {
+    setCollapsed((previous) => {
       const next = new Set(previous);
       if (next.has(sectionId)) next.delete(sectionId);
       else next.add(sectionId);
       return next;
     });
-  const expandAll = (ids: readonly string[]) => setExpanded(new Set(ids));
-  const collapseAll = () => setExpanded(new Set<string>());
-  return { expanded, toggle, expandAll, collapseAll };
+  const expandAll = () => setCollapsed(new Set<string>());
+  const collapseAll = (ids: readonly string[]) => setCollapsed(new Set(ids));
+  return { collapsed, toggle, expandAll, collapseAll };
 }
 
 function SectionToggle({
@@ -71,7 +73,7 @@ function SectionToggle({
       className="inline-flex min-h-[24px] shrink-0 items-center gap-1 rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] px-2 py-0.5 text-[length:var(--lm-text-micro)] font-semibold text-[var(--lm-color-text-secondary)] transition-colors hover:border-[var(--lm-color-info-border)] hover:text-[var(--lm-color-text-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]"
     >
       <Icon size={11} aria-hidden="true" focusable="false" />
-      {expanded ? 'Hide' : 'Show'} {detailCount} more
+      {expanded ? `Hide ${detailCount} detail row${detailCount === 1 ? '' : 's'}` : `Show ${detailCount} detail row${detailCount === 1 ? '' : 's'}`}
     </button>
   );
 }
@@ -135,7 +137,7 @@ export function DecisionMatrix({
     () => buildMatrixSections(columns, { primarySiteId, canRemoveSite }),
     [columns, primarySiteId, canRemoveSite],
   );
-  const { expanded, toggle, expandAll, collapseAll } = useSectionExpansion();
+  const { collapsed, toggle, expandAll, collapseAll } = useSectionExpansion();
   const columnCount = columns.length + 1;
 
   const handleAction = (actionId: MatrixActionId, columnId: string) => {
@@ -154,7 +156,7 @@ export function DecisionMatrix({
   const detailSectionIds = sections
     .filter((section) => detailRows(section).length > 0)
     .map((section) => section.sectionId);
-  const anyExpanded = detailSectionIds.some((sectionId) => expanded.has(sectionId));
+  const anyExpanded = detailSectionIds.some((sectionId) => !collapsed.has(sectionId));
 
   const cellFor = (section: MatrixSection, rowIndex: number, columnIndex: number) =>
     section.rows[rowIndex]?.cells[columnIndex];
@@ -169,16 +171,16 @@ export function DecisionMatrix({
         {detailSectionIds.length > 0 && (
           <button
             type="button"
-            onClick={() => (anyExpanded ? collapseAll() : expandAll(detailSectionIds))}
+            onClick={() => (anyExpanded ? collapseAll(detailSectionIds) : expandAll())}
             className="inline-flex min-h-[24px] items-center rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border-subtle)] px-2 py-0.5 text-[length:var(--lm-text-micro)] font-semibold text-[var(--lm-color-text-secondary)] transition-colors hover:border-[var(--lm-color-info-border)] hover:text-[var(--lm-color-text-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]"
           >
-            {anyExpanded ? 'Collapse all detail' : 'Expand all detail'}
+            {anyExpanded ? 'Collapse all detail' : 'Show all detail'}
           </button>
         )}
       </div>
 
       <div
-        className="hidden min-w-0 overflow-x-auto rounded-[var(--lm-radius-lg)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] md:block"
+        className="relative hidden min-w-0 overflow-x-auto rounded-[var(--lm-radius-lg)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] md:block"
         data-testid="decision-matrix"
       >
         <table className="w-full min-w-[720px] border-collapse text-left text-[length:var(--lm-text-body)]">
@@ -194,7 +196,7 @@ export function DecisionMatrix({
           {sections.map((section) => {
             const core = coreRows(section);
             const detail = detailRows(section);
-            const isExpanded = expanded.has(section.sectionId);
+            const isExpanded = !collapsed.has(section.sectionId);
             return (
               <tbody key={section.sectionId} data-section={section.sectionId}>
                 <tr className="border-b border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-raised)]/70">
@@ -277,7 +279,7 @@ export function DecisionMatrix({
       <CandidateFlow
         columns={columns}
         sections={sections}
-        expanded={expanded}
+        collapsed={collapsed}
         onToggle={toggle}
         onAction={handleAction}
       />
@@ -288,7 +290,7 @@ export function DecisionMatrix({
 interface CandidateFlowProps {
   columns: readonly ComparisonColumn[];
   sections: readonly MatrixSection[];
-  expanded: ReadonlySet<string>;
+  collapsed: ReadonlySet<string>;
   onToggle: (sectionId: string) => void;
   onAction: (actionId: MatrixActionId, columnId: string) => void;
 }
@@ -297,7 +299,7 @@ interface CandidateFlowProps {
  * Below `md` the matrix becomes a candidate-by-candidate flow with an optional second column,
  * because two 13px columns of measurements on a phone is what makes a table unreadable.
  */
-function CandidateFlow({ columns, sections, expanded, onToggle, onAction }: CandidateFlowProps) {
+function CandidateFlow({ columns, sections, collapsed, onToggle, onAction }: CandidateFlowProps) {
   const [primaryId, setPrimaryId] = useState(() => columns[0]?.site.id ?? '');
   const [comparedId, setComparedId] = useState('');
   const activePrimaryId = columns.some((column) => column.site.id === primaryId)
@@ -357,7 +359,7 @@ function CandidateFlow({ columns, sections, expanded, onToggle, onAction }: Cand
       </div>
 
       {sections.map((section) => {
-        const isExpanded = expanded.has(section.sectionId);
+        const isExpanded = !collapsed.has(section.sectionId);
         const rows = [...coreRows(section), ...(isExpanded ? detailRows(section) : [])];
         return (
           <section

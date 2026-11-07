@@ -91,7 +91,7 @@ export const SkyRibbonA11yTable: React.FC<SkyRibbonA11yTableProps> = ({
         <p data-testid="sky-ribbon-a11y-disk">
           <span className="text-[var(--lm-color-text-muted)]">Apparent solar disk: </span>
           {disk.kind === 'unsupported'
-            ? `outline unsupported — ${disk.reason}. Centre and clearance only.`
+            ? `outline unavailable for this epoch (${disk.reason}). Centre and clearance values only.`
             : describeDiskProvenance(disk)}
         </p>
         <p data-testid="sky-ribbon-a11y-samples">

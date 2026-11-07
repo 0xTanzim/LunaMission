@@ -73,6 +73,8 @@ const BROWSER_GLOBALS_ALLOWED = [
   // Reads the viewport height once to decide whether the 3D navigation dock starts collapsed,
   // so the globe is not covered on short screens. Presentation state only.
   'features/spatial/lab/hooks/usePlanetaryTheaterState.ts',
+  // Guarded sessionStorage read/write for the one-per-session map zoom hint dismissal.
+  'features/spatial/map/model/zoomHintStorage.ts',
 ];
 
 

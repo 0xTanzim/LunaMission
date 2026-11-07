@@ -9,6 +9,8 @@ interface Tier3PairwiseDeltaMatrixProps {
   pairwiseDelta: Tier3PairwiseDelta | null;
   coordinatesA?: { latitudeDeg: number; longitudeEastDeg: number };
   coordinatesB?: { latitudeDeg: number; longitudeEastDeg: number };
+  /** Offered inside the dead-end state: pairwise needs two feasible sites, the limits decide that. */
+  onRelaxConstraints?: () => void;
   className?: string;
 }
 
@@ -16,6 +18,7 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
   pairwiseDelta,
   coordinatesA,
   coordinatesB,
+  onRelaxConstraints,
   className = '',
 }) => {
   if (!pairwiseDelta) {
@@ -25,9 +28,21 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
         aria-label="Tier 3 Pairwise Delta Matrix"
         className={`bg-[var(--lm-color-canvas)]/80 p-5 rounded-xl border border-[var(--lm-color-border-subtle)] font-mono text-xs text-[var(--lm-color-text-muted)] ${className}`}
       >
-        <span className="italic">
-          Fewer than 2 feasible candidates passed Tier 1 vehicle constraints. Pairwise comparison is unavailable.
-        </span>
+        <div className="flex flex-col gap-2">
+          <span>
+            Fewer than 2 feasible candidates passed Tier 1 vehicle constraints. Pairwise comparison
+            is unavailable.
+          </span>
+          {onRelaxConstraints && (
+            <button
+              type="button"
+              onClick={onRelaxConstraints}
+              className="self-start cursor-pointer rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-info-border)] bg-[var(--lm-color-info-surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--lm-color-info)] transition-colors min-h-[28px] hover:bg-[var(--lm-color-info-surface-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]"
+            >
+              Relax limits to enable pairwise (Polar Survey)
+            </button>
+          )}
+        </div>
       </section>
     );
   }
@@ -55,7 +70,7 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--lm-color-border-subtle)]/80 pb-3">
         <div className="flex items-center gap-2.5">
           <span className="font-bold text-[var(--lm-color-text-primary)] text-sm tracking-wider uppercase">
-            TIER 3: FOCUSED PAIRWISE DELTA MATRIX
+            Tier 3 — Compare the top two
           </span>
           <span className="text-[11px] text-[var(--lm-color-success)] px-2 py-0.5 rounded-full bg-[var(--lm-color-success-surface-strong)] border border-[var(--lm-color-success-border)] font-bold">
             ZERO COMPOSITE SCORE
@@ -82,7 +97,8 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
       />
 
       {/* Visual Pairwise Delta Table */}
-      <div className="overflow-x-auto rounded-lg border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)]/30">
+      {/* relative anchors abspos sr-only spans to this scroll box so they cannot widen the document. */}
+      <div className="relative overflow-x-auto rounded-lg border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)]/30">
         <table className="w-full text-left border-collapse">
           <thead className="bg-[var(--lm-color-surface)]/80 text-[var(--lm-color-text-muted)] uppercase text-[11px] tracking-wider border-b border-[var(--lm-color-border-subtle)]">
             <tr>

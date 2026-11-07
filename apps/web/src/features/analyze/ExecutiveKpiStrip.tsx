@@ -45,6 +45,10 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
     metrics.cumulativeDteHours,
     metrics.cumulativeOverlapHours,
   );
+  // Backend accumulation can emit −0; −0.0h reads as a rounding artifact, and the tile
+  // must not paint a zero cost in the danger tone (alarm fatigue on a decision tool).
+  const terrainPenaltyHours = metrics.topographicShadowPenaltyHours === 0 ? 0 : metrics.topographicShadowPenaltyHours;
+  const hasTerrainPenalty = terrainPenaltyHours > 0;
 
   return (
     <section
@@ -118,20 +122,29 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
         </p>
       </div>
 
-      {/* 4. Terrain shadow penalty */}
+      {/* 4. Terrain shadow penalty — toned by value: zero cost is not a threat. */}
       <div className={TILE_CLASS}>
         <span className={LABEL_CLASS}>Terrain Penalty</span>
         <div className="flex items-baseline gap-1 flex-wrap">
-          <span className="text-xl font-bold font-mono text-[var(--lm-color-danger)]">
-            −{metrics.topographicShadowPenaltyHours.toFixed(1)}h
+          <span
+            className={`text-xl font-bold font-mono ${
+              hasTerrainPenalty ? 'text-[var(--lm-color-danger)]' : 'text-[var(--lm-color-text-primary)]'
+            }`}
+          >
+            {terrainPenaltyHours.toFixed(1)}h
           </span>
           <span className="text-[11px] font-mono text-[var(--lm-color-text-muted)]">shadow</span>
         </div>
+        <p data-testid="kpi-penalty-relation" className={RELATION_CLASS}>
+          {hasTerrainPenalty
+            ? 'Hours where the Sun clears the smooth horizon but local terrain blocks it'
+            : 'No sunlit time is lost behind local terrain'}
+        </p>
       </div>
 
       <p
         data-testid="kpi-observable-note"
-        className="sm:col-span-2 lg:col-span-4 text-[11px] leading-relaxed text-[var(--lm-color-text-muted)] font-mono"
+        className="sm:col-span-2 lg:col-span-4 text-[11px] leading-relaxed text-[var(--lm-color-text-muted)] font-sans"
       >
         Observables: every duration above is{' '}
         <span className="text-[var(--lm-color-text-secondary)]">geometric solar-disk visibility</span>{' '}

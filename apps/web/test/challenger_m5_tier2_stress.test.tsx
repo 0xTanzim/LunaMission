@@ -74,7 +74,7 @@ describe('Challenger M5-1: Empty Cohort Resilience', () => {
 
     expect(html).toContain('role="region"');
     expect(html).toContain('aria-label="Tier 2 Lexicographic Priority Ranking"');
-    expect(html).toContain('TIER 2: LEXICOGRAPHIC PRIORITY RANKING');
+    expect(html).toContain('Tier 2 — Rank the survivors');
     expect(html).toContain('TIE-RESOLVED HIERARCHY');
     expect(html).toContain('Surviving Candidates: 0');
     expect(html).toContain('<table');
@@ -470,7 +470,7 @@ describe('Challenger M5-1: Zero TOPSIS & Composite Score Strict Audit', () => {
     }
 
     // Verify legitimate physical terminology is present
-    expect(html).toContain('LEXICOGRAPHIC PRIORITY RANKING');
+    expect(html).toContain('Tier 2 — Rank the survivors');
     expect(html).toContain('TIE-RESOLVED HIERARCHY');
     expect(html).toContain('Continuous Sun');
     expect(html).toContain('Max Dark');

@@ -54,7 +54,7 @@ export const Tier2LexicographicSort: React.FC<Tier2LexicographicSortProps> = ({
           <div className="flex min-w-0 flex-col gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
-                TIER 2: LEXICOGRAPHIC PRIORITY RANKING
+                Tier 2 — Rank the survivors
               </h3>
               <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-text-muted)]">
                 TIE-RESOLVED HIERARCHY
@@ -93,7 +93,8 @@ export const Tier2LexicographicSort: React.FC<Tier2LexicographicSortProps> = ({
         )}
       </div>
 
-      <div className="overflow-x-auto rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)]">
+      {/* relative anchors abspos sr-only spans to this scroll box so they cannot widen the document. */}
+      <div className="relative overflow-x-auto rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)]">
         <table className="w-full border-collapse text-left">
           <Tier2TableHeader />
           <tbody className="divide-y divide-[var(--lm-color-border-subtle)]">

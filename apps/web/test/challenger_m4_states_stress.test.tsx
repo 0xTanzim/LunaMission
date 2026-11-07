@@ -206,14 +206,14 @@ describe('Challenger M4 Suite 2: WCAG 2.2 AA Target Sizing & Color-Blind Auditin
     expect(html).toContain('p-4');
   });
 
-  it('verifies AnalyzeWorkspaceView mode switch buttons enforce min-h-[28px] tap targets', () => {
+  it('verifies AnalyzeWorkspaceView mode switch buttons enforce min-h-[32px] tap targets', () => {
     mockEvaluationState = { data: mockEvaluationPayload('valid'), error: null, isLoading: false, refetch: () => {} };
     const html = renderToStaticMarkup(
       <GlobalScenarioProvider>
         <AnalyzeWorkspaceView />
       </GlobalScenarioProvider>
     );
-    expect(html).toContain('min-h-[28px]');
+    expect(html).toContain('min-h-[32px]');
     expect(html).toContain('aria-pressed="true"');
     expect(html).toContain('360° Sky-Ribbon (Panorama)');
     expect(html).toContain('Circular Polar Radar (R07)');

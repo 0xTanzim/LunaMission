@@ -113,7 +113,7 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
             onClick={() => onSelectSiteA(c.siteId)}
             aria-pressed={isSiteA}
             title="Designate as Site A for Head-to-Head Pairwise Comparison"
-            className={`px-2 py-1 rounded text-[11px] font-bold transition-all min-h-[30px] ${
+            className={`px-2 py-1 rounded text-[11px] font-bold transition-all min-h-[30px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
               isSiteA
                 ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-md ring-2 ring-[var(--lm-color-info)]'
                 : 'bg-[var(--lm-color-surface)] text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)] border border-[var(--lm-color-border)]'
@@ -126,7 +126,7 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
             onClick={() => onSelectSiteB(c.siteId)}
             aria-pressed={isSiteB}
             title="Designate as Site B for Head-to-Head Pairwise Comparison"
-            className={`px-2 py-1 rounded text-[11px] font-bold transition-all min-h-[30px] ${
+            className={`px-2 py-1 rounded text-[11px] font-bold transition-all min-h-[30px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
               isSiteB
                 ? 'bg-[var(--lm-color-series-b)] text-[var(--lm-color-canvas)] shadow-md ring-2 ring-[var(--lm-color-series-b)]'
                 : 'bg-[var(--lm-color-surface)] text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)] border border-[var(--lm-color-border)]'
@@ -140,7 +140,7 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
               onClick={() => onPromotePrimary(c.siteId)}
               title="Promote to Primary Target across Observatory"
               aria-label="Promote to Primary Target"
-              className="inline-flex items-center justify-center px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] hover:bg-[var(--lm-color-warning-surface-strong)] text-[var(--lm-color-warning)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-warning-border)] transition-colors min-h-[30px] min-w-[30px]"
+              className="inline-flex items-center justify-center px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] hover:bg-[var(--lm-color-warning-surface-strong)] text-[var(--lm-color-warning)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-warning-border)] transition-colors min-h-[30px] min-w-[30px]"
             >
               <ComparisonIcon icon={Target} size={14} />
             </button>
@@ -150,7 +150,7 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
               type="button"
               onClick={() => onInspectInAnalyze(c.siteId)}
               title="Inspect in Grazing Sky-Ribbon (Analyze tab)"
-              className="px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] hover:bg-[var(--lm-color-info-surface-strong)] text-[var(--lm-color-info)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-info-border)] transition-colors min-h-[30px]"
+              className="px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] hover:bg-[var(--lm-color-info-surface-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] text-[var(--lm-color-info)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-info-border)] transition-colors min-h-[30px]"
             >
               Inspect →
             </button>

@@ -136,7 +136,7 @@ describe('Milestone M6: Three-Tiered Comparison Matrix', () => {
       />,
     );
 
-    expect(html).toContain('TIER 1: VEHICLE CONSTRAINT GATING');
+    expect(html).toContain('Tier 1 — Can the vehicle survive here?');
     expect(html).toContain('2 Feasible');
     expect(html).toContain('8 Disqualified');
     expect(html).toContain('data-testid="disqualified-card-shackleton-floor"');
@@ -154,7 +154,7 @@ describe('Milestone M6: Three-Tiered Comparison Matrix', () => {
       />,
     );
 
-    expect(html).toContain('TIER 2: LEXICOGRAPHIC PRIORITY RANKING');
+    expect(html).toContain('Tier 2 — Rank the survivors');
     expect(html).toContain('#1');
     expect(html).toContain('#2');
     expect(html).toContain('TIE RESOLVED');

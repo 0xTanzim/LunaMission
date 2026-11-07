@@ -23,7 +23,7 @@ export const GanttEventSequenceTable: React.FC<GanttEventSequenceTableProps> = (
     >
       <div className="flex items-center justify-between mb-3 border-b border-[var(--lm-color-border-subtle)] pb-2">
         <h3 className="font-semibold text-[var(--lm-color-text-primary)] uppercase tracking-wider text-sm">
-          Gantt Event Sequence Table (WCAG 1.1.1 Mirror)
+          Sun &amp; Earth Event Sequence
         </h3>
         <span className="text-[var(--lm-color-text-muted)]">Total Intervals: {intervals.length}</span>
       </div>

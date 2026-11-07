@@ -30,7 +30,7 @@ export function useScenarioComparison(
   constraints?: VehicleConstraints,
   pairwiseSelection?: { siteIdA?: string; siteIdB?: string },
 ): UseScenarioComparisonResult {
-  const { state, setCalculationStatus } = useScenarioState();
+  const { state } = useScenarioState();
 
   const inputs: ComparisonScenarioInputs = {
     startUtc: state.missionEpoch.startUtc,
@@ -62,13 +62,11 @@ export function useScenarioComparison(
     if (cached && refetchCounter === 0) {
       setData(cached);
       setIsLoading(false);
-      setCalculationStatus(cached.status, cached.calculationId);
       return;
     }
 
     setIsLoading(!cached);
     setError(null);
-    setCalculationStatus('loading');
 
     void (async () => {
       try {
@@ -77,12 +75,10 @@ export function useScenarioComparison(
         COMPARISON_CACHE.set(cacheKey, response);
         setData(response);
         setIsLoading(false);
-        setCalculationStatus(response.status, response.calculationId);
       } catch (err) {
         if (isCancelled) return;
         setError(classifyApiError(err));
         setIsLoading(false);
-        setCalculationStatus('failed');
       }
     })();
 
@@ -101,7 +97,6 @@ export function useScenarioComparison(
     state.earthVisibilityCriterion,
     state.launchSlipOffsetDays,
     refetchCounter,
-    setCalculationStatus,
     cacheKey,
   ]);
 
