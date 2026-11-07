@@ -1,6 +1,6 @@
 {
   "milestone": "M3",
-  "timestamp": "2026-11-10T19:22:46.957Z",
+  "timestamp": "2026-11-11T00:17:23.943Z",
   "reference_frame": "MOON_ME_DE421",
   "relativistic_offset_seconds": 69.184,
   "ephemeris_engine": "NASA JPL Horizons REST API (coord@301) vs NAIF SPICE DE421",
