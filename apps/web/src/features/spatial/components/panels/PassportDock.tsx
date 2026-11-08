@@ -1,6 +1,7 @@
 import React, { useId, useState } from 'react';
 import { ChevronDown, ExternalLink, HelpCircle, ShieldCheck } from 'lucide-react';
 import {
+  PassportCalculationModeSwitch,
   PassportEarthSection,
   PassportHorizonSummary,
   PassportSiteHeader,
@@ -139,6 +140,13 @@ export function PassportDock({ onOpenMethodDetails, onNavigateHorizon, className
         <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] px-1.5 py-0.5 text-[length:var(--lm-text-micro)] uppercase tracking-wider text-[var(--lm-color-text-muted)]">
           Mission target
         </span>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2">
+        <span className="text-[length:var(--lm-text-micro)] font-mono uppercase tracking-wider text-[var(--lm-color-text-muted)]">
+          Horizon Model
+        </span>
+        <PassportCalculationModeSwitch />
       </div>
 
       <PassportSection

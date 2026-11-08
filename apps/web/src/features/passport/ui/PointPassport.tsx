@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink, ShieldCheck } from 'lucide-react';
+import { PassportCalculationModeSwitch } from '@/features/passport/components/summary/PassportCalculationModeSwitch';
 import { PassportSiteHeader } from '@/features/passport/components/summary/PassportSiteHeader';
 import { PassportSunSection } from '@/features/passport/components/summary/PassportSunSection';
 import { PassportEarthSection } from '@/features/passport/components/summary/PassportEarthSection';
@@ -15,6 +16,12 @@ export interface PointPassportProps {
 export function PointPassport({ onOpenMethodDetails, onNavigateHorizon }: PointPassportProps) {
   return (
     <div className="flex flex-col gap-3.5 bg-[var(--lm-color-surface-raised)]/40 border border-[var(--lm-color-border-subtle)] rounded-[var(--lm-radius-md)] p-4 sm:p-5 w-full min-w-0">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--lm-color-border-subtle)]">
+        <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--lm-color-text-muted)]">
+          Horizon Model
+        </span>
+        <PassportCalculationModeSwitch />
+      </div>
       <PassportSiteHeader />
       <PassportSunSection />
       <PassportEarthSection />

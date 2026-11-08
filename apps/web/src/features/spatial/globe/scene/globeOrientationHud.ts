@@ -13,52 +13,88 @@ import { MOON_SCENE_RADIUS } from '@/features/spatial/globe/scene/globeScene';
 
 export const METERS_PER_SCENE_UNIT = 1_737_400 / MOON_SCENE_RADIUS;
 
-const POLE_SINGULARITY_SIN_LAT = 0.99996; // within ~0.5° of the pole
-const POLE_NUDGE_RAD = (0.5 * Math.PI) / 180;
-const NORTH_PROBE_UNITS = 0.1;
+const POLE_SINGULARITY_NORTH_LEN_SQ = 1e-10; // within ~0.0006° of exact pole
+const POLE_NUDGE_RAD = (0.05 * Math.PI) / 180;
+const INTERIOR_TARGET_RATIO = 0.8;
+
+/**
+ * Resolves the Moon-surface point under the center of the camera view: when `surfaceTarget`
+ * is already near the lunar sphere (local/horizon presets or surface pans) it projects
+ * radially onto `MOON_SCENE_RADIUS`; when `surfaceTarget` is interior (e.g. `global` origin
+ * or `oblique` midpoint) it intersects the view ray with the Moon sphere.
+ */
+function resolveViewedSurfacePoint(
+  camera: THREE.Camera,
+  surfaceTarget: THREE.Vector3,
+): THREE.Vector3 | null {
+  if (surfaceTarget.length() >= MOON_SCENE_RADIUS * INTERIOR_TARGET_RATIO) {
+    return surfaceTarget.clone().normalize().multiplyScalar(MOON_SCENE_RADIUS);
+  }
+
+  const dir = new THREE.Vector3();
+  if (surfaceTarget.distanceToSquared(camera.position) > 1e-12) {
+    dir.subVectors(surfaceTarget, camera.position).normalize();
+  } else {
+    camera.getWorldDirection(dir);
+  }
+
+  const oDotD = camera.position.dot(dir);
+  const c = camera.position.lengthSq() - MOON_SCENE_RADIUS * MOON_SCENE_RADIUS;
+  const disc = oDotD * oDotD - c;
+  if (disc >= 0) {
+    const t = -oDotD - Math.sqrt(disc);
+    if (t > 0) return camera.position.clone().addScaledVector(dir, t);
+  }
+
+  if (camera.position.lengthSq() < 1e-12) return null;
+  return camera.position.clone().normalize().multiplyScalar(MOON_SCENE_RADIUS);
+}
 
 /**
  * Compass heading in degrees clockwise from screen-up ([0, 360)), from the projected
- * local-north tangent at the viewed surface point. Near the exact pole the tangent
- * degenerates, so the point is nudged toward the camera's horizontal offset first.
- * Screen-space angles are aspect-corrected: NDC x spans the full width.
+ * local-north tangent at the viewed surface point. Near the exact pole where the north
+ * tangent degenerates, the point is nudged slightly toward the camera's horizontal offset.
+ * Uses the exact perspective Jacobian in camera space so close-range views never flip
+ * across the camera near plane.
  */
 export function computeCompassHeadingDeg(
   camera: THREE.Camera,
   surfaceTarget: THREE.Vector3,
 ): number {
-  if (surfaceTarget.lengthSq() < 1e-12) return 0;
+  const point = resolveViewedSurfacePoint(camera, surfaceTarget);
+  if (!point) return 0;
 
-  const point = surfaceTarget.clone().normalize().multiplyScalar(MOON_SCENE_RADIUS);
-  const sinLat = point.y / MOON_SCENE_RADIUS;
-  if (Math.abs(sinLat) > POLE_SINGULARITY_SIN_LAT) {
+  let normal = point.clone().normalize();
+  const worldUp = new THREE.Vector3(0, 1, 0);
+  let north = worldUp.clone().addScaledVector(normal, -worldUp.dot(normal));
+  if (north.lengthSq() < POLE_SINGULARITY_NORTH_LEN_SQ) {
     const away = camera.position.clone().sub(point);
     away.y = 0;
     if (away.lengthSq() < 1e-12) away.set(0, 0, 1);
     away.normalize();
-    const nudged = point
+    const nudged = normal
       .clone()
-      .normalize()
       .multiplyScalar(Math.cos(POLE_NUDGE_RAD))
       .addScaledVector(away, Math.sin(POLE_NUDGE_RAD));
     point.copy(nudged.multiplyScalar(MOON_SCENE_RADIUS));
+    normal = point.clone().normalize();
+    north = worldUp.clone().addScaledVector(normal, -worldUp.dot(normal));
+    if (north.lengthSq() < 1e-12) return 0;
   }
-
-  const normal = point.clone().normalize();
-  const worldUp = new THREE.Vector3(0, 1, 0);
-  const north = worldUp.clone().addScaledVector(normal, -worldUp.dot(normal));
-  if (north.lengthSq() < 1e-12) return 0;
   north.normalize();
 
-  const base = projectToNdc(point, camera);
-  const tip = projectToNdc(point.clone().addScaledVector(north, NORTH_PROBE_UNITS), camera);
-  const aspect = (camera as THREE.PerspectiveCamera).aspect ?? 1;
-  const dx = (tip.x - base.x) * aspect; // pixel-space direction, y up
-  const dyUp = tip.y - base.y;
-  if (Math.abs(dx) < 1e-9 && Math.abs(dyUp) < 1e-9) return 0;
+  camera.updateMatrixWorld();
+  const viewMat = camera.matrixWorldInverse;
+  const pCam = point.clone().applyMatrix4(viewMat);
+  const vCam = north.clone().transformDirection(viewMat);
+  const depth = -pCam.z;
+  const dx = depth > 1e-6 ? vCam.x * depth + pCam.x * vCam.z : vCam.x;
+  const dyUp = depth > 1e-6 ? vCam.y * depth + pCam.y * vCam.z : vCam.y;
+  if (Math.hypot(dx, dyUp) < 1e-9) return 0;
 
   const heading = (Math.atan2(dx, dyUp) * 180) / Math.PI;
-  return heading < 0 ? heading + 360 : heading;
+  const normalized = heading < 0 ? heading + 360 : heading;
+  return normalized < 1e-6 || normalized >= 360 - 1e-6 ? 0 : normalized;
 }
 
 export function computeGroundMetersPerPixel(
@@ -199,9 +235,4 @@ export function attachOrientationHud(container: HTMLElement): OrientationHudCont
       root.remove();
     },
   };
-}
-
-function projectToNdc(worldPoint: THREE.Vector3, camera: THREE.Camera): { x: number; y: number } {
-  const projected = worldPoint.clone().project(camera);
-  return { x: projected.x, y: projected.y }; // NDC, y up
 }

@@ -11,6 +11,7 @@
 export { PointPassport, type PointPassportProps } from './PointPassport';
 export { LocalSkyInspectorModal } from './LocalSkyInspectorModal';
 
+export { PassportCalculationModeSwitch } from '../components/summary/PassportCalculationModeSwitch';
 export { PassportSiteHeader } from '../components/summary/PassportSiteHeader';
 export { PassportSunSection } from '../components/summary/PassportSunSection';
 export { PassportEarthSection } from '../components/summary/PassportEarthSection';

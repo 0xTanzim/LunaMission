@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { syncOrbitControlsUpAxis } from './globeCameraTransitioner';
 
 /**
  * Keyboard camera-control alternative (task 3.5, UX ledger L-28): canvas navigation
@@ -80,6 +81,7 @@ export function attachKeyboardOrbitControls(
     camera.position.copy(controls.target).add(offset);
     camera.lookAt(controls.target);
     camera.updateMatrixWorld();
+    syncOrbitControlsUpAxis(controls, camera);
     if (typeof controls.update === 'function') controls.update();
   };
 

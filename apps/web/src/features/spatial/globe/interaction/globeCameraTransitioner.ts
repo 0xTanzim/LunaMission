@@ -4,6 +4,27 @@ import { CandidateSite } from '@/domain/sites/candidateSite';
 import { CameraPreset } from '@/features/spatial/model/spatialPreferences';
 
 const TRANSITION_PROGRESS_STEP = 0.055;
+const WORLD_Y_UP = new THREE.Vector3(0, 1, 0);
+
+interface OrbitControlsInternalQuat {
+  _quat?: THREE.Quaternion;
+  _quatInverse?: THREE.Quaternion;
+}
+
+/**
+ * Three.js OrbitControls caches its up-axis alignment quaternion in its constructor; refresh
+ * it whenever `camera.up` changes so horizontal drags orbit around the active preset's up vector.
+ */
+export function syncOrbitControlsUpAxis(controls: OrbitControls, camera: THREE.Camera): void {
+  const internal = controls as unknown as OrbitControlsInternalQuat;
+  if (internal._quat && internal._quatInverse) {
+    const up = camera.up.clone().normalize();
+    if (up.lengthSq() > 1e-12) {
+      internal._quat.setFromUnitVectors(up, WORLD_Y_UP);
+      internal._quatInverse.copy(internal._quat).invert();
+    }
+  }
+}
 
 export interface CameraPose {
   camPos: THREE.Vector3;
@@ -115,6 +136,7 @@ export function createCameraTransitionerWithResolver(
           controls.target.copy(end.lookTarget);
           camera.up.copy(end.upVector).normalize();
           camera.lookAt(controls.target);
+          syncOrbitControlsUpAxis(controls, camera);
           if (typeof controls.update === 'function') controls.update();
           return;
         }
@@ -144,12 +166,14 @@ export function createCameraTransitionerWithResolver(
       controls.target.copy(nextLookTarget);
       camera.up.copy(nextUpVector);
       camera.lookAt(controls.target);
+      syncOrbitControlsUpAxis(controls, camera);
 
       if (t >= 1.0) {
         camera.position.copy(activeTransition.endCamPos);
         controls.target.copy(activeTransition.endLookTarget);
         camera.up.copy(activeTransition.endUp).normalize();
         camera.lookAt(controls.target);
+        syncOrbitControlsUpAxis(controls, camera);
         if (typeof controls.update === 'function') {
           controls.update();
         }

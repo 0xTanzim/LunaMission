@@ -142,3 +142,82 @@ test('orientation HUD writer: needle rotates by the heading; scale line and labe
   assert.equal(hud.compassRose.style.transform, 'rotate(0deg)');
   assert.equal(hud.scaleBarLabel.textContent, '500 m', 'sub-kilometer bars read in meters');
 });
+
+test('compass heading: near-pole sites (shackleton-rim -89.9°S) keep north up in overhead and inspection', () => {
+  const shackleton = CANDIDATE_SITES.find((s) => s.id === 'shackleton-rim') ?? CANDIDATE_SITES[0];
+  for (const preset of ['overhead', 'inspection'] as const) {
+    const pose = cameraPoseForPreset(preset, shackleton);
+    const camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.001, 100);
+    camera.position.copy(pose.camPos);
+    camera.up.copy(pose.upVector);
+    camera.lookAt(pose.lookTarget);
+    camera.updateMatrixWorld(true);
+    const heading = computeCompassHeadingDeg(camera, pose.lookTarget);
+    const error = Math.min(heading, 360 - heading);
+    assert.ok(error < 5, `${preset} on ${shackleton.id} must read ~0° (north up), got ${heading.toFixed(1)}°`);
+  }
+});
+
+test('compass heading: global preset (origin target) tracks camera roll via viewed Moon surface', () => {
+  const pose = cameraPoseForPreset('global', ANY_SITE);
+  const camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.001, 100);
+  camera.position.copy(pose.camPos);
+  camera.up.copy(pose.upVector);
+  camera.lookAt(pose.lookTarget);
+  camera.rotateZ(Math.PI / 2);
+  camera.updateMatrixWorld(true);
+  const heading = computeCompassHeadingDeg(camera, pose.lookTarget);
+  const offFrom90 = Math.abs(((heading - 90 + 540) % 360) - 180);
+  assert.ok(offFrom90 < 5, `rolled global pose must read ~90°, got ${heading.toFixed(1)}°`);
+});
+
+test('compass heading: close-range horizon view looking south reads ~180° without behind-camera flip', () => {
+  const pose = cameraPoseForPreset('eva', CANDIDATE_SITES[4]);
+  const camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.001, 100);
+  const normal = pose.camPos.clone().normalize();
+  const offsetTarget = pose.lookTarget.clone().sub(pose.camPos).applyAxisAngle(normal, Math.PI);
+  const southTarget = pose.camPos.clone().add(offsetTarget);
+  camera.position.copy(pose.camPos);
+  camera.up.copy(pose.upVector);
+  camera.lookAt(southTarget);
+  camera.updateMatrixWorld(true);
+  const heading = computeCompassHeadingDeg(camera, southTarget);
+  const offFrom180 = Math.abs(heading - 180);
+  assert.ok(offFrom180 < 5, `south-looking close-range view must read ~180°, got ${heading.toFixed(1)}°`);
+});
+
+test('camera transitioner syncs OrbitControls up axis so overhead azimuth orbit turns compass 1:1', () => {
+  const { OrbitControls } = require('three/examples/jsm/controls/OrbitControls.js');
+  const { createCameraTransitioner } = require('../interaction/globeCameraPresets');
+  const doc = { addEventListener() {}, removeEventListener() {} };
+  const fakeDom = {
+    style: {},
+    ownerDocument: doc,
+    addEventListener() {},
+    removeEventListener() {},
+    setPointerCapture() {},
+    releasePointerCapture() {},
+    getRootNode() { return doc; },
+    clientWidth: 800,
+    clientHeight: 600,
+  };
+  const nadir = cameraPoseForPreset('nadir', ANY_SITE);
+  const camera = new THREE.PerspectiveCamera(38, 800 / 600, 0.001, 100);
+  camera.position.copy(nadir.camPos);
+  camera.up.copy(nadir.upVector);
+  camera.lookAt(nadir.lookTarget);
+
+  const controls = new OrbitControls(camera, fakeDom);
+  controls.target.copy(nadir.lookTarget);
+  controls.update();
+
+  const transitioner = createCameraTransitioner();
+  transitioner.moveTo('overhead', ANY_SITE);
+  for (let i = 0; i < 40; i++) transitioner.step(camera, controls);
+
+  controls._sphericalDelta.theta = Math.PI / 4;
+  controls.update();
+  const heading = computeCompassHeadingDeg(camera, controls.target);
+  const offFrom45 = Math.abs(((heading - 45 + 540) % 360) - 180);
+  assert.ok(offFrom45 < 5, `45° azimuth drag in overhead must rotate compass to ~45°, got ${heading.toFixed(1)}°`);
+});
