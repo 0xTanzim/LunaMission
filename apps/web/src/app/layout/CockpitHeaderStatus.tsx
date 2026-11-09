@@ -1,4 +1,5 @@
 import React from 'react';
+import { Github } from 'lucide-react';
 import { StatusEpistemicBadge } from '../../shared/components/StatusEpistemicBadge';
 import { useScenarioState } from '../state/useScenarioState';
 import { IconPassport, IconSeismic } from '@/app/components/icons/lmIcons';
@@ -8,7 +9,7 @@ const DRAWER_BUTTON_CLASS =
 
 /**
  * Right-hand flight deck status: the computation's epistemic state plus the two
- * reference drawers. The status chip keeps its full label — an ellipsised
+ * reference drawers and repository link. The status chip keeps its full label — an ellipsised
  * "NOMINAL TERR…" told the operator nothing, and the chip is the only place the
  * six-state result vocabulary appears on screen.
  */
@@ -17,6 +18,18 @@ export const CockpitHeaderStatus: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2 shrink-0">
+      <a
+        href="https://github.com/Softsasi/LunaMission"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open LunaMission repository on GitHub"
+        title="Open LunaMission on GitHub (Softsasi/LunaMission)"
+        data-testid="header-github-link"
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:border-[var(--lm-color-border-strong)] transition-colors min-h-[32px] shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)]"
+      >
+        <Github size={14} aria-hidden="true" />
+        <span className="hidden sm:inline font-semibold">GitHub</span>
+      </a>
       <StatusEpistemicBadge
         status={state.calculationStatus}
         onClick={() => setActiveDrawer('provenance')}

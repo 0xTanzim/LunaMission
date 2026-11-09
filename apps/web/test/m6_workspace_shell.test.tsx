@@ -6,6 +6,7 @@ import { GlobalScenarioProvider } from '../src/app/state/GlobalScenarioContext';
 import { ProjectionSwitcher } from '../src/features/workspace/ProjectionSwitcher';
 import { ScenarioConfigBar } from '../src/features/workspace/ScenarioConfigBar';
 import { MissionWorkspaceShell } from '../src/features/workspace/MissionWorkspaceShell';
+import { CockpitHeaderStatus } from '../src/app/layout/CockpitHeaderStatus';
 
 describe('Milestone M6: Workspace Shell & Controls', () => {
   it('renders ProjectionSwitcher with role="tablist" and 3 workspace projections', () => {
@@ -87,5 +88,19 @@ describe('Milestone M6: Workspace Shell & Controls', () => {
     expect(html).toContain('MISSION');
     expect(html).toContain('LunaMission Flight Deck');
     expect(html).toContain('NASA JPL Horizons');
+  });
+
+  it('renders CockpitHeaderStatus with GitHub repository link pointing to Softsasi/LunaMission', () => {
+    const html = renderToStaticMarkup(
+      <ScenarioProvider>
+        <CockpitHeaderStatus />
+      </ScenarioProvider>,
+    );
+
+    expect(html).toContain('data-testid="header-github-link"');
+    expect(html).toContain('href="https://github.com/Softsasi/LunaMission"');
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
+    expect(html).toContain('GitHub');
   });
 });
