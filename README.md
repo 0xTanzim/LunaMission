@@ -12,6 +12,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **LunaMission** is an aerospace-grade lunar landing site decision-support platform engineered for the **NASA Space Apps Challenge 2026**: [**Lunar Landing Site Navigator**](https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/).
+Website link: https://lunamissionx.vercel.app/
+NASA Space Apps Challenge Team Page link: https://www.spaceappschallenge.org/2026/find-a-team/softsasi1/
 
 Designed for planetary scientists, mission planners, flight dynamics engineers, educators, and aerospace students, LunaMission provides deterministic mathematical rigor, transparent error budgets, and authoritative NASA citations to evaluate, compare, and rank lunar south-polar landing zones ($80^\circ\text{S} - 90^\circ\text{S}$) and historical touchdown coordinates.
 
