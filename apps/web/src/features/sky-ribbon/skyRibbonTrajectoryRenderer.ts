@@ -119,6 +119,15 @@ export function drawPlayheadMarker(
   ctx.stroke();
 
   ctx.font = `bold 11px ${CHART_FONT}`;
-  drawLabelChip(ctx, `PLAYHEAD ${marker.label}`, x + 8, 12, { role: 'focus', bold: true });
+  const playheadText = `PLAYHEAD ${marker.label}`;
+  const textWidth = ctx.measureText(playheadText).width;
+  let labelX = x + 8;
+  let align: CanvasTextAlign = 'left';
+  if (x + 8 + textWidth > projection.azimuth.widthPx - 8) {
+    labelX = x - 8;
+    align = 'right';
+  }
+  const labelY = x < 260 ? 26 : 12;
+  drawLabelChip(ctx, playheadText, labelX, labelY, { role: 'focus', bold: true, align });
   ctx.restore();
 }

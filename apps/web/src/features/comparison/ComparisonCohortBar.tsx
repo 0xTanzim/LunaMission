@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { CandidateSite } from '@/domain/sites/candidateSite';
 import { getCatalogueOnlyEntries, getSiteById } from '@/domain/sites/catalog';
+import type { DisqualifiedCandidate } from '@luna/contracts';
 import { availableCohortCandidates, MAX_COHORT_SITES } from './model/cohort';
 import { siteDisplayName } from './model/siteDisplayName';
 import { CohortAddCandidateSelect } from './components/CohortAddCandidateSelect';
@@ -10,8 +11,11 @@ export interface ComparisonCohortBarProps {
   activeSiteId: string;
   /** Evaluable sites that can still join the cohort; derived from the catalogue when omitted. */
   availableSites?: readonly CandidateSite[];
+  /** Candidates culled by Tier 1 vehicle constraints, used to flag chips and provide feedback. */
+  disqualifiedCandidates?: readonly DisqualifiedCandidate[];
   onAddSite: (siteId: string) => void;
   onRemoveSite: (siteId: string) => void;
+  onRelaxConstraints?: () => void;
   /** The empty state carries the picker as its primary action, so the bar withholds its own. */
   showAddControl?: boolean;
 }
@@ -28,13 +32,28 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
   cohortSiteIds,
   activeSiteId,
   availableSites,
+  disqualifiedCandidates,
   onAddSite,
   onRemoveSite,
+  onRelaxConstraints,
   showAddControl = true,
 }) => {
   const candidates = availableSites ?? availableCohortCandidates(cohortSiteIds);
   const getSiteName = (id: string) => siteDisplayName(getSiteById(id)?.name, id);
   const showPicker = showAddControl && candidates.length > 0 && cohortSiteIds.length < MAX_COHORT_SITES;
+
+  const disqualifiedMap = useMemo(() => {
+    const map = new Map<string, DisqualifiedCandidate>();
+    if (disqualifiedCandidates) {
+      for (const cand of disqualifiedCandidates) {
+        map.set(cand.siteId, cand);
+      }
+    }
+    return map;
+  }, [disqualifiedCandidates]);
+
+  const activeSiteDisq = disqualifiedMap.get(activeSiteId);
+  const activeDisqFirstReason = activeSiteDisq?.rejectionReasons[0];
 
   return (
     <div
@@ -59,6 +78,12 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
           const isActive = id === activeSiteId;
           const canRemove = cohortSiteIds.length > 2 && !isActive;
           const name = getSiteName(id);
+          const disqInfo = disqualifiedMap.get(id);
+          const isDisqualified = disqInfo !== undefined;
+          const firstReason = disqInfo?.rejectionReasons[0];
+          const disqTooltip = firstReason
+            ? `Disqualified: ${firstReason.constraintName} (+${firstReason.marginOfFailure.toFixed(1)} ${firstReason.unit} margin)`
+            : undefined;
 
           return (
             <span
@@ -66,6 +91,8 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
               className={`inline-flex min-w-0 items-center gap-1.5 rounded-[var(--lm-radius-sm)] border py-0.5 pl-2.5 text-xs transition-colors ${
                 isActive
                   ? 'border-[var(--lm-color-selected-site)] bg-[var(--lm-color-surface-strong)] pl-2.5 pr-2.5 font-bold text-[var(--lm-color-text-primary)]'
+                  : isDisqualified
+                  ? 'border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] text-[var(--lm-color-text-muted)]'
                   : 'border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] text-[var(--lm-color-text-secondary)]'
               }`}
             >
@@ -73,8 +100,21 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
                 {name}
               </span>
               {isActive && (
-                <span className="shrink-0 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-selected-site)]">
-                  Primary
+                <span
+                  className={`shrink-0 text-[11px] font-bold uppercase tracking-wide ${
+                    isDisqualified ? 'text-[var(--lm-color-warning)]' : 'text-[var(--lm-color-selected-site)]'
+                  }`}
+                  title={isDisqualified ? 'Active Primary target is culled under current vehicle limits' : undefined}
+                >
+                  {isDisqualified ? 'Primary (Culled)' : 'Primary'}
+                </span>
+              )}
+              {!isActive && isDisqualified && (
+                <span
+                  className="shrink-0 rounded px-1 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-danger)] border border-[var(--lm-color-danger-border,rgba(239,68,68,0.3))]"
+                  title={disqTooltip}
+                >
+                  Culled
                 </span>
               )}
               {canRemove && (
@@ -94,6 +134,26 @@ export const ComparisonCohortBar: React.FC<ComparisonCohortBarProps> = ({
 
       {showPicker && (
         <CohortAddCandidateSelect availableSites={candidates} onAddSite={onAddSite} />
+      )}
+
+      {activeSiteDisq && (
+        <div
+          role="alert"
+          className="w-full flex flex-wrap items-center justify-between gap-2 rounded bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-warning-border,var(--lm-color-border-subtle))] px-3 py-2 text-[11px] text-[var(--lm-color-text-secondary)]"
+        >
+          <span>
+            <strong className="text-[var(--lm-color-warning)]">Notice:</strong> Primary target site <strong>{getSiteName(activeSiteId)}</strong> does not clear active vehicle limits ({activeDisqFirstReason?.narrative || 'Constraint violated'}). It is excluded from Tier 2 rankings.
+          </span>
+          {onRelaxConstraints && (
+            <button
+              type="button"
+              onClick={onRelaxConstraints}
+              className="text-[var(--lm-color-info)] hover:underline cursor-pointer font-bold shrink-0"
+            >
+              Relax to Polar Survey
+            </button>
+          )}
+        </div>
       )}
 
       {WITHHELD_REGIONS.length > 0 && (

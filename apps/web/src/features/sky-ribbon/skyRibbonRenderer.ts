@@ -103,7 +103,7 @@ export function drawElevationBand(
   }
   ctx.setLineDash([]);
   ctx.restore();
-  drawLabelChip(ctx, label, 6, top + 10, { role: 'info' });
+  drawLabelChip(ctx, label, 65, top + 10, { role: 'info' });
 }
 
 export function drawElevationGraticule(
@@ -133,11 +133,22 @@ export function drawElevationGraticule(
     ctx.fillText(
       `${sign}${Math.abs(elevationDeg).toFixed(1)}°`,
       4,
-      Math.min(y - 3, projection.elevation.heightPx - 2),
+      Math.min(Math.max(y - 3, 11), projection.elevation.heightPx - 2),
     );
   }
   ctx.restore();
 }
+
+const CARDINAL_NAMES: Record<number, string> = {
+  0: 'N',
+  45: 'NE',
+  90: 'E',
+  135: 'SE',
+  180: 'S',
+  225: 'SW',
+  270: 'W',
+  315: 'NW',
+};
 
 export function drawAzimuthGraticule(
   ctx: CanvasRenderingContext2D,
@@ -165,6 +176,47 @@ export function drawAzimuthGraticule(
   ctx.restore();
 }
 
+/**
+ * Renders bottom azimuth ticks and cardinal compass badges (e.g. 000° N, 090° E).
+ * Executed after the terrain skyline so labels are never obscured by the terrain polygon.
+ */
+export function drawAzimuthCompassBar(
+  ctx: CanvasRenderingContext2D,
+  projection: SkyProjection,
+  stepDeg = 45,
+): void {
+  const palette = chartPalette();
+  const { heightPx } = projection.elevation;
+  const { widthPx } = projection.azimuth;
+
+  ctx.save();
+  for (let azimuthDeg = 0; azimuthDeg < 360; azimuthDeg += stepDeg) {
+    if (!projection.isAzimuthVisible(azimuthDeg)) continue;
+    const x = projection.azimuthToX(azimuthDeg);
+    const isMajor = azimuthDeg % 90 === 0;
+    const cardinal = CARDINAL_NAMES[azimuthDeg];
+    const label = cardinal ? `${azimuthDeg.toString().padStart(3, '0')}° ${cardinal}` : `${azimuthDeg}°`;
+
+    // Tick mark on bottom edge
+    ctx.strokeStyle = isMajor ? palette.borderStrong : palette.border;
+    ctx.lineWidth = isMajor ? 1.5 : 1;
+    ctx.beginPath();
+    ctx.moveTo(x, heightPx - (isMajor ? 8 : 5));
+    ctx.lineTo(x, heightPx);
+    ctx.stroke();
+
+    // Compass badge with backing plate
+    const labelX = Math.min(Math.max(x, 28), widthPx - 28);
+    drawLabelChip(ctx, label, labelX, heightPx - 4, {
+      role: isMajor ? 'textPrimary' : 'textSecondary',
+      align: 'center',
+      bold: isMajor,
+      plate: true,
+    });
+  }
+  ctx.restore();
+}
+
 /** Flags geometry that lies outside the axis instead of distorting it back inside. */
 export function drawOutOfBandFlag(
   ctx: CanvasRenderingContext2D,
@@ -186,6 +238,9 @@ export function drawScaleLegend(
   projection: SkyProjection,
   text: string,
 ): void {
-  void projection;
-  drawLabelChip(ctx, text, 6, 12, { role: 'textSecondary' });
+  drawLabelChip(ctx, text, projection.azimuth.widthPx - 8, 12, {
+    role: 'textSecondary',
+    align: 'right',
+    plate: true,
+  });
 }

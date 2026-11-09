@@ -29,6 +29,8 @@ export function resolveActiveIntervalIndex(
   if (!playheadUtc) return 0;
   const epochMs = Date.parse(playheadUtc);
   if (!Number.isFinite(epochMs)) return 0;
+  if (epochMs <= intervals[0]!.startEpochMs) return 0;
+  if (epochMs >= intervals[intervals.length - 1]!.endEpochMs) return intervals.length - 1;
   const index = intervals.findIndex(
     (interval) => epochMs >= interval.startEpochMs && epochMs <= interval.endEpochMs,
   );

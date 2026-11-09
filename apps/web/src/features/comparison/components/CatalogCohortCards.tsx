@@ -179,7 +179,7 @@ export function CatalogCohortCards({
         </p>
       )}
 
-      <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2.5">
+      <ul role="list" className="flex flex-col gap-2.5 max-h-[26rem] overflow-y-auto pr-0.5">
         {entries.map((entry) => (
           <CatalogueCard
             key={entry.id}

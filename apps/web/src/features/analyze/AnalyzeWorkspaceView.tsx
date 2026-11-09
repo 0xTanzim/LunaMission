@@ -4,6 +4,7 @@ import { useScenarioState } from '../../app/state/useScenarioState';
 import { ExecutiveKpiStrip } from './ExecutiveKpiStrip';
 import { SkyRibbonDeck } from '../sky-ribbon/SkyRibbonDeck';
 import { horizonBinsFromIntervals } from '../sky-ribbon/skyRibbonSkyline';
+import { resolveActiveIntervalIndex } from '../sky-ribbon/skyRibbonTableModel';
 import { PolarSkyRadarView } from './components/PolarSkyRadarView';
 import { GanttTimelineCanvas } from '../timeline/GanttTimelineCanvas';
 import { SkyRibbonCompassTable } from '../accessibility/SkyRibbonCompassTable';
@@ -18,38 +19,29 @@ export const AnalyzeWorkspaceView: React.FC = () => {
   // All hooks run unconditionally — this view transitions loading/error → loaded within
   // one mounted lifetime (retry), and a hooks count change would crash React (observed
   // 2026-11-11: the retry path blanked the page).
-  // First sub-interval drives the Polar Sky Radar markers
-  const initialInterval = data?.intervals[0];
+  // Active sub-interval synchronized with canonical playhead
+  const activeIntervalIdx = resolveActiveIntervalIndex(data?.intervals ?? [], state.activePlayheadUtc);
+  const currentInterval = data?.intervals[activeIntervalIdx] ?? data?.intervals[0];
 
-  // Live horizon profile: backend LOLA bins when published, otherwise the
-  // backend's per-sub-interval skyline samples (re-shaped, never interpolated).
   const liveHorizonProfile = useMemo(
-    () =>
-      data && data.horizonProfile && data.horizonProfile.length > 0
-        ? data.horizonProfile
-        : data
-          ? horizonBinsFromIntervals(data.intervals)
-          : [],
+    () => (data?.horizonProfile?.length ? data.horizonProfile : data ? horizonBinsFromIntervals(data.intervals) : []),
     [data],
   );
 
   const liveSunPoint = useMemo(
-    () => (initialInterval ? {
-      azimuthDeg: initialInterval.sun.meanAzimuthDeg,
-      elevationDeg: initialInterval.sun.meanElevationDeg,
-      status: initialInterval.sun.status,
-    } : undefined),
-    [initialInterval],
+    () => (currentInterval ? { azimuthDeg: currentInterval.sun.meanAzimuthDeg, elevationDeg: currentInterval.sun.meanElevationDeg, status: currentInterval.sun.status } : undefined),
+    [currentInterval],
   );
 
   const liveEarthPoint = useMemo(
-    () => (initialInterval ? {
-      azimuthDeg: initialInterval.earth.meanAzimuthDeg,
-      elevationDeg: initialInterval.earth.meanElevationDeg,
-      status: initialInterval.earth.status,
-    } : undefined),
-    [initialInterval],
+    () => (currentInterval ? { azimuthDeg: currentInterval.earth.meanAzimuthDeg, elevationDeg: currentInterval.earth.meanElevationDeg, status: currentInterval.earth.status } : undefined),
+    [currentInterval],
   );
+
+  const { sunTrajectory, earthTrajectory } = useMemo(() => ({
+    sunTrajectory: data?.intervals.map((i) => ({ azimuthDeg: i.sun.meanAzimuthDeg, elevationDeg: i.sun.meanElevationDeg, status: i.sun.status })) ?? [],
+    earthTrajectory: data?.intervals.map((i) => ({ azimuthDeg: i.earth.meanAzimuthDeg, elevationDeg: i.earth.meanElevationDeg, status: i.earth.status })) ?? [],
+  }), [data?.intervals]);
 
   if (isLoading && !data) {
     return (
@@ -166,6 +158,8 @@ export const AnalyzeWorkspaceView: React.FC = () => {
             horizonBins={liveHorizonProfile}
             sunPoint={liveSunPoint}
             earthPoint={liveEarthPoint}
+            sunTrajectory={sunTrajectory}
+            earthTrajectory={earthTrajectory}
             targetSiteName={data.siteInfo.siteName}
           />
         )}

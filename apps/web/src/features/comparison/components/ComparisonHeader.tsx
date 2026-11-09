@@ -35,7 +35,14 @@ export function ComparisonHeader({
       </div>
 
       <div className="flex flex-wrap items-end gap-2">
-        {canAddSite && sitesToAdd.length > 0 ? (
+        {!canAddSite ? (
+          <div
+            title="Maximum 4 candidate sites can be compared side-by-side. Remove a column to add another."
+            className="flex min-h-[28px] items-center rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-raised)] px-2.5 py-1 font-mono text-[length:var(--lm-text-micro)] text-[var(--lm-color-text-muted)]"
+          >
+            <span>Matrix Full (4/4 columns)</span>
+          </div>
+        ) : sitesToAdd.length > 0 ? (
           <div>
             <label
               htmlFor="add-site-select"

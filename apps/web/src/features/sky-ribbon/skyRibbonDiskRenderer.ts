@@ -200,5 +200,15 @@ export function drawDiskUnsupportedNotice(
   ctx.strokeRect(x - 7, y - 7, 14, 14);
   ctx.setLineDash([]);
   ctx.restore();
-  drawLabelChip(ctx, 'DISK OUTLINE UNSUPPORTED', x + 12, y + 16, { role: 'warning', bold: true });
+  ctx.font = `bold 11px ${CHART_FONT}`;
+  const noticeText = 'DISK OUTLINE UNSUPPORTED';
+  const textWidth = ctx.measureText(noticeText).width;
+  let labelX = x + 12;
+  let align: CanvasTextAlign = 'left';
+  if (x + 12 + textWidth > projection.azimuth.widthPx - 8) {
+    labelX = x - 12;
+    align = 'right';
+  }
+  const labelY = y > 24 ? y - 18 : y + 24;
+  drawLabelChip(ctx, noticeText, labelX, labelY, { role: 'warning', bold: true, align });
 }
