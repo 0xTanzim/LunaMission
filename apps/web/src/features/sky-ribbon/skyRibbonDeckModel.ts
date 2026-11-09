@@ -31,7 +31,7 @@ import {
   resolveActiveIntervalIndex,
   type GrazingWindow,
 } from './skyRibbonTableModel';
-import { buildTrajectory, type TrajectorySeries } from './skyRibbonTrajectory';
+import { buildTrajectory, interpolateTrajectorySample, type TrajectorySeries } from './skyRibbonTrajectory';
 import { resolveSolarDiskModel, type ApparentDiskGeometry, type SolarDiskModel } from './skyRibbonDisk';
 import { buildSkyOverlays, type LiveCelestialState } from './skyRibbonOverlays';
 import type { CelestialBodySpec, ClearanceGaugeSpec } from './skyRibbonCelestialRenderer';
@@ -93,13 +93,46 @@ export function buildSkyDeckModel(input: SkyDeckModelInput): SkyDeckModel {
 
   const activeIndex = resolveActiveIntervalIndex(intervals, playheadUtc);
   const activeInterval = intervals[activeIndex] ?? null;
-  const solar = buildSolarReadout(activeInterval);
-  const earth = buildEarthReadout(activeInterval);
+  const rawSolar = buildSolarReadout(activeInterval);
+  const rawEarth = buildEarthReadout(activeInterval);
   const missionEvent = buildMissionEventReadout(activeInterval);
   const rates = buildRateReadouts(intervals, activeIndex, geometry);
   const trajectories = [buildTrajectory(intervals, 'sun'), buildTrajectory(intervals, 'earth')];
   const grazingWindows = buildGrazingWindows(intervals, activeIndex);
-  const overlays = buildSkyOverlays(solar, earth, { geometry, live, criterionLabel: solarCriterionLabel });
+
+  const playheadEpochMs = playheadUtc ? Date.parse(playheadUtc) : null;
+  const interpolatedSun =
+    playheadEpochMs !== null && Number.isFinite(playheadEpochMs)
+      ? interpolateTrajectorySample(trajectories[0]!, playheadEpochMs)
+      : null;
+  const interpolatedEarth =
+    playheadEpochMs !== null && Number.isFinite(playheadEpochMs)
+      ? interpolateTrajectorySample(trajectories[1]!, playheadEpochMs)
+      : null;
+
+  const solar = interpolatedSun
+    ? { ...rawSolar, azimuthDeg: interpolatedSun.azimuthDeg, elevationDeg: interpolatedSun.elevationDeg }
+    : rawSolar;
+  const earth = interpolatedEarth
+    ? { ...rawEarth, azimuthDeg: interpolatedEarth.azimuthDeg, elevationDeg: interpolatedEarth.elevationDeg }
+    : rawEarth;
+
+  const effectiveLive: LiveCelestialState | null =
+    live ??
+    (interpolatedSun && interpolatedEarth
+      ? {
+          sunAzimuthDeg: interpolatedSun.azimuthDeg,
+          sunElevationDeg: interpolatedSun.elevationDeg,
+          earthAzimuthDeg: interpolatedEarth.azimuthDeg,
+          earthElevationDeg: interpolatedEarth.elevationDeg,
+        }
+      : null);
+
+  const overlays = buildSkyOverlays(solar, earth, {
+    geometry,
+    live: effectiveLive,
+    criterionLabel: solarCriterionLabel,
+  });
 
   const disk = resolveSolarDiskModel({
     centreElevationDeg: solar.elevationDeg,

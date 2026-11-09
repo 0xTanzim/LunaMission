@@ -12,6 +12,7 @@ import { siteDisplayName } from '../model/siteDisplayName';
 export interface ComparisonDecisionSummaryProps {
   rankedCandidates: RankedFeasibleCandidate[];
   onPromotePrimary?: (siteId: string) => void;
+  onRelaxConstraints?: () => void;
   className?: string;
 }
 
@@ -25,10 +26,44 @@ export interface ComparisonDecisionSummaryProps {
 export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps> = ({
   rankedCandidates,
   onPromotePrimary,
+  onRelaxConstraints,
   className = '',
 }) => {
   const lead = leadCandidate(rankedCandidates);
-  if (!lead) return null;
+  if (!lead) {
+    if (!onRelaxConstraints) return null;
+    return (
+      <section
+        role="region"
+        aria-label="Lead candidate of the ranked cohort"
+        data-testid="comparison-decision-summary"
+        className={`flex flex-col gap-3 rounded-[var(--lm-radius-md)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] p-4 font-mono ${className}`}
+      >
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2.5">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
+              Lead candidate
+            </h3>
+            <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-warning)]">
+              0 Candidates Cleared Limits
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[var(--lm-color-text-secondary)]">
+          <p className="leading-relaxed">
+            All candidate sites in this cohort were disqualified by active vehicle constraints (e.g. slope threshold or battery shadow allowance). Relax constraints or switch to Polar Survey to rank candidates.
+          </p>
+          <button
+            type="button"
+            onClick={onRelaxConstraints}
+            className="min-h-[32px] shrink-0 rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-info-border)] bg-[var(--lm-color-info-surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--lm-color-info)] transition-colors hover:bg-[var(--lm-color-info-surface-strong)] focus-visible:outline-2 focus-visible:outline-[var(--lm-color-focus)]"
+          >
+            Relax limits (Polar Survey)
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   const name = siteDisplayName(lead.siteName, lead.siteId);
   const readouts = readObservables(lead);

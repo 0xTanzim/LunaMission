@@ -22,11 +22,14 @@ export const ThreeTierComparisonView: React.FC = () => {
   const primaryId = state.primarySiteId;
   const { cohortSiteIds, addSite, removeSite } = useComparisonCohort(primaryId);
 
-  const [constraints, setConstraints] = useState<VehicleConstraints>({
-    minContinuousSunlightHours: 40.0,
-    maxContinuousDarknessHours: 60.0,
-    minDteHours: 0.0,
-    maxLandingSlopeDeg: 15.0,
+  const [constraints, setConstraints] = useState<VehicleConstraints>(() => {
+    const survey = MISSION_PRESETS.find((p) => p.id === 'survey');
+    return survey ? survey.values : {
+      minContinuousSunlightHours: 0.0,
+      maxContinuousDarknessHours: 336.0,
+      minDteHours: 0.0,
+      maxLandingSlopeDeg: 45.0,
+    };
   });
 
   const [pairwiseSelection, setPairwiseSelection] = useState<{ siteIdA?: string; siteIdB?: string }>({});
@@ -77,8 +80,10 @@ export const ThreeTierComparisonView: React.FC = () => {
         cohortSiteIds={cohortSiteIds}
         activeSiteId={primaryId}
         availableSites={availableSites}
+        disqualifiedCandidates={data?.tier1Gating?.disqualifiedCandidates}
         onAddSite={addSite}
         onRemoveSite={removeSite}
+        onRelaxConstraints={handleRelaxConstraints}
         showAddControl={!showEmptyState}
       />
 
@@ -147,6 +152,7 @@ export const ThreeTierComparisonView: React.FC = () => {
           <ComparisonDecisionSummary
             rankedCandidates={rankedCandidates}
             onPromotePrimary={setPrimarySite}
+            onRelaxConstraints={handleRelaxConstraints}
           />
 
           {/* The frontier before the lexicographic order: rank 1 is not the only survivor. */}

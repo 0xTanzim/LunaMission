@@ -53,6 +53,10 @@ export function ComparisonMatrix({ onSelectSiteForExplore }: ComparisonMatrixPro
   }, [catalogueEntries, selectedSiteIds]);
 
   const activeSites = useMemo(() => columns.map((column) => column.site), [columns]);
+  const primarySite = useMemo(
+    () => activeSites.find((s) => s.id === state.primarySiteId) ?? activeSites[0],
+    [activeSites, state.primarySiteId],
+  );
 
   const durationDays = state.missionEpoch.durationDays;
 
@@ -97,8 +101,8 @@ export function ComparisonMatrix({ onSelectSiteForExplore }: ComparisonMatrixPro
       <ParetoLandingWindowModal
         isOpen={isParetoModalOpen}
         onClose={() => setIsParetoModalOpen(false)}
-        siteId={activeSites[0]?.id ?? state.primarySiteId}
-        siteName={activeSites[0]?.name ?? state.primarySiteId}
+        siteId={primarySite?.id ?? state.primarySiteId}
+        siteName={primarySite?.name ?? state.primarySiteId}
         onSelectWindow={(win) => commitWindow(win.startDateIso, win.durationDays)}
       />
 

@@ -10,7 +10,14 @@ import type { SkyProjection } from './skyRibbonProjection';
 import type { SkylineSample } from './skyRibbonSkyline';
 import type { TrajectorySeries } from './skyRibbonTrajectory';
 import type { SolarDiskModel } from './skyRibbonDisk';
-import { drawAzimuthGraticule, drawElevationBand, drawElevationGraticule, drawPanelBackground, drawScaleLegend } from './skyRibbonRenderer';
+import {
+  drawAzimuthCompassBar,
+  drawAzimuthGraticule,
+  drawElevationBand,
+  drawElevationGraticule,
+  drawPanelBackground,
+  drawScaleLegend,
+} from './skyRibbonRenderer';
 import { drawSkyline } from './skyRibbonSkylineRenderer';
 import type { CelestialBodySpec, ClearanceGaugeSpec } from './skyRibbonCelestialRenderer';
 import { drawCelestialBody, drawClearanceGauge, drawCursorMark, drawPinnedRidge } from './skyRibbonCelestialRenderer';
@@ -46,6 +53,7 @@ export function paintPanorama(ctx: CanvasRenderingContext2D, input: PanoramaPain
   drawSkyline(ctx, projection, input.skyline, {
     occluderElevationDeg: input.sun?.elevationDeg ?? 0,
   });
+  drawAzimuthCompassBar(ctx, projection, 45);
   for (const series of input.trajectories) drawTrajectory(ctx, projection, series);
   if (input.gauge) drawClearanceGauge(ctx, projection, input.gauge);
   if (input.earth) drawCelestialBody(ctx, projection, input.earth, { reducedMotion });
@@ -86,6 +94,7 @@ export function paintGrazingCorridor(ctx: CanvasRenderingContext2D, input: Corri
   drawSkyline(ctx, projection, input.skyline, {
     occluderElevationDeg: sun?.elevationDeg ?? null,
   });
+  drawAzimuthCompassBar(ctx, projection, input.azimuthSpanDeg > 180 ? 45 : 10);
 
   const centreAzimuthDeg = sun?.azimuthDeg ?? null;
   const centreElevationDeg = sun?.elevationDeg ?? null;

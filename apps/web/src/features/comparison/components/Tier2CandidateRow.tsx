@@ -140,9 +140,10 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
               onClick={() => onPromotePrimary(c.siteId)}
               title="Promote to Primary Target across Observatory"
               aria-label="Promote to Primary Target"
-              className="inline-flex items-center justify-center px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] hover:bg-[var(--lm-color-warning-surface-strong)] text-[var(--lm-color-warning)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-warning-border)] transition-colors min-h-[30px] min-w-[30px]"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] hover:bg-[var(--lm-color-warning-surface-strong)] text-[var(--lm-color-warning)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-warning-border)] transition-colors min-h-[30px]"
             >
-              <ComparisonIcon icon={Target} size={14} />
+              <ComparisonIcon icon={Target} size={13} />
+              <span>Make Primary</span>
             </button>
           )}
           {onInspectInAnalyze && (
@@ -152,7 +153,7 @@ export const Tier2CandidateRow: React.FC<Tier2CandidateRowProps> = ({
               title="Inspect in Grazing Sky-Ribbon (Analyze tab)"
               className="px-2 py-1 rounded text-[11px] font-bold bg-[var(--lm-color-surface)] hover:bg-[var(--lm-color-info-surface-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] text-[var(--lm-color-info)] hover:text-[var(--lm-color-text-primary)] border border-[var(--lm-color-border)] hover:border-[var(--lm-color-info-border)] transition-colors min-h-[30px]"
             >
-              Inspect →
+              Analyze ↗
             </button>
           )}
         </div>

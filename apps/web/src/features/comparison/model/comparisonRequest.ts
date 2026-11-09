@@ -7,12 +7,12 @@
 
 import type { VehicleConstraints } from '@luna/contracts';
 
-/** Constraints the backend applies when the operator has not tuned the vehicle. */
+/** Constraints applied when the operator has not tuned the vehicle (defaults to physical Polar Survey baseline). */
 export const DEFAULT_VEHICLE_CONSTRAINTS: VehicleConstraints = {
-  minContinuousSunlightHours: 120.0,
-  maxContinuousDarknessHours: 16.0,
-  minDteHours: 80.0,
-  maxLandingSlopeDeg: 10.0,
+  minContinuousSunlightHours: 0.0,
+  maxContinuousDarknessHours: 336.0,
+  minDteHours: 0.0,
+  maxLandingSlopeDeg: 45.0,
 };
 
 /** The scenario inputs a comparison depends on, taken from the authoritative store. */

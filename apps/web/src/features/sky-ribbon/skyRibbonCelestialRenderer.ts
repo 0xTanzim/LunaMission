@@ -140,9 +140,24 @@ export function drawCelestialBody(
   // Non-colour identification: glyph + text label with the numeric elevation.
   ctx.font = `bold 11px ${CHART_FONT}`;
   const glyph = body.statusGlyph ? `${body.statusGlyph} ` : '';
-  drawLabelChip(ctx, `${glyph}${body.label} ${formatSignedDeg(elevationDeg)}`, x, y - radiusPx - 6, {
+  const labelText = `${glyph}${body.label} ${formatSignedDeg(elevationDeg)}`;
+  const textWidth = ctx.measureText(labelText).width;
+  const chipWidth = textWidth + 8;
+  const halfChip = chipWidth / 2;
+
+  let labelX = x;
+  let align: CanvasTextAlign = 'center';
+  if (x - halfChip < 50) {
+    labelX = 50;
+    align = 'left';
+  } else if (x + halfChip > widthPx - 8) {
+    labelX = widthPx - 8;
+    align = 'right';
+  }
+
+  drawLabelChip(ctx, labelText, labelX, y - radiusPx - 6, {
     role: body.kind === 'sun' ? 'sun' : 'earth',
-    align: 'center',
+    align,
     bold: true,
   });
   ctx.restore();
@@ -177,8 +192,17 @@ export function drawClearanceGauge(
     ctx.stroke();
   }
   ctx.restore();
-  drawLabelChip(ctx, spec.clearanceLabel, x + 7, (yHorizon + yBody) / 2 + 3, {
+
+  const clearanceWidth = ctx.measureText(spec.clearanceLabel).width;
+  let gaugeX = x + 7;
+  let gaugeAlign: CanvasTextAlign = 'left';
+  if (x + 7 + clearanceWidth > projection.azimuth.widthPx - 8) {
+    gaugeX = x - 7;
+    gaugeAlign = 'right';
+  }
+  drawLabelChip(ctx, spec.clearanceLabel, gaugeX, (yHorizon + yBody) / 2 + 3, {
     role,
+    align: gaugeAlign,
     bold: true,
   });
 }

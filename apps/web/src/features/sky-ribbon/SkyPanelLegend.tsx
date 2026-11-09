@@ -147,18 +147,23 @@ export const SkyPanelLegend: React.FC<SkyPanelLegendProps> = ({
 
   return (
     <ul
+      role="list"
       data-testid="sky-panel-legend"
-      className="flex flex-wrap items-start gap-x-4 gap-y-1.5 font-mono text-[11px] text-[var(--lm-color-text-secondary)]"
+      className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] text-[var(--lm-color-text-secondary)] pt-1"
     >
       {entries.map((entry) => (
-        <li key={entry.label} className="flex min-w-0 items-start gap-1.5">
-          <span className="pt-1">{entry.swatch}</span>
-          <span className="flex min-w-0 flex-col">
-            <span>{entry.label}</span>
-            {entry.detail && (
-              <span className="text-[var(--lm-color-text-muted)]">{entry.detail}</span>
-            )}
-          </span>
+        <li
+          key={entry.label}
+          title={entry.detail ? `${entry.label}: ${entry.detail}` : entry.label}
+          className="flex min-w-0 items-center gap-1.5 rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-raised)]/70 px-2 py-0.5 text-[11px]"
+        >
+          <span className="flex items-center shrink-0">{entry.swatch}</span>
+          <span className="font-medium text-[var(--lm-color-text-primary)]">{entry.label}</span>
+          {entry.detail && (
+            <span className="text-[var(--lm-color-text-muted)] text-[11px]">
+              · {entry.detail}
+            </span>
+          )}
         </li>
       ))}
     </ul>

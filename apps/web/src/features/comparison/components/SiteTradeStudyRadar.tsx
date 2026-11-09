@@ -87,8 +87,9 @@ export const SiteTradeStudyRadar: React.FC<SiteTradeStudyRadarProps> = ({
         </span>
       </figcaption>
 
-      <div className="flex w-full items-center justify-center">
-        <div className="flex aspect-square w-full max-w-[320px] items-center justify-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start border-t border-[var(--lm-color-border-subtle)] pt-3">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex aspect-square w-full max-w-[320px] items-center justify-center">
           <svg
             viewBox={`0 0 ${size} ${size}`}
             className="h-full w-full overflow-visible"
@@ -183,10 +184,11 @@ export const SiteTradeStudyRadar: React.FC<SiteTradeStudyRadarProps> = ({
             </span>
           );
         })}
-      </div>
+        </div>
 
-      <div className="flex flex-col gap-1">
-        <h4 className="text-[length:var(--lm-text-micro)] font-bold uppercase tracking-wider text-[var(--lm-color-text-secondary)]">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <h4 className="text-[length:var(--lm-text-micro)] font-bold uppercase tracking-wider text-[var(--lm-color-text-secondary)]">
           Normalisation
         </h4>
         <ul className="flex list-none flex-col gap-1 p-0">
@@ -292,6 +294,8 @@ export const SiteTradeStudyRadar: React.FC<SiteTradeStudyRadarProps> = ({
           </table>
         </div>
       </div>
-    </figure>
+    </div>
+  </div>
+</figure>
   );
 };

@@ -4,6 +4,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Tier1VehicleGating } from '../src/features/comparison/Tier1VehicleGating';
 import { Tier2LexicographicSort } from '../src/features/comparison/Tier2LexicographicSort';
 import { Tier3PairwiseDeltaMatrix } from '../src/features/comparison/Tier3PairwiseDeltaMatrix';
+import { ComparisonDecisionSummary } from '../src/features/comparison/components/ComparisonDecisionSummary';
+import { ComparisonCohortBar } from '../src/features/comparison/ComparisonCohortBar';
 import type { DisqualifiedCandidate, RankedFeasibleCandidate, Tier3PairwiseDelta } from '@luna/contracts';
 
 describe('Milestone M6: Three-Tiered Comparison Matrix', () => {
@@ -180,5 +182,46 @@ describe('Milestone M6: Three-Tiered Comparison Matrix', () => {
   it('renders fallback when pairwiseDelta is null (< 2 feasible sites)', () => {
     const html = renderToStaticMarkup(<Tier3PairwiseDeltaMatrix pairwiseDelta={null} />);
     expect(html).toContain('Fewer than 2 feasible candidates passed');
+  });
+
+  it('renders ComparisonDecisionSummary zero-survivor fallback guidance when 0 candidates pass', () => {
+    const html = renderToStaticMarkup(
+      <ComparisonDecisionSummary
+        rankedCandidates={[]}
+        onRelaxConstraints={() => {}}
+      />,
+    );
+    expect(html).toContain('Lead candidate');
+    expect(html).toContain('0 Candidates Cleared Limits');
+    expect(html).toContain('All candidate sites in this cohort were disqualified');
+    expect(html).toContain('Relax limits (Polar Survey)');
+  });
+
+  it('renders ComparisonCohortBar with Culled and Primary (Culled) badges and alert banner', () => {
+    const html = renderToStaticMarkup(
+      <ComparisonCohortBar
+        cohortSiteIds={['shackleton-floor', 'amundsen-rim']}
+        activeSiteId="shackleton-floor"
+        disqualifiedCandidates={mockDisqualified}
+        onAddSite={() => {}}
+        onRemoveSite={() => {}}
+        onRelaxConstraints={() => {}}
+      />,
+    );
+    expect(html).toContain('Primary (Culled)');
+    expect(html).toContain('Culled');
+    expect(html).toContain('Notice:');
+    expect(html).toContain('does not clear active vehicle limits');
+    expect(html).toContain('Relax to Polar Survey');
+  });
+
+  it('renders Tier2LexicographicSort empty row when 0 candidates survive', () => {
+    const html = renderToStaticMarkup(
+      <Tier2LexicographicSort
+        rankedCandidates={[]}
+        onSelectPairwise={() => {}}
+      />,
+    );
+    expect(html).toContain('No candidate sites cleared Tier 1 vehicle constraints');
   });
 });

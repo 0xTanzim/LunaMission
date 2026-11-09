@@ -98,18 +98,29 @@ export const Tier2LexicographicSort: React.FC<Tier2LexicographicSortProps> = ({
         <table className="w-full border-collapse text-left">
           <Tier2TableHeader />
           <tbody className="divide-y divide-[var(--lm-color-border-subtle)]">
-            {rankedCandidates.map((candidate) => (
-              <Tier2CandidateRow
-                key={candidate.siteId}
-                candidate={candidate}
-                isSiteA={selectedSiteAId === candidate.siteId}
-                isSiteB={selectedSiteBId === candidate.siteId}
-                onSelectSiteA={handleSelectSiteA}
-                onSelectSiteB={handleSelectSiteB}
-                onPromotePrimary={onPromotePrimary}
-                onInspectInAnalyze={onInspectInAnalyze}
-              />
-            ))}
+            {rankedCandidates.length > 0 ? (
+              rankedCandidates.map((candidate) => (
+                <Tier2CandidateRow
+                  key={candidate.siteId}
+                  candidate={candidate}
+                  isSiteA={selectedSiteAId === candidate.siteId}
+                  isSiteB={selectedSiteBId === candidate.siteId}
+                  onSelectSiteA={handleSelectSiteA}
+                  onSelectSiteB={handleSelectSiteB}
+                  onPromotePrimary={onPromotePrimary}
+                  onInspectInAnalyze={onInspectInAnalyze}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="px-4 py-8 text-center text-xs text-[var(--lm-color-text-muted)] italic"
+                >
+                  No candidate sites cleared Tier 1 vehicle constraints. Adjust vehicle sliders or select &quot;Polar Survey&quot; above to rank candidates.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

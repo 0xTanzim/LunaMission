@@ -192,6 +192,10 @@ export function DecisionMatrix({
           <ComparisonTableHead
             sites={columns.map((column) => column.site)}
             primarySiteId={primarySiteId}
+            canRemoveSite={canRemoveSite}
+            onSetPrimary={onSetPrimary}
+            onInspectSite={onInspectSite}
+            onRemoveSite={onRemoveSite}
           />
           {sections.map((section) => {
             const core = coreRows(section);

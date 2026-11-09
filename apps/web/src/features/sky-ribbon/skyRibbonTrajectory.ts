@@ -78,3 +78,40 @@ export function buildTrajectory(
 
   return { body, samples, runs, seamBreaks };
 }
+
+/**
+ * Interpolates a point along the trajectory line for a given epoch.
+ * Follows the exact linear interpolation segment connecting published sub-interval knots.
+ */
+export function interpolateTrajectorySample(
+  series: TrajectorySeries,
+  epochMs: number,
+): { azimuthDeg: number; elevationDeg: number } | null {
+  const { samples } = series;
+  if (samples.length === 0) return null;
+  if (epochMs <= samples[0]!.epochMs) {
+    return { azimuthDeg: samples[0]!.azimuthDeg, elevationDeg: samples[0]!.elevationDeg };
+  }
+  const last = samples[samples.length - 1]!;
+  if (epochMs >= last.epochMs) {
+    return { azimuthDeg: last.azimuthDeg, elevationDeg: last.elevationDeg };
+  }
+
+  for (let i = 0; i < samples.length - 1; i++) {
+    const s0 = samples[i]!;
+    const s1 = samples[i + 1]!;
+    if (epochMs >= s0.epochMs && epochMs <= s1.epochMs) {
+      const dt = s1.epochMs - s0.epochMs;
+      if (dt <= 0) return { azimuthDeg: s0.azimuthDeg, elevationDeg: s0.elevationDeg };
+      const t = (epochMs - s0.epochMs) / dt;
+      const elevationDeg = s0.elevationDeg + t * (s1.elevationDeg - s0.elevationDeg);
+      let dAz = s1.azimuthDeg - s0.azimuthDeg;
+      if (dAz > 180) dAz -= 360;
+      else if (dAz < -180) dAz += 360;
+      const azimuthDeg = normalizeAzimuthDeg(s0.azimuthDeg + t * dAz);
+      return { azimuthDeg, elevationDeg };
+    }
+  }
+
+  return { azimuthDeg: last.azimuthDeg, elevationDeg: last.elevationDeg };
+}
