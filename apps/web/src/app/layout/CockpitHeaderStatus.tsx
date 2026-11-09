@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github } from 'lucide-react';
+import { Github, BookOpen } from 'lucide-react';
 import { StatusEpistemicBadge } from '../../shared/components/StatusEpistemicBadge';
 import { useScenarioState } from '../state/useScenarioState';
 import { IconPassport, IconSeismic } from '@/app/components/icons/lmIcons';
@@ -30,6 +30,22 @@ export const CockpitHeaderStatus: React.FC = () => {
         <Github size={14} aria-hidden="true" />
         <span className="hidden sm:inline font-semibold">GitHub</span>
       </a>
+      <button
+        type="button"
+        onClick={() => setActiveDrawer(state.activeDrawer === 'guide' ? 'none' : 'guide')}
+        aria-expanded={state.activeDrawer === 'guide'}
+        aria-label="Open Guidelines and User Documentation"
+        title="Open Guidelines & Documentation (Flight Manual)"
+        data-testid="header-guide-button"
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded border transition-colors min-h-[32px] shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] cursor-pointer ${
+          state.activeDrawer === 'guide'
+            ? 'border-[var(--lm-color-sun)] bg-[var(--lm-color-surface)] text-[var(--lm-color-sun)] shadow-xs'
+            : 'border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:border-[var(--lm-color-border-strong)]'
+        }`}
+      >
+        <BookOpen size={14} aria-hidden="true" />
+        <span className="hidden sm:inline font-semibold">Guide</span>
+      </button>
       <StatusEpistemicBadge
         status={state.calculationStatus}
         onClick={() => setActiveDrawer('provenance')}

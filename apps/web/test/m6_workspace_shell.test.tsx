@@ -7,6 +7,7 @@ import { ProjectionSwitcher } from '../src/features/workspace/ProjectionSwitcher
 import { ScenarioConfigBar } from '../src/features/workspace/ScenarioConfigBar';
 import { MissionWorkspaceShell } from '../src/features/workspace/MissionWorkspaceShell';
 import { CockpitHeaderStatus } from '../src/app/layout/CockpitHeaderStatus';
+import { ObservatoryGuideModal } from '../src/app/header/modals/ObservatoryGuideModal';
 
 describe('Milestone M6: Workspace Shell & Controls', () => {
   it('renders ProjectionSwitcher with role="tablist" and 3 workspace projections', () => {
@@ -102,5 +103,34 @@ describe('Milestone M6: Workspace Shell & Controls', () => {
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain('GitHub');
+  });
+
+  it('renders CockpitHeaderStatus with Guide button linking to flight manual', () => {
+    const html = renderToStaticMarkup(
+      <ScenarioProvider>
+        <CockpitHeaderStatus />
+      </ScenarioProvider>,
+    );
+
+    expect(html).toContain('data-testid="header-guide-button"');
+    expect(html).toContain('aria-label="Open Guidelines and User Documentation"');
+    expect(html).toContain('Guide');
+  });
+
+  it('renders ObservatoryGuideModal with flight manual tabs, quick start workflow, and dismiss action', () => {
+    const html = renderToStaticMarkup(
+      <ObservatoryGuideModal isOpen={true} onClose={() => {}} />,
+    );
+
+    expect(html).toContain('LunaMission Flight Manual &amp; Observatory Guide');
+    expect(html).toContain('role="dialog"');
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain('data-testid="guide-tab-quickstart"');
+    expect(html).toContain('data-testid="guide-tab-standards"');
+    expect(html).toContain('data-testid="guide-tab-shortcuts"');
+    expect(html).toContain('LunaMission Operational Sequence');
+    expect(html).toContain('data-testid="guide-open-methodology-button"');
+    expect(html).toContain('data-testid="guide-close-button"');
+    expect(html).toContain('Close Guide');
   });
 });

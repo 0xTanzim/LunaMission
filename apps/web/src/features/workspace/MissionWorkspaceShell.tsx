@@ -13,6 +13,7 @@ import { MissionDossierModal } from '../dossier/ui/MissionDossierModal';
 import { PassportDrawer } from '../spatial/components/panels/PassportDrawer';
 import { ProvenanceStatusModal } from '../../app/header/modals/ProvenanceStatusModal';
 import { ApolloSeismicDrawer } from '../geology/ApolloSeismicDrawer';
+import { ObservatoryGuideModal } from '../../app/header/modals/ObservatoryGuideModal';
 
 interface MissionWorkspaceShellProps {
   initialProjection?: 'explore' | 'analyze' | 'compare';
@@ -170,6 +171,12 @@ export const MissionWorkspaceShell: React.FC<MissionWorkspaceShellProps> = ({
       {/* 8. Apollo Seismic Experiment Geotechnical Drawer */}
       <ApolloSeismicDrawer
         isOpen={state.activeDrawer === 'seismic'}
+        onClose={() => setActiveDrawer('none')}
+      />
+
+      {/* 9. Guidelines & Documentation Flight Manual Modal */}
+      <ObservatoryGuideModal
+        isOpen={state.activeDrawer === 'guide'}
         onClose={() => setActiveDrawer('none')}
       />
     </div>

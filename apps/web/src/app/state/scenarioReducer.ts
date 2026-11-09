@@ -39,7 +39,7 @@ export interface GlobalScenarioState {
   activeBlockerAzimuthDeg: number | null;
   activeProjection: 'explore' | 'analyze' | 'compare';
   spatialDimensionMode: '2d' | '3d';
-  activeDrawer: 'none' | 'passport' | 'blocker' | 'provenance' | 'custom_coord' | 'seismic';
+  activeDrawer: 'none' | 'passport' | 'blocker' | 'provenance' | 'custom_coord' | 'seismic' | 'guide';
   calculationId: string | null;
   calculationStatus: 'valid' | 'valid-with-limitations' | 'approximate' | 'incomplete' | 'unsupported' | 'failed' | 'loading';
 }
