@@ -9,11 +9,12 @@ import { ExternalLink } from 'lucide-react';
 interface ObservatoryGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onStartTour?: () => void;
 }
 
 type GuideTabId = 'quickstart' | 'standards' | 'shortcuts';
 
-export function ObservatoryGuideModal({ isOpen, onClose }: ObservatoryGuideModalProps) {
+export function ObservatoryGuideModal({ isOpen, onClose, onStartTour }: ObservatoryGuideModalProps) {
   const [activeTab, setActiveTab] = useState<GuideTabId>('quickstart');
   const { navigateToTab } = useMissionRouter();
 
@@ -94,7 +95,7 @@ export function ObservatoryGuideModal({ isOpen, onClose }: ObservatoryGuideModal
           aria-labelledby={`guide-tab-${activeTab}`}
           className="min-h-[280px]"
         >
-          {activeTab === 'quickstart' && <GuideQuickStartTab />}
+          {activeTab === 'quickstart' && <GuideQuickStartTab onStartTour={onStartTour} />}
           {activeTab === 'standards' && <GuideStandardsTab />}
           {activeTab === 'shortcuts' && <GuideShortcutsTab />}
         </div>

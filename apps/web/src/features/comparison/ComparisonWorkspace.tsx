@@ -4,6 +4,7 @@ import { useScenarioCommands } from '@/app/scenario/context/scenarioContext';
 import { useScenarioState } from '@/app/state/useScenarioState';
 import { ThreeTierComparisonView } from './ThreeTierComparisonView';
 import { ComparisonMatrix } from './ui/ComparisonMatrix';
+import { CompareVisualHelper } from './components/CompareVisualHelper';
 
 type ComparisonView = 'funnel' | 'matrix';
 
@@ -28,6 +29,9 @@ export const ComparisonWorkspace: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full min-w-0">
+      {/* In-Situ Visual Guide */}
+      <CompareVisualHelper />
+
       <div
         role="group"
         aria-label="Comparison analysis view"

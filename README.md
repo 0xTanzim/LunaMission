@@ -1,21 +1,71 @@
 # LunaMission — Lunar Landing Site Navigator
 
-[![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026-blue.svg)](https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/)
-[![Runtime](https://img.shields.io/badge/Runtime-Bun%20v1.2+-black.svg)](https://bun.sh/)
-[![Python Pipeline](https://img.shields.io/badge/Python-3.11+%20(Science%20Pipeline)-3776ab.svg)](tooling/)
-[![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Tailwind%20v4%20%2B%20Three.js-61dafb.svg)](https://react.dev/)
-[![Backend](https://img.shields.io/badge/Microservice-NextRush%20(Bun%20REST)-orange.svg)](apps/api/src/app.ts)
-[![Tests Passing](https://img.shields.io/badge/Tests-1578%20Passing-brightgreen.svg)](tests/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(0%20Errors)-3178c6.svg)](tsconfig.json)
-[![WCAG 2.1 AA](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-success.svg)](https://www.w3.org/WAI/WCAG21/quickref/)
-[![Datum](https://img.shields.io/badge/Datum-IAU%20MOON__ME%20(DE421)-purple.svg)](docs/SCIENCE_FEASIBILITY.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+  <img src="https://img.shields.io/badge/NASA%20Space%20Apps-2026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white" alt="NASA Space Apps 2026" />
+  <img src="https://img.shields.io/badge/Runtime-Bun%20v1.2+-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun v1.2+" />
+  <img src="https://img.shields.io/badge/Python-3.11+%20(Science%20Pipeline)-3776ab?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11+ Science Pipeline" />
+  <img src="https://img.shields.io/badge/Frontend-React%2019%20%2B%20Three.js-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
+  <img src="https://img.shields.io/badge/Tests-1637%20Passing-10B981?style=for-the-badge&logo=checkmarx&logoColor=white" alt="1637 Tests Passing" />
+  <img src="https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-06B6D4?style=for-the-badge&logo=w3c&logoColor=white" alt="WCAG 2.1 AA" />
+  <img src="https://img.shields.io/badge/Datum-IAU%20MOON__ME-8B5CF6?style=for-the-badge" alt="IAU MOON_ME" />
+</p>
 
-**LunaMission** is an aerospace-grade lunar landing site decision-support platform engineered for the **NASA Space Apps Challenge 2026**: [**Lunar Landing Site Navigator**](https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/).
-Website link: https://lunamissionx.vercel.app/
-NASA Space Apps Challenge Team Page link: https://www.spaceappschallenge.org/2026/find-a-team/softsasi1/
+<p align="center">
+  <strong>Aerospace-grade lunar landing site decision-support platform engineered for the NASA Space Apps Challenge 2026.</strong><br />
+  <em>Deterministic astrodynamics, LOLA 20m digital elevation ray-marching, and three-tier multi-criteria candidate trade studies.</em>
+</p>
 
-Designed for planetary scientists, mission planners, flight dynamics engineers, educators, and aerospace students, LunaMission provides deterministic mathematical rigor, transparent error budgets, and authoritative NASA citations to evaluate, compare, and rank lunar south-polar landing zones ($80^\circ\text{S} - 90^\circ\text{S}$) and historical touchdown coordinates.
+<p align="center">
+  <a href="https://lunamissionx.vercel.app/"><strong>🌐 Launch Live Web Application</strong></a> •
+  <a href="https://www.spaceappschallenge.org/2026/find-a-team/softsasi1/"><strong>🏆 Space Apps Team Page</strong></a> •
+  <a href="#-visual-showcase--flight-deck-interface"><strong>📸 Visual Showcase</strong></a> •
+  <a href="#-the-5-flight-deck-workspaces"><strong>🧭 Flight Deck Workspaces</strong></a> •
+  <a href="#-mathematical--astrodynamical-formulations"><strong>🔬 Astrodynamics Math</strong></a> •
+  <a href="#-scientific-data-pipeline--offline-python-tooling"><strong>🐍 Python Pipeline</strong></a> •
+  <a href="#-quickstart--local-development"><strong>⚡ Quickstart</strong></a>
+</p>
+
+---
+
+> [!IMPORTANT]
+> **The Lunar South Pole Challenge in 60 Seconds:**  
+> NASA's Artemis program targets the Moon's South Pole ($80^\circ\text{S} - 90^\circ\text{S}$) to access **cryogenic water-ice deposits** trapped inside Permanently Shadowed Regions (PSRs)—a vital resource for astronaut life support, breathable oxygen, and liquid hydrogen rocket propellant.
+> 
+> However, because the Moon's axial tilt is only **$1.54^\circ$**, the Sun skims the horizon like an endless sunset. Mountains and crater rims cast **50 km shadows**, dropping surface temperatures to **$-200^\circ\text{C}$** and freezing robotic batteries. Simultaneously, the Moon wobbles in its orbit (*libration* by $\pm 7^\circ$), causing Earth to dip behind terrain and sever direct-to-Earth (DTE) radio communications.
+> 
+> **LunaMission** solves this by uniting gigabyte-scale NASA LOLA DEMs with NASA JPL Horizons ephemerides to provide **deterministic, sub-second shadow forecasting, topocentric horizon blocking, and three-tier multi-site trade studies**.
+
+---
+
+## 📸 Visual Showcase & Flight Deck Interface
+
+| ☀️ Workspace 2: Mission Analysis (`/analyze`) | ⚖️ Workspace 3: Multi-Site Compare (`/compare`) |
+| :---: | :---: |
+| ![Analyze Workspace Hero](docs/assets/analyze_workspace_hero.png) | ![Compare Funnel & Lead Podium](docs/assets/compare_funnel_podium.png) |
+| *Asymmetric Executive KPI Dashboard (Total Sunlight & Max Darkness survival halos) and streamlined Instrument Guide* | *Three-Tier Filtering Funnel, suppressed culled cards, and Golden "Winner's Podium" Lead Candidate Card* |
+
+| 🌌 360° Panoramic Horizon Sky-Ribbon (`/analyze`) | 📊 Focused Pairwise Delta Matrix (`/compare`) |
+| :---: | :---: |
+| ![360° Sky Ribbon Horizon Mask](docs/assets/sky_ribbon_horizon.png) | ![Pairwise Delta Matrix](docs/assets/compare_pairwise_matrix.png) |
+| *Topocentric LOLA 20m mountain skyline, grazing solar trajectory corridor, and Earth libration contact loop* | *Direct head-to-head candidate trade-off matrix with bipolar diverging advantage bars and terrain risk assessment* |
+
+---
+
+## 🎮 How to Evaluate a Landing Site in 3 Steps
+
+```text
+[ Step 1: Select Target & Epoch ] ────> [ Step 2: Analyze Solar Access ] ────> [ Step 3: Run Multi-Site Trade Study ]
+  • Choose site (e.g., Connecting Ridge)    • Inspect 360° topocentric skyline       • Gate candidates against vehicle limits
+  • Set mission date (e.g., Nov 1, 2026)    • Verify Max Darkness <= battery limit   • Rank non-dominated Pareto frontier
+  • Set mast height & launch-slip slider    • Evaluate Earth Line-of-Sight contact   • Compare deltas in head-to-head matrix
+```
+
+1. **Step 1: Configure Scenario & Observer Mast (`ScenarioConfigBar`):**
+   Select one of 20 NASA-curated landing sites, choose a mission duration (7 to 28 days), and adjust the solar mast height ($1.0\text{ m} - 10.0\text{ m}$). Test launch delay resilience with the **Rocket Delay Slider** ($\pm 0.5\text{d} - 7\text{d}$).
+2. **Step 2: Inspect Horizon Occlusion & Survival Margins (`/analyze`):**
+   Review the asymmetric KPI strip. Ensure **Max Continuous Darkness** does not exceed vehicle battery capacity (e.g., $\le 16.0\text{ h}$). Inspect the $360^\circ$ LOLA skyline to see exactly which ridges block the Sun.
+3. **Step 3: Execute Three-Tier Trade Study (`/compare`):**
+   Filter candidates against hard vehicle constraints in Tier 1 Gating, identify the lexicographically ranked leader in Tier 2, and inspect head-to-head delta trade-offs in Tier 3 with bipolar advantage bars.
 
 ---
 
@@ -24,10 +74,30 @@ Designed for planetary scientists, mission planners, flight dynamics engineers, 
 - **LOLA Horizon Ray-Marching:** Evaluates real lunar terrain obstructions using high-resolution NASA Lunar Orbiter Laser Altimeter (LOLA) DEMs (`LDEM_85S_20M` and `LDEM_80S_60M`) under the exact IAU/NASA `MOON_ME` (Mean Earth / Polar Axis) coordinate datum with analytical closed-form stopping distances $s_{\text{bound}}$.
 - **Rolle's Theorem Event-Splitting Solver:** Four-stage partition with quadratic clearance extrema splitting and Brent's root-refinement ($\delta t \le 1.0\text{ s}$), capturing grazing solar access and libration-modulated Earth line-of-sight without missing zero-crossings or tangential grazes.
 - **Finite Solar & Earth Disk Solid-Angle Integration:** Exact differential spherical-cap solid angle $\Omega_{\text{disk}} = 2\pi(1 - \cos R)$ and limb-darkened solar occlusion modeling for grazing Sun conditions ($\le 1.5424^\circ$ obliquity).
+- **Asymmetric Executive Cockpit & Surface Depth:** Deep space void canvas (`#04070D`), high-contrast floating card elevations, and dynamic survival status halos for life-critical darkness constraints.
+- **Interactive In-Situ Visual Anatomy Guides & Onboarding:** Real-time visual guides detailing the topocentric $360^\circ$ Sky-Ribbon, LOLA ridge blocking, and three-tier decision funnel, accompanied by a 6-step guided interactive walkthrough.
+- **Flight Operations Manual & Aerospace Standards:** In-cockpit documentation modal (`Shift+?` or Help button) codifying epistemic observable distinctions (geometric access vs. electrical power, line-of-sight vs. RF link closure), keyboard shortcut atlas, and mission FAQ.
 - **Multi-Workspace Flight Deck:** Five unified, keyboard-accessible operational workspaces synchronized through a canonical scenario state engine with zero context drift (`Alt+1` through `Alt+5`).
 - **Deep Space Network (DSN) Telecom Modeling:** Analytical 810-007 link budget calculations across Goldstone, Madrid, and Canberra complexes with lunar terrain knife-edge diffraction (ITU-R P.526-16) and Earth libration tracking ($\pm 6.69^\circ$ latitude, $\pm 7.9^\circ$ longitude).
 - **Planetary Theater & Rover Simulation:** Three.js lunar surface environment featuring exploration rover driving physics, Astronaut xEMU Helmet Visor HUD, and 8 camera presets (`nadir`, `site`, `horizon`, `eva`, `earth_align`, `orbit360`, `north_look`, `sunward_terminator`).
 - **Production Monorepo Architecture:** Clean separation of concerns with a typed contracts package (`@luna/contracts`), NextRush Bun REST microservice (`@luna/api`), and pure presentation React 19 client (`@luna/web`).
+
+---
+
+## 🧭 The 5 Flight Deck Workspaces
+
+LunaMission organizes mission planning into five specialized, keyboard-navigable operational workspaces (`Alt+1` through `Alt+5`):
+
+| Workspace | Route | Shortcut | Primary Purpose & Key Capabilities |
+| :--- | :--- | :---: | :--- |
+| **1. Site Map** | `/explore` | `Alt+1` | **Polar Cartography & Point Passport:** Interactive 2D South Polar stereographic projection ($-80^\circ\text{S} - 90^\circ\text{S}$), multi-layer scientific overlays (NASA SVS 3727 hypsometry, Diviner thermal, LEND neutron volatiles), 3D interactive lunar globe, and docked coordinate inspector. |
+| **2. Analyze** | `/analyze` | `Alt+2` | **Horizon Sky-Ribbon & Event Timeline:** $360^\circ$ topocentric radar skyline, grazing solar elevation corridor ($-5^\circ \dots +10^\circ$), Earth libration window, and operational Gantt timeline detailing continuous sunlight, partial limb, and cryogenic shadow durations. |
+| **3. Compare** | `/compare` | `Alt+3` | **Three-Tier CASSA Decision Matrix:** Multi-criteria trade-off engine comparing candidate sites on identical UTC epochs across illumination margins, slope hazards ($\ge 15^\circ$), DSN communications links, and volatile potential. |
+| **4. 3D Lab** | `/scenario/3d-lab` | `Alt+4` | **Planetary Theater & Rover Simulation:** High-fidelity Three.js surface environment with exploration rover driving simulation (WASD with real-time slope pitch/roll physics), Astronaut xEMU Helmet Visor HUD, and 8 camera presets (`nadir`, `site`, `horizon`, `eva`, `earth_align`, `orbit360`, `north_look`, `sunward_terminator`). |
+| **5. Cesium 3D** | `/scenario/cesium-globe` | `Alt+5` | **Photorealistic Moon Explorer:** Whole-Moon 3D globe powered by Cesium Ion high-resolution lunar basemaps and global terrain tiles. |
+
+> [!TIP]
+> Press **`Shift+?`** anywhere in the application to open the **Flight Operations Manual & Guidelines Modal**, containing interactive quickstart guides, epistemic standards, and complete keyboard shortcuts.
 
 ---
 
@@ -37,18 +107,18 @@ LunaMission strictly enforces a **Backend-Driven Scientific Compute + Pure Prese
 
 ```mermaid
 flowchart TD
-    subgraph Pipeline ["Offline Scientific Pipeline (tooling/scripts)"]
+    subgraph Pipeline ["1. Offline Scientific Pipeline (tooling/scripts)"]
         DEMIngest["NASA LOLA COG Ingest (lola_cog_reader.py)"]
         Raymarch["Generalized s_bound Ray-Marcher (horizon_raymarch.py)"]
         Oracle["Physics Oracle & JPL Verifier (physics_oracle_check.py)"]
     end
 
-    subgraph Data ["Data & Calibration (data/)"]
+    subgraph Data ["2. Data & Calibration (data/)"]
         Horizons["curated-horizons.json (LOLA 20m)"]
         Registry["sites-registry.json (NASA PDS / LROC)"]
     end
 
-    subgraph Backend ["Backend Compute Microservice (apps/api)"]
+    subgraph Backend ["3. Backend Compute Microservice (apps/api)"]
         ApiApp["NextRush Bun REST API (:3001)"]
         JPLAdapter["JPL SSD Horizons Adapter (DE421)"]
         EventSplitter["Rolle Event-Splitting Solver"]
@@ -60,7 +130,7 @@ flowchart TD
         Schemas["Zod Validation & TypeScript Interfaces"]
     end
 
-    subgraph Frontend ["Presentation Client (apps/web)"]
+    subgraph Frontend ["4. Presentation Client (apps/web)"]
         ReactApp["React 19 + Tailwind v4 + Three.js (:3000)"]
         Map2D["2D Polar Stereographic Canvas"]
         Globe3D["WebGL LRO Moon Globe"]
@@ -132,32 +202,23 @@ $$J(v) \approx 6.9 + 20 \log_{10}\left(\sqrt{(v - 0.1)^2 + 1} + v - 0.1\right)\q
 
 ---
 
-## 🧭 The 5 Flight Deck Workspaces
-
-LunaMission organizes mission planning into five specialized, keyboard-navigable operational workspaces (`Alt+1` through `Alt+5`):
-
-| Workspace | Route | Shortcut | Operational Focus |
-| :--- | :--- | :---: | :--- |
-| **1. Site Map** | `/explore` | `Alt+1` | **Polar Cartography & Point Passport:** Interactive 2D South Polar stereographic projection ($-80^\circ\text{S} - 90^\circ\text{S}$), multi-layer scientific overlays (NASA SVS 3727 hypsometry, Diviner thermal, LEND neutron volatiles), 3D interactive lunar globe, and docked non-occluding coordinate inspector. |
-| **2. Analyze** | `/analyze` | `Alt+2` | **Horizon Sky-Ribbon & Event Timeline:** 360° topocentric radar skyline, grazing solar elevation corridor, Earth libration window, and operational Gantt timeline detailing continuous sunlight, partial limb, and cryogenic shadow durations. |
-| **3. Compare** | `/compare` | `Alt+3` | **Three-Tier CASSA Decision Matrix:** Multi-criteria trade-off engine comparing candidate sites on identical UTC epochs across illumination margins, slope hazards ($\ge 15^\circ$), DSN communications links, and volatile potential. |
-| **4. 3D Lab** | `/scenario/3d-lab` | `Alt+4` | **Planetary Theater & Rover Simulation:** High-fidelity Three.js surface environment with exploration rover driving simulation (WASD with real-time slope pitch/roll physics), Astronaut xEMU Helmet Visor HUD, and 8 camera presets (`nadir`, `site`, `horizon`, `eva`, `earth_align`, `orbit360`, `north_look`, `sunward_terminator`). |
-| **5. Cesium 3D** | `/scenario/cesium-globe` | `Alt+5` | **Photorealistic Moon Explorer:** Whole-Moon 3D globe powered by Cesium Ion high-resolution lunar basemaps and global terrain tiles. |
-
-> *Note: A companion **Scientific Lineage & Methodology View** (`/methodology`) is accessible from the cockpit header or in-app triggers, providing full transparent documentation of datasets, coordinate frames, and uncertainty models. For a comprehensive walkthrough of each workspace, rover simulation controls, and status badges, consult the [**Flight Deck User Guide (docs/USER_GUIDE.md)**](docs/USER_GUIDE.md).*
-
----
-
 ## 🔬 Scientific Validation & Verification Gates
 
 LunaMission enforces a three-stage scientific validation protocol documented in [`docs/VALIDATION_PROTOCOL.md`](docs/VALIDATION_PROTOCOL.md):
 
-- **Stage 1 (Spatial Calibration):** Verification of LOLA DEM projection bounds, pixel scale ($20\text{m}$), vertical datum ($1,737,400\text{ m}$ reference sphere), landmark elevation control points (Malapert Mountain $+5,038\text{ m}$, Shackleton rim $+1,162\text{ m}$), and synthetic terrain proofs.
-- **Stage 2 (Temporal Solver Proofs):** Verification of dynamic JPL Horizons header parsing (`QUANTITIES='4,5,13,20'`), unit conversions (arcseconds to degrees), and the 6 analytical event-splitting test cases including Earth turnaround points and tangential grazing double-crossings.
-- **Stage 3 (Literature Benchmarks):** Reproduction of published peer-reviewed landing site models:
+| Validation Gate | Method & Physical Dataset | Benchmark Standard & Threshold | Status |
+| :--- | :--- | :--- | :---: |
+| **Stage 1 (Spatial)** | LOLA DEM `LDEM_85S_20M` (20m/px) | Landmark elevation checks: Malapert ($+5,038\text{ m}$), Shackleton ($+1,162\text{ m}$) | `PASSED` |
+| **Stage 2 (Temporal)** | JPL Horizons `coord@301` DE421 / DE440 | 6 analytical Rolle test cases, Earth turnaround points, Brent's root error $\le 1.0\text{ s}$ | `PASSED` |
+| **Stage 3 (Literature)** | Mazarico et al. (2011) & Barker et al. (2021) | Peak SP-1 ($-89.45^\circ\text{S}, 222.69^\circ\text{E}$) solar access residuals $< 1.5\%$ | `PASSED` |
+
+### Detailed Scientific Validation Breakdown:
+- **Stage 1 (Spatial Calibration & Topography):** Verification of LOLA DEM projection bounds, pixel scale ($20\text{ m}$), vertical datum ($1,737,400\text{ m}$ reference sphere), landmark elevation control points (Malapert Mountain $+5,038\text{ m}$, Shackleton rim $+1,162\text{ m}$), synthetic flat/tilted bowl proofs, and closed-form stopping distance convergence ($s_{\text{bound}}$).
+- **Stage 2 (Temporal Solver Proofs):** Verification of dynamic JPL Horizons header parsing (`QUANTITIES='4,5,13,20'`), unit conversions (arcseconds/min to degrees/hour), and the 6 analytical event-splitting test cases including Earth turnaround points, high-frequency rate changes, and tangential grazing double-crossings.
+- **Stage 3 (Peer-Reviewed Literature Benchmarks):** Reproduction of published peer-reviewed landing site models:
   - *Mazarico et al. (2011)*: Peak SP-1 ($-89.45^\circ\text{S}, 222.69^\circ\text{E}$) solar access residuals $< 1.5\%$.
-  - *Barker et al. (2021)*: Connecting Ridge DEM uncertainty clones and terrain error bounds.
-  - *Wueller et al. (2026)*: Point CR01 ($-89.5270^\circ\text{S}, 205.4080^\circ\text{E}$) geodesic baseline comparison.
+  - *Barker et al. (2021)*: Connecting Ridge DEM uncertainty clones and terrain perturbation error bounds.
+  - *Wueller et al. (2026)*: Point CR01 ($-89.5270^\circ\text{S}, 205.4080^\circ\text{E}$) geodesic baseline comparison (geodesic distance $5.21\text{ km}$).
 
 Automated verification artifacts are stored under [`validation/artifacts/`](validation/artifacts/).
 
@@ -165,7 +226,7 @@ Automated verification artifacts are stored under [`validation/artifacts/`](vali
 
 ## 🔬 Scientific Data Pipeline & Offline Python Tooling
 
-While the production flight deck runs entirely on Bun and React with zero runtime Python dependency, LunaMission includes a dedicated **offline scientific Python suite** in [`tooling/scripts/`](tooling/scripts/) used to ingest raw NASA LOLA digital elevation models and verify physics calculations:
+While the production flight deck runs entirely on Bun and React with zero runtime Python dependency, LunaMission includes a dedicated **offline scientific Python suite** in [`tooling/scripts/`](tooling/scripts/) used to ingest raw NASA LOLA digital elevation models, process gigabyte-scale rasters, and verify physics calculations:
 
 - **NASA LOLA Cloud-Optimized GeoTIFF (COG) Reader (`lola_cog_reader.py`):** Ingests raw gigabyte-scale USGS/NASA LOLA polar DEMs (`LDEM_85S_20M`, `LDEM_80S_60M`) under the exact IAU/NASA `MOON_ME` polar stereographic datum without external GDAL dependencies.
 - **Generalized Analytical Ray-Marcher (`horizon_raymarch.py`):** Computes $360^\circ$ topocentric terrain obstruction masks using spherical curvature and closed-form stopping distances $s_{\text{bound}}(\theta)$. Emits the verified [`data/curated-horizons.json`](data/curated-horizons.json).
@@ -215,10 +276,10 @@ bun run dev:api
 
 ## 🧪 Testing & Quality Gates
 
-LunaMission maintains a **100% green test suite** with 1,578+ automated tests:
+LunaMission maintains a **100% green test suite** with 1,637+ automated tests:
 
 ```bash
-# Run the complete automated test suite (1578+ passing tests)
+# Run the complete automated test suite (1637+ passing tests across 266 files)
 bun test
 
 # Run static type verification across the entire monorepo (0 errors)
@@ -279,6 +340,7 @@ LunaMission/
 ├── data/                        # Curated NASA LOLA horizon profiles (360° azimuths)
 ├── docker/                      # Nginx reverse proxy configuration
 ├── docs/                        # Authoritative Technical Documentation Suite
+│   ├── assets/                  # High-resolution flight deck interface previews
 │   ├── README.md                # Documentation index
 │   ├── PRD.md                   # Product Requirements Document
 │   ├── ARD.md                   # Architecture Requirements Document
@@ -346,4 +408,3 @@ LunaMission's astrodynamics models, terrain elevations, and ephemeris trajectori
 Developed with precision for the **NASA Space Apps Challenge 2026** by [Softsasi](https://github.com/Softsasi) and the LunaMission team.  
 - **Repository:** [Softsasi/LunaMission](https://github.com/Softsasi/LunaMission)  
 - **License:** Licensed under the [MIT License](LICENSE) (Copyright (c) 2026 Softsasi & LunaMission Contributors).
-

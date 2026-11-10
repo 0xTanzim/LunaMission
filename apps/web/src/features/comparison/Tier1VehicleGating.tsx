@@ -40,14 +40,14 @@ export const Tier1VehicleGating: React.FC<Tier1VehicleGatingProps> = ({
     <section
       role="region"
       aria-label="Tier 1 Hard Vehicle Constraint Gating"
-      className={`flex flex-col gap-3 rounded-[var(--lm-radius-md)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] p-4 font-mono text-xs ${className}`}
+      className={`flex flex-col gap-3 rounded-[var(--lm-radius-md)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] p-4 font-mono text-xs shadow-sm ${className}`}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2.5">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
+          <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
             Tier 1 — Can the vehicle survive here?
           </h3>
-          <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-text-muted)]">
+          <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] px-1.5 py-0.5 text-[11px] font-sans font-bold uppercase tracking-wide text-[var(--lm-color-text-muted)]">
             HARD GO / NO-GO
           </span>
         </div>
@@ -59,15 +59,15 @@ export const Tier1VehicleGating: React.FC<Tier1VehicleGatingProps> = ({
 
       {disqualifiedCandidates.length > 0 ? (
         <div className="flex flex-col gap-2">
-          <span className="text-[11px] uppercase tracking-wide text-[var(--lm-color-text-muted)]">
+          <span className="text-[11px] font-sans uppercase tracking-wide text-[var(--lm-color-text-muted)]">
             Culled candidates and the margin that culled them
           </span>
-          <ul className="grid list-none grid-cols-1 gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid list-none grid-cols-1 gap-2.5 p-0 md:grid-cols-2 xl:grid-cols-3">
             {disqualifiedCandidates.map((candidate) => (
               <li
                 key={candidate.siteId}
                 data-testid={`disqualified-card-${candidate.siteId}`}
-                className="relative flex flex-col gap-2 overflow-hidden rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-raised)] p-3"
+                className="relative flex flex-col gap-2 overflow-hidden rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-danger-border)]/30 bg-[var(--lm-color-surface-raised)]/70 p-2.5 opacity-65 hover:opacity-100 transition-opacity"
               >
                 <div className="absolute inset-y-0 left-0 w-1 bg-[var(--lm-color-danger)]" />
                 <div className="flex items-center justify-between gap-2 pl-1">
@@ -82,7 +82,7 @@ export const Tier1VehicleGating: React.FC<Tier1VehicleGatingProps> = ({
                   {candidate.rejectionReasons.map((reason, index) => (
                     <div
                       key={`${reason.constraintName}-${index}`}
-                      className="flex flex-col rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-canvas)] p-2 text-[11px]"
+                      className="flex flex-col rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-canvas)]/80 p-2 text-[11px]"
                     >
                       <div className="flex flex-wrap items-baseline justify-between gap-1">
                         <span className="text-[11px] font-bold text-[var(--lm-color-danger)]">

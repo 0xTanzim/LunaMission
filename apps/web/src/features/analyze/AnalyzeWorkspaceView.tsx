@@ -10,6 +10,7 @@ import { GanttTimelineCanvas } from '../timeline/GanttTimelineCanvas';
 import { SkyRibbonCompassTable } from '../accessibility/SkyRibbonCompassTable';
 import { GanttEventSequenceTable } from '../accessibility/GanttEventSequenceTable';
 import { ApiStateView } from '@/shared/ui/ApiStateView';
+import { AnalyzeVisualHelper } from './components/AnalyzeVisualHelper';
 
 export const AnalyzeWorkspaceView: React.FC = () => {
   const { data, error, isLoading, refetch } = useScenarioEvaluation();
@@ -46,10 +47,7 @@ export const AnalyzeWorkspaceView: React.FC = () => {
   if (isLoading && !data) {
     return (
       <div data-testid="analyze-view-loading" className="w-full p-4">
-        <ApiStateView
-          status="loading"
-          message="Evaluating Lunar Topocentric Horizon & Visibility Windows..."
-        />
+        <ApiStateView status="loading" message="Evaluating Lunar Topocentric Horizon & Visibility Windows..." />
       </div>
     );
   }
@@ -81,102 +79,101 @@ export const AnalyzeWorkspaceView: React.FC = () => {
   }
 
   return (
-    <div
-      data-testid="analyze-workspace-view"
-      className="flex flex-col gap-4 w-full min-w-0"
-    >
-      {data.status && data.status !== 'valid' && (
-        <div data-testid="analyze-advisory-banner" className="w-full">
-          <ApiStateView
-            status={data.status}
-            title={data.status === 'valid-with-limitations' ? 'Evaluation Valid With Limitations' : 'Approximate Evaluation'}
-            message={`Scenario calculated with epistemic status "${data.status}". Physical constraints or analytical models active.`}
-            compact
-          />
-        </div>
-      )}
-
-      {/* 1. Executive Constraint Margins (KPI Strip) */}
-      <ExecutiveKpiStrip metrics={data.metrics} />
-
-      {/* Projection Mode Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3 min-w-0 bg-[var(--lm-color-surface)] p-2.5 rounded-lg border border-[var(--lm-color-border-subtle)]">
-        <div className="flex items-center gap-2 min-w-0 flex-wrap">
-          <span className="text-[11px] font-bold text-[var(--lm-color-text-secondary)] uppercase font-mono">
-            Sky Projection Mode:
-          </span>
-          <div className="inline-flex rounded-md bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-border)] p-0.5 gap-1">
-            <button
-              type="button"
-              onClick={() => setSkyProjectionMode('ribbon')}
-              aria-pressed={skyProjectionMode === 'ribbon'}
-              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
-                skyProjectionMode === 'ribbon'
-                  ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
-                  : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'
-              }`}
-            >
-              360° Sky-Ribbon (Panorama)
-            </button>
-            <button
-              type="button"
-              onClick={() => setSkyProjectionMode('radar')}
-              aria-pressed={skyProjectionMode === 'radar'}
-              className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
-                skyProjectionMode === 'radar'
-                  ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
-                  : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'
-              }`}
-            >
-              Circular Polar Radar (R07)
-            </button>
+    <div data-testid="analyze-workspace-view" className="flex flex-col gap-6 w-full min-w-0">
+      {/* Chapter 1: Executive Mission Cockpit */}
+      <section aria-label="Executive Mission Overview" className="flex flex-col gap-3.5 w-full min-w-0">
+        {data.status && data.status !== 'valid' && (
+          <div data-testid="analyze-advisory-banner" className="w-full">
+            <ApiStateView
+              status={data.status}
+              title={data.status === 'valid-with-limitations' ? 'Evaluation Valid With Limitations' : 'Approximate Evaluation'}
+              message={`Scenario calculated with epistemic status "${data.status}". Physical constraints or analytical models active.`}
+              compact
+            />
           </div>
-        </div>
-        <span className="text-[11px] font-mono text-[var(--lm-color-text-muted)] hidden sm:inline">
-          Dual-panel deck · strictly linear −5°…+10° grazing corridor (no scale break)
-        </span>
-      </div>
-
-      {/* 2. Topocentric Visualizer (Sky-Ribbon or Polar Sky Radar) */}
-      <div className="flex w-full max-w-full min-w-0 flex-col overflow-x-auto">
-        {skyProjectionMode === 'ribbon' ? (
-          <SkyRibbonDeck
-            intervals={data.intervals}
-            horizonProfile={liveHorizonProfile}
-            eventWhiskers={data.uncertaintyEnvelopes.eventWhiskers}
-            siteName={data.siteInfo.siteName}
-            playheadUtc={state.activePlayheadUtc}
-            solarCriterion={data.scenarioConfig.sunVisibilityCriterion ?? 'upperLimb'}
-            earthCriterion={data.scenarioConfig.earthVisibilityCriterion ?? 'center'}
-            hoveredAzimuthDeg={state.hoveredAzimuthDeg}
-            onHoverAzimuth={setHoveredAzimuth}
-            activeBlockerAzimuthDeg={state.activeBlockerAzimuthDeg}
-            onSelectBlocker={setActiveBlocker}
-          />
-        ) : (
-          <PolarSkyRadarView
-            horizonBins={liveHorizonProfile}
-            sunPoint={liveSunPoint}
-            earthPoint={liveEarthPoint}
-            sunTrajectory={sunTrajectory}
-            earthTrajectory={earthTrajectory}
-            targetSiteName={data.siteInfo.siteName}
-          />
         )}
-      </div>
+        <ExecutiveKpiStrip metrics={data.metrics} />
+        <AnalyzeVisualHelper />
+      </section>
 
-      {/* 3. Operational Multi-Track Gantt Timeline */}
-      <div className="w-full max-w-full min-w-0 overflow-x-auto">
-        <GanttTimelineCanvas
-          intervals={data.intervals}
-          eventWhiskers={data.uncertaintyEnvelopes.eventWhiskers}
-          startUtc={data.scenarioConfig.effectiveStartUtc}
-          stopUtc={data.scenarioConfig.effectiveStopUtc}
-        />
-      </div>
+      {/* Chapter 2: Topocentric Simulation & Timeline Deck */}
+      <section aria-label="Topocentric Simulation Deck" className="flex flex-col gap-3.5 w-full min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-3 min-w-0 bg-[var(--lm-color-surface)] p-2.5 rounded-lg border border-[var(--lm-color-border-subtle)] shadow-[var(--lm-shadow-card)]">
+          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+            <span className="text-xs font-bold text-[var(--lm-color-text-secondary)] uppercase font-sans">
+              Sky Projection Mode:
+            </span>
+            <div className="inline-flex rounded-md bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-border)] p-0.5 gap-1">
+              <button
+                type="button"
+                onClick={() => setSkyProjectionMode('ribbon')}
+                aria-pressed={skyProjectionMode === 'ribbon'}
+                className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
+                  skyProjectionMode === 'ribbon'
+                    ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
+                    : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'
+                }`}
+              >
+                360° Sky-Ribbon (Panorama)
+              </button>
+              <button
+                type="button"
+                onClick={() => setSkyProjectionMode('radar')}
+                aria-pressed={skyProjectionMode === 'radar'}
+                className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all min-h-[32px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lm-color-focus)] ${
+                  skyProjectionMode === 'radar'
+                    ? 'bg-[var(--lm-color-info)] text-[var(--lm-color-canvas)] shadow-sm'
+                    : 'text-[var(--lm-color-text-secondary)] hover:text-[var(--lm-color-text-primary)] hover:bg-[var(--lm-color-surface-strong)]'
+                }`}
+              >
+                Circular Polar Radar (R07)
+              </button>
+            </div>
+          </div>
+          <span className="text-[11px] font-mono text-[var(--lm-color-text-muted)] hidden sm:inline">
+            Dual-panel deck · strictly linear −5°…+10° grazing corridor (no scale break)
+          </span>
+        </div>
 
-      {/* 4. Accessible Companion Mirrors (WCAG 2.2 AA / Decision D-03 / D-07) */}
-      <div className="flex flex-col gap-4 mt-2 w-full max-w-full min-w-0">
+        <div className="flex w-full max-w-full min-w-0 flex-col overflow-x-auto rounded-xl shadow-[var(--lm-shadow-card)]">
+          {skyProjectionMode === 'ribbon' ? (
+            <SkyRibbonDeck
+              intervals={data.intervals}
+              horizonProfile={liveHorizonProfile}
+              eventWhiskers={data.uncertaintyEnvelopes.eventWhiskers}
+              siteName={data.siteInfo.siteName}
+              playheadUtc={state.activePlayheadUtc}
+              solarCriterion={data.scenarioConfig.sunVisibilityCriterion ?? 'upperLimb'}
+              earthCriterion={data.scenarioConfig.earthVisibilityCriterion ?? 'center'}
+              hoveredAzimuthDeg={state.hoveredAzimuthDeg}
+              onHoverAzimuth={setHoveredAzimuth}
+              activeBlockerAzimuthDeg={state.activeBlockerAzimuthDeg}
+              onSelectBlocker={setActiveBlocker}
+            />
+          ) : (
+            <PolarSkyRadarView
+              horizonBins={liveHorizonProfile}
+              sunPoint={liveSunPoint}
+              earthPoint={liveEarthPoint}
+              sunTrajectory={sunTrajectory}
+              earthTrajectory={earthTrajectory}
+              targetSiteName={data.siteInfo.siteName}
+            />
+          )}
+        </div>
+
+        <div className="w-full max-w-full min-w-0 overflow-x-auto rounded-xl shadow-[var(--lm-shadow-card)]">
+          <GanttTimelineCanvas
+            intervals={data.intervals}
+            eventWhiskers={data.uncertaintyEnvelopes.eventWhiskers}
+            startUtc={data.scenarioConfig.effectiveStartUtc}
+            stopUtc={data.scenarioConfig.effectiveStopUtc}
+          />
+        </div>
+      </section>
+
+      {/* Chapter 3: Deep Technical Records (Accessible Companion Mirrors) */}
+      <section aria-label="Accessible Verification Tables" className="flex flex-col gap-4 w-full max-w-full min-w-0">
         <SkyRibbonCompassTable
           siteName={data.siteInfo.siteName}
           intervals={data.intervals}
@@ -187,7 +184,7 @@ export const AnalyzeWorkspaceView: React.FC = () => {
           intervals={data.intervals}
           eventWhiskers={data.uncertaintyEnvelopes.eventWhiskers}
         />
-      </div>
+      </section>
     </div>
   );
 };

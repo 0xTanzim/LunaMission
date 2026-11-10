@@ -14,6 +14,7 @@ import { PassportDrawer } from '../spatial/components/panels/PassportDrawer';
 import { ProvenanceStatusModal } from '../../app/header/modals/ProvenanceStatusModal';
 import { ApolloSeismicDrawer } from '../geology/ApolloSeismicDrawer';
 import { ObservatoryGuideModal } from '../../app/header/modals/ObservatoryGuideModal';
+import { FlightDeckOnboardingTour } from '../onboarding/FlightDeckOnboardingTour';
 
 interface MissionWorkspaceShellProps {
   initialProjection?: 'explore' | 'analyze' | 'compare';
@@ -31,6 +32,7 @@ export const MissionWorkspaceShell: React.FC<MissionWorkspaceShellProps> = ({
 
   const { state, setProjection, setActiveDrawer } = useScenarioState();
   const [isDossierOpen, setIsDossierOpen] = useState(false);
+  const [isTourActive, setIsTourActive] = useState(false);
   const initialMountedRef = React.useRef(false);
 
   useEffect(() => {
@@ -178,6 +180,17 @@ export const MissionWorkspaceShell: React.FC<MissionWorkspaceShellProps> = ({
       <ObservatoryGuideModal
         isOpen={state.activeDrawer === 'guide'}
         onClose={() => setActiveDrawer('none')}
+        onStartTour={() => {
+          setActiveDrawer('none');
+          setIsTourActive(true);
+        }}
+      />
+
+      {/* 10. Interactive Flight Deck Onboarding Tour */}
+      <FlightDeckOnboardingTour
+        isOpen={isTourActive}
+        onClose={() => setIsTourActive(false)}
+        onNavigateProjection={setProjection}
       />
     </div>
   );

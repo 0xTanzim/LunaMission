@@ -50,13 +50,7 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
   const { siteA, siteB, deltas, terrainSensitivityComparison, objectiveTradeOffNarrative } = pairwiseDelta;
   const nameA = siteDisplayName(siteA.siteName, siteA.siteId);
   const nameB = siteDisplayName(siteB.siteName, siteB.siteId);
-  const lowerRiskName =
-    terrainSensitivityComparison.lowerRiskSite === 'siteA'
-      ? nameA
-      : terrainSensitivityComparison.lowerRiskSite === 'siteB'
-      ? nameB
-      : 'Equal';
-
+  const lowerRiskName = terrainSensitivityComparison.lowerRiskSite === 'siteA' ? nameA : terrainSensitivityComparison.lowerRiskSite === 'siteB' ? nameB : 'Equal';
   const geodesic = coordinatesA && coordinatesB ? calculateLunarGeodesicDistance(coordinatesA, coordinatesB) : null;
 
   return (
@@ -64,15 +58,15 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
       role="region"
       aria-label={`Tier 3 Focused Pairwise Delta Matrix: ${nameA} vs ${nameB}`}
       data-testid="tier3-pairwise-matrix"
-      className={`bg-[var(--lm-color-canvas)]/90 p-5 rounded-xl border border-[var(--lm-color-border-subtle)]/90 shadow-xl flex flex-col gap-4 font-mono text-xs ${className}`}
+      className={`bg-[var(--lm-color-surface)] p-5 rounded-xl border border-[var(--lm-color-border-subtle)] shadow-[var(--lm-shadow-card)] flex flex-col gap-4 font-mono text-xs ${className}`}
     >
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--lm-color-border-subtle)]/80 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--lm-color-border-subtle)] pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="font-bold text-[var(--lm-color-text-primary)] text-sm tracking-wider uppercase">
+          <span className="font-bold text-[var(--lm-color-text-primary)] text-xs font-sans tracking-wider uppercase">
             Tier 3 — Compare the top two
           </span>
-          <span className="text-[11px] text-[var(--lm-color-success)] px-2 py-0.5 rounded-full bg-[var(--lm-color-success-surface-strong)] border border-[var(--lm-color-success-border)] font-bold">
+          <span className="text-[11px] font-sans text-[var(--lm-color-success)] px-2 py-0.5 rounded-full bg-[var(--lm-color-success-surface-strong)] border border-[var(--lm-color-success-border)] font-bold">
             ZERO COMPOSITE SCORE
           </span>
         </div>
@@ -82,7 +76,7 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
             <strong className="text-[var(--lm-color-series-b)] font-bold">{nameB}</strong>
           </span>
           {geodesic && (
-            <span className="px-2 py-0.5 rounded bg-[var(--lm-color-surface)] border border-[var(--lm-color-border)] text-[var(--lm-color-info)] font-bold">
+            <span className="px-2 py-0.5 rounded bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-border)] text-[var(--lm-color-info)] font-bold">
               Geodesic Sep: {geodesic.distanceKm.toFixed(1)} km
             </span>
           )}
@@ -97,10 +91,9 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
       />
 
       {/* Visual Pairwise Delta Table */}
-      {/* relative anchors abspos sr-only spans to this scroll box so they cannot widen the document. */}
-      <div className="relative overflow-x-auto rounded-lg border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)]/30">
+      <div className="relative overflow-x-auto rounded-lg border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)]/40 shadow-sm">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-[var(--lm-color-surface)]/80 text-[var(--lm-color-text-muted)] uppercase text-[11px] tracking-wider border-b border-[var(--lm-color-border-subtle)]">
+          <thead className="bg-[var(--lm-color-surface-strong)] text-[var(--lm-color-text-primary)] uppercase text-[11px] font-sans tracking-wider border-b border-[var(--lm-color-border)]">
             <tr>
               <th scope="col" className="py-2.5 px-3 font-semibold">Operational Metric</th>
               <th scope="col" className="py-2.5 px-3 text-[var(--lm-color-info)] font-bold">Site A ({nameA})</th>
@@ -111,21 +104,19 @@ export const Tier3PairwiseDeltaMatrix: React.FC<Tier3PairwiseDeltaMatrixProps> =
               <th scope="col" className="py-2.5 px-3 font-semibold text-[var(--lm-color-text-muted)]">Operational Significance</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--lm-color-border-subtle)]/60">
+          <tbody className="divide-y divide-[var(--lm-color-border-subtle)]">
             {deltas.map((d) => {
               const deltaPrefix = d.absoluteDelta > 0 ? '+' : '';
               const percentPrefix = d.percentDelta > 0 ? '+' : '';
               return (
                 <tr key={d.metricKey} className="hover:bg-[var(--lm-color-surface-strong)]/40 transition-colors">
                   <td className="py-2.5 px-3 font-semibold text-[var(--lm-color-text-secondary)]">{d.metricLabel}</td>
-                  <td className="py-2.5 px-3 text-[var(--lm-color-info)] font-bold">
-                    {d.valueA.toFixed(1)} {d.unit}
-                  </td>
-                  <td className="py-2.5 px-3 text-[var(--lm-color-series-b)] font-bold">
-                    {d.valueB.toFixed(1)} {d.unit}
-                  </td>
-                  <td className="py-2.5 px-3 text-[var(--lm-color-text-secondary)]">
-                    <span className="font-bold">{deltaPrefix}{d.absoluteDelta.toFixed(1)} {d.unit}</span>
+                  <td className="py-2.5 px-3 text-[var(--lm-color-info)] font-bold">{d.valueA.toFixed(1)} {d.unit}</td>
+                  <td className="py-2.5 px-3 text-[var(--lm-color-series-b)] font-bold">{d.valueB.toFixed(1)} {d.unit}</td>
+                  <td className="py-2.5 px-3">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-border)] text-[var(--lm-color-text-primary)] font-bold">
+                      {deltaPrefix}{d.absoluteDelta.toFixed(1)} {d.unit}
+                    </span>
                     <span className="text-[11px] text-[var(--lm-color-text-muted)] ml-1.5">({percentPrefix}{d.percentDelta.toFixed(1)}%)</span>
                   </td>
                   <td className="py-2.5 px-3 flex items-center justify-center pt-3.5">

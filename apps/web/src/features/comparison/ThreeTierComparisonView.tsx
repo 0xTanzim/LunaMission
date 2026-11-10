@@ -71,27 +71,26 @@ export const ThreeTierComparisonView: React.FC = () => {
   const candB = rankedCandidates.find((c) => c.siteId === selectedSiteBId);
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-4 pb-8">
-      {/* What is being compared, and under which filters */}
-      <ComparisonWorkspaceHero comparisonData={data} />
-
-      {/* The cohort manager stays mounted in every state: it is the way out of all of them. */}
-      <ComparisonCohortBar
-        cohortSiteIds={cohortSiteIds}
-        activeSiteId={primaryId}
-        availableSites={availableSites}
-        disqualifiedCandidates={data?.tier1Gating?.disqualifiedCandidates}
-        onAddSite={addSite}
-        onRemoveSite={removeSite}
-        onRelaxConstraints={handleRelaxConstraints}
-        showAddControl={!showEmptyState}
-      />
-
-      <VehicleConstraintsBar
-        constraints={constraints}
-        onChange={setConstraints}
-        cohortCount={cohortSiteIds.length}
-      />
+    <div className="flex w-full min-w-0 flex-col gap-6 pb-8">
+      {/* Chapter 1: The Trade Study Cockpit */}
+      <section aria-label="Trade Study Cockpit & Parameters" className="flex flex-col gap-3.5 w-full min-w-0">
+        <ComparisonWorkspaceHero comparisonData={data} />
+        <ComparisonCohortBar
+          cohortSiteIds={cohortSiteIds}
+          activeSiteId={primaryId}
+          availableSites={availableSites}
+          disqualifiedCandidates={data?.tier1Gating?.disqualifiedCandidates}
+          onAddSite={addSite}
+          onRemoveSite={removeSite}
+          onRelaxConstraints={handleRelaxConstraints}
+          showAddControl={!showEmptyState}
+        />
+        <VehicleConstraintsBar
+          constraints={constraints}
+          onChange={setConstraints}
+          cohortCount={cohortSiteIds.length}
+        />
+      </section>
 
       {showEmptyState ? (
         <ComparisonEmptyState
@@ -119,71 +118,66 @@ export const ThreeTierComparisonView: React.FC = () => {
           />
         </div>
       ) : data ? (
-        <div data-testid="three-tier-comparison-view" className="flex flex-col gap-4 w-full min-w-0">
+        <div data-testid="three-tier-comparison-view" className="flex flex-col gap-6 w-full min-w-0">
           {data.status && data.status !== 'valid' && (
             <div data-testid="three-tier-advisory-banner" className="w-full">
               <ApiStateView
                 status={data.status as any}
-                title={
-                  data.status === 'valid-with-limitations'
-                    ? 'Comparison Valid With Limitations'
-                    : 'Approximate Comparison'
-                }
+                title={data.status === 'valid-with-limitations' ? 'Comparison Valid With Limitations' : 'Approximate Comparison'}
                 message={`Multi-site trade study evaluated with status "${data.status}". Physical constraints or approximations apply.`}
                 compact
               />
             </div>
           )}
 
-          {/* The funnel's single status: outcome, tone and the next action, stated once. */}
-          <ComparisonFunnelStatus
-            totalEvaluatedSites={data.tier1Gating.totalEvaluatedSites}
-            rankedCount={rankedCandidates.length}
-            onRelaxConstraints={handleRelaxConstraints}
-          />
+          {/* Chapter 2: Multi-Tier Filtering Funnel */}
+          <section aria-label="Multi-Tier Filtering Funnel" className="flex flex-col gap-4 w-full min-w-0">
+            <ComparisonFunnelStatus
+              totalEvaluatedSites={data.tier1Gating.totalEvaluatedSites}
+              rankedCount={rankedCandidates.length}
+              onRelaxConstraints={handleRelaxConstraints}
+            />
+            <Tier1VehicleGating
+              totalEvaluatedSites={data.tier1Gating.totalEvaluatedSites}
+              feasibleSitesCount={data.tier1Gating.feasibleSitesCount}
+              disqualifiedSitesCount={data.tier1Gating.disqualifiedSitesCount}
+              disqualifiedCandidates={data.tier1Gating.disqualifiedCandidates}
+            />
+            <ComparisonDecisionSummary
+              rankedCandidates={rankedCandidates}
+              onPromotePrimary={setPrimarySite}
+              onRelaxConstraints={handleRelaxConstraints}
+            />
+          </section>
 
-          <Tier1VehicleGating
-            totalEvaluatedSites={data.tier1Gating.totalEvaluatedSites}
-            feasibleSitesCount={data.tier1Gating.feasibleSitesCount}
-            disqualifiedSitesCount={data.tier1Gating.disqualifiedSitesCount}
-            disqualifiedCandidates={data.tier1Gating.disqualifiedCandidates}
-          />
-
-          <ComparisonDecisionSummary
-            rankedCandidates={rankedCandidates}
-            onPromotePrimary={setPrimarySite}
-            onRelaxConstraints={handleRelaxConstraints}
-          />
-
-          {/* The frontier before the lexicographic order: rank 1 is not the only survivor. */}
-          <ParetoFrontierPanel
-            frontier={data.tier2Ranking.paretoFrontier}
-            rankedCandidates={rankedCandidates}
-          />
-
-          <Tier2LexicographicSort
-            rankedCandidates={rankedCandidates}
-            selectedSiteAId={selectedSiteAId}
-            selectedSiteBId={selectedSiteBId}
-            onSelectPairwise={(a, b) => setPairwiseSelection({ siteIdA: a, siteIdB: b })}
-            onPromotePrimary={setPrimarySite}
-            onInspectInAnalyze={(id) => {
-              setPrimarySite(id);
-              setProjection('analyze');
-            }}
-            showRadar={showRadar}
-            onToggleRadar={() => setShowRadar((v) => !v)}
-            totalEvaluationHours={data?.scenarioConfig?.totalEvaluationHours ?? 336}
-          />
-
-          <Tier3PairwiseDeltaMatrix
-            pairwiseDelta={data.tier3Pairwise}
-            coordinatesA={candA?.coordinates}
-            coordinatesB={candB?.coordinates}
-            onRelaxConstraints={handleRelaxConstraints}
-          />
-
-          <DecisionTracePanel trace={data?.decisionTrace} />
+          {/* Chapter 3: Technical Evidence & Pareto Trade-Offs */}
+          <section aria-label="Technical Evidence & Trade-Offs" className="flex flex-col gap-4 w-full min-w-0">
+            <ParetoFrontierPanel
+              frontier={data.tier2Ranking.paretoFrontier}
+              rankedCandidates={rankedCandidates}
+            />
+            <Tier2LexicographicSort
+              rankedCandidates={rankedCandidates}
+              selectedSiteAId={selectedSiteAId}
+              selectedSiteBId={selectedSiteBId}
+              onSelectPairwise={(a, b) => setPairwiseSelection({ siteIdA: a, siteIdB: b })}
+              onPromotePrimary={setPrimarySite}
+              onInspectInAnalyze={(id) => {
+                setPrimarySite(id);
+                setProjection('analyze');
+              }}
+              showRadar={showRadar}
+              onToggleRadar={() => setShowRadar((v) => !v)}
+              totalEvaluationHours={data?.scenarioConfig?.totalEvaluationHours ?? 336}
+            />
+            <Tier3PairwiseDeltaMatrix
+              pairwiseDelta={data.tier3Pairwise}
+              coordinatesA={candA?.coordinates}
+              coordinatesB={candB?.coordinates}
+              onRelaxConstraints={handleRelaxConstraints}
+            />
+            <DecisionTracePanel trace={data?.decisionTrace} />
+          </section>
         </div>
       ) : null}
     </div>

@@ -79,19 +79,19 @@ export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps>
       role="region"
       aria-label="Lead candidate of the ranked cohort"
       data-testid="comparison-decision-summary"
-      className={`flex flex-col gap-3 rounded-[var(--lm-radius-md)] border border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface)] p-4 font-mono ${className}`}
+      className={`flex flex-col gap-3.5 rounded-[var(--lm-radius-lg)] border border-[var(--lm-color-info-border)] bg-gradient-to-br from-[var(--lm-color-surface-raised)] to-[var(--lm-color-surface)] p-5 font-mono shadow-[var(--lm-shadow-hero)] ${className}`}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--lm-color-border-subtle)] pb-2.5">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
+          <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-[var(--lm-color-text-primary)]">
             Lead candidate
           </h3>
-          <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[var(--lm-color-text-secondary)]">
+          <span className="rounded-[var(--lm-radius-xs)] border border-[var(--lm-color-info-border)] bg-[var(--lm-color-info-surface)] px-2 py-0.5 text-[11px] font-sans font-bold uppercase tracking-wide text-[var(--lm-color-info)]">
             Rank 1 of {rankedCandidates.length}
           </span>
         </div>
         {rankedCandidates.length === 1 && (
-          <span className="text-[11px] text-[var(--lm-color-text-muted)]">
+          <span className="text-[11px] font-sans text-[var(--lm-color-text-muted)]">
             The only site that cleared the vehicle limits
           </span>
         )}
@@ -99,7 +99,7 @@ export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps>
 
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-0.5">
-          <p className="truncate text-sm font-bold text-[var(--lm-color-text-primary)]" title={name}>
+          <p className="truncate text-base font-bold text-[var(--lm-color-text-primary)]" title={name}>
             {name}
           </p>
           <p className="text-[11px] text-[var(--lm-color-text-muted)]">
@@ -114,7 +114,7 @@ export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps>
           <button
             type="button"
             onClick={() => onPromotePrimary(lead.siteId)}
-            className="min-h-[32px] shrink-0 rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-raised)] px-3 py-1.5 text-[11px] font-semibold text-[var(--lm-color-text-primary)] transition-colors hover:border-[var(--lm-color-warning-border)] focus-visible:outline-2 focus-visible:outline-[var(--lm-color-focus)]"
+            className="min-h-[32px] shrink-0 rounded-[var(--lm-radius-sm)] border border-[var(--lm-color-border)] bg-[var(--lm-color-surface-strong)] px-3 py-1.5 text-[11px] font-semibold text-[var(--lm-color-text-primary)] transition-colors hover:border-[var(--lm-color-warning-border)] focus-visible:outline-2 focus-visible:outline-[var(--lm-color-focus)]"
           >
             Promote to primary target
           </button>
@@ -127,7 +127,7 @@ export const ComparisonDecisionSummary: React.FC<ComparisonDecisionSummaryProps>
             <dt className="text-[11px] leading-tight text-[var(--lm-color-text-muted)]">
               {readout.label}
             </dt>
-            <dd className="text-sm font-bold text-[var(--lm-color-text-primary)]">
+            <dd className="text-base font-bold text-[var(--lm-color-text-primary)]">
               {formatObservable(readout.value, readout.decimals)}
               <span className="ml-0.5 text-[11px] font-normal text-[var(--lm-color-text-muted)]">
                 {readout.unit}

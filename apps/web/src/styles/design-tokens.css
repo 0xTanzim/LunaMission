@@ -11,25 +11,26 @@
   color-scheme: dark;
 
   /* ---- Surfaces: canvas → surface → raised → strong (overlay/modal only above strong) ---- */
-  --lm-color-canvas: #070B12;
-  --lm-color-surface: #0C1320;
-  --lm-color-surface-raised: #111C2B;
-  --lm-color-surface-strong: #172438;
+  --lm-color-canvas: #04070D;
+  --lm-color-surface: #0D1624;
+  --lm-color-surface-raised: #132135;
+  --lm-color-surface-strong: #1B2C46;
+  --lm-color-surface-hero: #16243A;
   --lm-color-surface-elevated: var(--lm-color-surface-raised);
   --lm-color-surface-hover: var(--lm-color-surface-strong);
 
   /* ---- Lines ---- */
-  --lm-color-border: #26364A;
-  --lm-color-border-subtle: #1B293B;
-  --lm-color-border-strong: #5A7194;
+  --lm-color-border: #2A3F5E;
+  --lm-color-border-subtle: #1A2B42;
+  --lm-color-border-strong: #5E7A9F;
 
   /* ---- Text ----
-   * Measured on --lm-color-canvas: primary 17.8:1, secondary 10.9:1, muted 7.6:1.
+   * Measured on --lm-color-canvas: primary 18.5:1, secondary 11.6:1, muted 7.9:1.
    * All four roles clear WCAG 2.1 AA (4.5:1) for body text, which is why `text-slate-500`
    * (#62748E, 4.2:1) may not be used for text anywhere in the product.
    */
   --lm-color-text-primary: #F2F6FC;
-  --lm-color-text-secondary: #B5C2D3;
+  --lm-color-text-secondary: #C2D0E2;
   --lm-color-text-muted: #8FA0B7;
   --lm-color-text-disabled: #7E8DA3;
   --lm-color-text-subtle: #6A788C;
@@ -125,6 +126,11 @@
   --lm-target-comfortable: 44px;
 
   --lm-shadow-popover: 0 10px 28px rgb(0 0 0 / 0.45);
+  --lm-shadow-card: 0 4px 20px -2px rgb(0 0 0 / 0.6), 0 1px 3px rgb(0 0 0 / 0.4);
+  --lm-shadow-raised: 0 8px 32px -4px rgb(0 0 0 / 0.7);
+  --lm-shadow-hero: 0 12px 40px -4px rgb(0 0 0 / 0.8), 0 0 24px rgb(59 130 246 / 0.15);
+  --lm-shadow-glow-success: 0 0 20px rgb(131 214 170 / 0.15);
+  --lm-shadow-glow-danger: 0 0 20px rgb(255 146 140 / 0.15);
   --lm-focus-ring: 0 0 0 3px rgb(166 217 255 / 0.38);
   --lm-page-max-width: 1720px;
   --lm-page-gutter: 24px;

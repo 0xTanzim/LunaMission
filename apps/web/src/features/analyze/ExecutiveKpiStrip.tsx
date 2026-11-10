@@ -14,10 +14,12 @@ function sameDurationHours(a: number, b: number): boolean {
   return Math.abs(a - b) < SAME_VALUE_EPSILON_H;
 }
 
-const TILE_CLASS =
-  'bg-[var(--lm-color-canvas)] p-3 rounded-lg border border-[var(--lm-color-border-subtle)] flex flex-col gap-1 min-w-0';
+const HERO_TILE_CLASS =
+  'bg-[var(--lm-color-surface-raised)] p-3.5 rounded-xl border shadow-[var(--lm-shadow-card)] flex flex-col gap-1 min-w-0 transition-all';
+const SECONDARY_TILE_CLASS =
+  'bg-[var(--lm-color-surface)] p-3 rounded-lg border border-[var(--lm-color-border-subtle)] flex flex-col gap-1 min-w-0';
 const LABEL_CLASS =
-  'text-[11px] font-mono text-[var(--lm-color-text-secondary)] uppercase tracking-wider';
+  'text-xs font-sans font-semibold text-[var(--lm-color-text-secondary)] uppercase tracking-wide';
 const RELATION_CLASS =
   'text-[11px] font-mono leading-snug text-[var(--lm-color-text-muted)]';
 
@@ -56,11 +58,11 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
       aria-label="Mission Operational Executive KPI Metrics"
       className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 ${className}`}
     >
-      {/* 1. Total sunlight with its longest unbroken window */}
-      <div className={TILE_CLASS}>
+      {/* 1. Total sunlight with its longest unbroken window (Hero Metric) */}
+      <div className={`${HERO_TILE_CLASS} border-[var(--lm-color-border)]`}>
         <span className={LABEL_CLASS}>Total Sunlight</span>
         <div className="flex items-baseline gap-1.5 flex-wrap">
-          <span className="text-xl font-bold font-mono text-[var(--lm-color-warning)]">
+          <span className="text-2xl font-bold font-mono text-[var(--lm-color-warning)]">
             {metrics.cumulativeSunlitHours.toFixed(1)}h
           </span>
           <span className="text-xs font-mono text-[var(--lm-color-text-secondary)]">
@@ -75,8 +77,14 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
         </p>
       </div>
 
-      {/* 2. Max darkness blackout */}
-      <div className={TILE_CLASS}>
+      {/* 2. Max darkness blackout (Survival Constraint Hero) */}
+      <div
+        className={`${HERO_TILE_CLASS} ${
+          isDarkPass
+            ? 'border-[var(--lm-color-success-border)] shadow-[var(--lm-shadow-glow-success)]'
+            : 'border-[var(--lm-color-danger-border)] shadow-[var(--lm-shadow-glow-danger)]'
+        }`}
+      >
         <div className="flex items-center justify-between gap-2">
           <span className={LABEL_CLASS}>Max Dark Blackout</span>
           <span
@@ -91,7 +99,7 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
         </div>
         <div className="flex items-baseline gap-1 flex-wrap">
           <span
-            className={`text-xl font-bold font-mono ${
+            className={`text-2xl font-bold font-mono ${
               isDarkPass ? 'text-[var(--lm-color-text-primary)]' : 'text-[var(--lm-color-danger)]'
             }`}
           >
@@ -104,7 +112,7 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
       </div>
 
       {/* 3. Earth geometric line-of-sight (not an RF link budget) with its solar overlap */}
-      <div className={TILE_CLASS}>
+      <div className={SECONDARY_TILE_CLASS}>
         <span className={LABEL_CLASS}>Earth LoS Access (geom.)</span>
         <div className="flex items-baseline gap-1.5 flex-wrap">
           <span className="text-xl font-bold font-mono text-[var(--lm-color-success)]">
@@ -123,7 +131,7 @@ export const ExecutiveKpiStrip: React.FC<ExecutiveKpiStripProps> = ({
       </div>
 
       {/* 4. Terrain shadow penalty — toned by value: zero cost is not a threat. */}
-      <div className={TILE_CLASS}>
+      <div className={SECONDARY_TILE_CLASS}>
         <span className={LABEL_CLASS}>Terrain Penalty</span>
         <div className="flex items-baseline gap-1 flex-wrap">
           <span

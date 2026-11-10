@@ -1,5 +1,6 @@
 import React from 'react';
-import { Compass, Eye, BarChart3, Globe, FileText, CheckCircle2 } from 'lucide-react';
+import { Compass, Eye, BarChart3, Globe, FileText, CheckCircle2, Play } from 'lucide-react';
+import { GuideVisualAnatomyDiagram } from './GuideVisualAnatomyDiagram';
 
 interface StepCardProps {
   step: string;
@@ -34,9 +35,39 @@ function StepCard({ step, title, icon, description, bullets }: StepCardProps) {
   );
 }
 
-export const GuideQuickStartTab: React.FC = () => {
+interface GuideQuickStartTabProps {
+  onStartTour?: () => void;
+}
+
+export const GuideQuickStartTab: React.FC<GuideQuickStartTabProps> = ({ onStartTour }) => {
   return (
     <div className="space-y-4">
+      {/* Interactive Tour Action Banner */}
+      {onStartTour && (
+        <div className="p-3 rounded-[var(--lm-radius-sm)] bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-sun)]/50 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="p-1 rounded bg-[var(--lm-color-sun)] text-[var(--lm-color-canvas)]">
+              <Play size={14} fill="currentColor" />
+            </span>
+            <div>
+              <div className="text-xs font-bold text-[var(--lm-color-text-primary)]">Interactive Onboarding Tour</div>
+              <div className="text-[11px] text-[var(--lm-color-text-secondary)]">Take a 60-second guided spotlight walkthrough across the live flight deck.</div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onStartTour}
+            data-testid="start-onboarding-tour-button"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded bg-[var(--lm-color-sun)] text-[var(--lm-color-canvas)] hover:opacity-90 transition-opacity min-h-[32px] cursor-pointer shadow-sm"
+          >
+            <span>Start Interactive Tour</span>
+          </button>
+        </div>
+      )}
+
+      {/* Visual Anatomy Schematics */}
+      <GuideVisualAnatomyDiagram />
+
       {/* Executive Intro Banner */}
       <div className="p-3.5 rounded-[var(--lm-radius-sm)] bg-[var(--lm-color-surface-raised)] border border-[var(--lm-color-border-strong)]">
         <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--lm-color-sun)] mb-1">

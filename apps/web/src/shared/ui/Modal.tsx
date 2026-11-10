@@ -52,7 +52,7 @@ export function Modal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[var(--lm-color-canvas)]/75 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[var(--lm-color-canvas)]/85 backdrop-blur-md"
       onClick={(e) => {
         if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
           onClose();
@@ -61,7 +61,7 @@ export function Modal({
     >
       <div
         ref={modalRef}
-        className={`w-full ${maxWidth} bg-[var(--lm-color-surface)] border border-[var(--lm-color-border)] rounded-[var(--lm-radius-lg)] shadow-[var(--lm-shadow-popover)] overflow-hidden flex flex-col my-auto`}
+        className={`w-full ${maxWidth} bg-[var(--lm-color-surface)] border border-[var(--lm-color-border)] rounded-[var(--lm-radius-lg)] shadow-[var(--lm-shadow-raised)] overflow-hidden flex flex-col my-auto`}
       >
         <div className="flex items-start justify-between p-4 sm:p-5 border-b border-[var(--lm-color-border-subtle)] bg-[var(--lm-color-surface-raised)]/50">
           <div>
